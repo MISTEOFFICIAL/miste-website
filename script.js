@@ -178,23 +178,7 @@ const searchInput = document.getElementById("search-input");
 
 function performSearch() {
   if (!searchInput) return;
-
-  const query = searchInput.value.trim();
-
-  // Search across all categories
-  document.querySelectorAll(".category-button").forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.category === "all"
-    );
-  });
-
-  renderProducts("all", query);
-
-  // Show the search results
-  document.getElementById("shop")?.scrollIntoView({
-    behavior: "smooth"
-  });
+  showSearchResults(searchInput.value);
 }
 
 searchToggle?.addEventListener("click", () => {
@@ -203,6 +187,45 @@ searchToggle?.addEventListener("click", () => {
 });
 
 searchInput?.addEventListener("input", performSearch);
+function showSearchResults(query) {
+  const resultsBox = document.getElementById("search-results");
+  if (!resultsBox) return;
+
+  const text = query.trim().toLowerCase();
+
+  if (!text) {
+    resultsBox.innerHTML = "";
+    resultsBox.classList.remove("open");
+    return;
+  }
+
+  const matches = products.filter(product =>
+    product.name.toLowerCase().includes(text) ||
+    product.description.toLowerCase().includes(text)
+  );
+
+  resultsBox.classList.add("open");
+
+  if (!matches.length) {
+    resultsBox.innerHTML = "<p>No products found.</p>";
+    return;
+  }
+
+  resultsBox.innerHTML = matches.map(product => `
+    <button class="search-result-item" data-product-id="${product.id}">
+      <img src="${product.image}" alt="${product.name}">
+      <span>${product.name}</span>
+      <strong>₾${product.price}</strong>
+    </button>
+  `).join("");
+
+  resultsBox.querySelectorAll(".search-result-item").forEach(item => {
+    item.addEventListener("click", () => {
+      const product = products.find(p => p.id === Number(item.dataset.productId));
+      if (product) openProductDetails(product);
+    });
+  });
+}
 
 searchInput?.addEventListener("keydown", event => {
   if (event.key === "Enter") {
