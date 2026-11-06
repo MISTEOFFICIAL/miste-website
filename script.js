@@ -1,7 +1,7 @@
-
-/* =========================================
-   MISTÉ — SUPABASE CONNECTION
-========================================= */
+```javascript
+// ==========================================
+// MISTÉ — SUPABASE CONFIGURATION
+// ==========================================
 
 const SUPABASE_URL = "https://bizzcdgmyhutfldyxybt.supabase.co";
 const SUPABASE_KEY = "sb_publishable_iS1M8xoWqLLhxy6f5w4DfA_QKWu8BwD";
@@ -11,412 +11,467 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_KEY
 );
 
-
-/* =========================================
-   PRODUCTS
-========================================= */
+// ==========================================
+// PRODUCTS
+// ==========================================
 
 const products = [
   {
     id: 1,
-    name: "Lavender Fields",
+    name: "Lavender Dreams",
     category: "candles",
-    label: "CANDLE",
     price: 45,
-    description: "A soft floral fragrance with calming lavender notes.",
-    image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=800&q=85"
+    description: "A calming floral escape.",
+    image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=700"
   },
   {
     id: 2,
-    name: "Midnight Bloom",
+    name: "Velvet Rose",
     category: "candles",
-    label: "CANDLE",
     price: 49,
-    description: "An elegant evening scent for a peaceful atmosphere.",
-    image: "https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?auto=format&fit=crop&w=800&q=85"
+    description: "A delicate romantic atmosphere.",
+    image: "https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?w=700"
   },
   {
     id: 3,
-    name: "Velvet Woods",
+    name: "Santal Essence",
     category: "diffusers",
-    label: "DIFFUSER",
     price: 65,
-    description: "Warm woody notes that make a space feel inviting.",
-    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=800&q=85"
+    description: "Warm woods and quiet luxury.",
+    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=700"
   },
   {
     id: 4,
-    name: "Lavender Mist",
+    name: "White Linen",
     category: "diffusers",
-    label: "DIFFUSER",
     price: 59,
-    description: "A delicate lavender fragrance for everyday living.",
-    image: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=800&q=85"
+    description: "Fresh, clean and effortless.",
+    image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=700"
   },
   {
     id: 5,
-    name: "Soft Linen",
+    name: "Morning Mist",
     category: "sprays",
-    label: "ROOM SPRAY",
-    price: 35,
-    description: "Fresh, clean notes inspired by freshly washed linen.",
-    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=800&q=85"
+    price: 39,
+    description: "A fresh start to every day.",
+    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=700"
   },
   {
     id: 6,
-    name: "Blush Garden",
+    name: "Midnight Bloom",
     category: "sprays",
-    label: "ROOM SPRAY",
-    price: 39,
-    description: "A gentle floral fragrance for your favourite room.",
-    image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=800&q=85"
+    price: 42,
+    description: "A mysterious floral finish.",
+    image: "https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?w=700"
   }
 ];
 
-let activeCategory = "all";
-let searchTerm = "";
-let cart = [];
+// ==========================================
+// GENERAL ELEMENTS
+// ==========================================
 
 const productGrid = document.getElementById("product-grid");
-const cartDrawer = document.getElementById("cart-drawer");
-const backdrop = document.getElementById("drawer-backdrop");
+const cartItemsElement = document.getElementById("cart-items");
+const cartTotalElement = document.getElementById("cart-total");
+const bagCountElement = document.getElementById("bag-count");
 
-function money(amount) {
-  return "₾" + amount.toFixed(2);
+let cart = [];
+
+try {
+  cart = JSON.parse(localStorage.getItem("miste-cart")) || [];
+  if (!Array.isArray(cart)) cart = [];
+} catch {
+  cart = [];
 }
 
+function saveCart() {
+  localStorage.setItem("miste-cart", JSON.stringify(cart));
+}
 
-/* =========================================
-   PRODUCTS DISPLAY
-========================================= */
+function formatPrice(price) {
+  return "₾" + Number(price).toFixed(2);
+}
 
-function renderProducts() {
-  const filtered = products.filter(product => {
+// ==========================================
+// PRODUCTS DISPLAY
+// ==========================================
+
+function renderProducts(category = "all", search = "") {
+  if (!productGrid) return;
+
+  productGrid.innerHTML = "";
+
+  const filteredProducts = products.filter(product => {
     const matchesCategory =
-      activeCategory === "all" || product.category === activeCategory;
+      category === "all" || product.category === category;
 
     const matchesSearch =
-      (product.name + " " + product.description + " " + product.label)
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      product.name.toLowerCase().includes(search.toLowerCase()) ||
+      product.description.toLowerCase().includes(search.toLowerCase());
 
     return matchesCategory && matchesSearch;
   });
 
-  productGrid.innerHTML = "";
+  const resultsMessage = document.getElementById("results-message");
 
-  document.getElementById("results-message").textContent =
-    filtered.length ? `${filtered.length} products` : "No products found.";
+  if (resultsMessage) {
+    resultsMessage.textContent =
+      filteredProducts.length
+        ? `${filteredProducts.length} products`
+        : "No products found.";
+  }
 
-  filtered.forEach(product => {
+  filteredProducts.forEach(product => {
     const card = document.createElement("article");
     card.className = "product-card";
 
-    card.innerHTML = `
-      <img class="product-image" src="${product.image}" alt="${product.name}" loading="lazy">
-      <div class="product-info">
-        <span class="product-category">${product.label}</span>
-        <h3>${product.name}</h3>
-        <p class="product-description">${product.description}</p>
-        <p class="product-price">${money(product.price)}</p>
-        <button class="add-button" data-add="${product.id}">ADD TO BAG</button>
-      </div>
-    `;
+    const image = document.createElement("img");
+    image.src = product.image;
+    image.alt = product.name;
+    image.loading = "lazy";
 
+    const details = document.createElement("div");
+    details.className = "product-details";
+
+    const name = document.createElement("h3");
+    name.textContent = product.name;
+
+    const description = document.createElement("p");
+    description.textContent = product.description;
+
+    const bottom = document.createElement("div");
+    bottom.className = "product-bottom";
+
+    const price = document.createElement("strong");
+    price.textContent = formatPrice(product.price);
+
+    const button = document.createElement("button");
+    button.className = "add-to-cart";
+    button.textContent = "ADD TO BAG";
+    button.addEventListener("click", () => addToCart(product.id));
+
+    bottom.append(price, button);
+    details.append(name, description, bottom);
+    card.append(image, details);
     productGrid.appendChild(card);
   });
 }
 
+document.querySelectorAll(".category-button").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".category-button").forEach(item => {
+      item.classList.remove("active");
+    });
 
-/* =========================================
-   SHOPPING CART
-========================================= */
+    button.classList.add("active");
+    renderProducts(button.dataset.category);
+  });
+});
 
-function addToCart(id) {
-  const existing = cart.find(item => item.id === id);
+// ==========================================
+// SEARCH
+// ==========================================
+
+const searchToggle = document.getElementById("search-toggle");
+const searchPanel = document.getElementById("search-panel");
+const searchInput = document.getElementById("search-input");
+
+searchToggle?.addEventListener("click", () => {
+  searchPanel?.classList.toggle("open");
+  searchInput?.focus();
+});
+
+document.getElementById("search-close")?.addEventListener("click", () => {
+  searchPanel?.classList.remove("open");
+  if (searchInput) searchInput.value = "";
+  renderProducts();
+});
+
+searchInput?.addEventListener("input", () => {
+  const activeCategory =
+    document.querySelector(".category-button.active")?.dataset.category || "all";
+
+  renderProducts(activeCategory, searchInput.value);
+});
+
+// ==========================================
+// CART
+// ==========================================
+
+function addToCart(productId) {
+  const existing = cart.find(item => item.id === productId);
 
   if (existing) {
-    existing.quantity++;
+    existing.quantity += 1;
   } else {
-    cart.push({ id, quantity: 1 });
+    cart.push({ id: productId, quantity: 1 });
   }
 
+  saveCart();
   renderCart();
 }
 
-function changeQuantity(id, change) {
-  const item = cart.find(item => item.id === id);
+function changeQuantity(productId, change) {
+  const item = cart.find(item => item.id === productId);
   if (!item) return;
 
   item.quantity += change;
 
   if (item.quantity <= 0) {
-    cart = cart.filter(product => product.id !== id);
+    cart = cart.filter(item => item.id !== productId);
   }
 
+  saveCart();
   renderCart();
 }
 
-function removeFromCart(id) {
-  cart = cart.filter(item => item.id !== id);
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  saveCart();
   renderCart();
-}
-
-function getTotal() {
-  return cart.reduce((total, item) => {
-    const product = products.find(p => p.id === item.id);
-    return total + product.price * item.quantity;
-  }, 0);
 }
 
 function renderCart() {
-  const container = document.getElementById("cart-items");
-  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  if (!cartItemsElement) return;
 
-  document.getElementById("bag-count").textContent = count;
-  document.getElementById("cart-total").textContent = money(getTotal());
+  cartItemsElement.innerHTML = "";
 
-  if (cart.length === 0) {
-    container.innerHTML =
-      '<p class="empty-cart">Your bag is waiting for something beautiful.</p>';
-    return;
-  }
-
-  container.innerHTML = "";
+  let total = 0;
+  let count = 0;
 
   cart.forEach(item => {
-    const product = products.find(p => p.id === item.id);
+    const product = products.find(product => product.id === item.id);
+    if (!product) return;
+
+    total += product.price * item.quantity;
+    count += item.quantity;
+
     const row = document.createElement("div");
     row.className = "cart-item";
 
-    row.innerHTML = `
-      <img src="${product.image}" alt="${product.name}">
-      <div>
-        <h3>${product.name}</h3>
-        <p>${money(product.price)}</p>
-        <div class="quantity-controls">
-          <button data-minus="${product.id}">−</button>
-          <span>${item.quantity}</span>
-          <button data-plus="${product.id}">+</button>
-        </div>
-      </div>
-      <button class="remove-item" data-remove="${product.id}">Remove</button>
-    `;
+    const image = document.createElement("img");
+    image.src = product.image;
+    image.alt = product.name;
 
-    container.appendChild(row);
+    const info = document.createElement("div");
+    info.className = "cart-item-info";
+
+    const name = document.createElement("h3");
+    name.textContent = product.name;
+
+    const price = document.createElement("p");
+    price.textContent = formatPrice(product.price);
+
+    const quantity = document.createElement("div");
+    quantity.className = "quantity-controls";
+
+    const minus = document.createElement("button");
+    minus.textContent = "−";
+    minus.addEventListener("click", () => changeQuantity(product.id, -1));
+
+    const number = document.createElement("span");
+    number.textContent = item.quantity;
+
+    const plus = document.createElement("button");
+    plus.textContent = "+";
+    plus.addEventListener("click", () => changeQuantity(product.id, 1));
+
+    quantity.append(minus, number, plus);
+
+    const remove = document.createElement("button");
+    remove.className = "remove-item";
+    remove.textContent = "Remove";
+    remove.addEventListener("click", () => removeFromCart(product.id));
+
+    info.append(name, price, quantity, remove);
+    row.append(image, info);
+    cartItemsElement.appendChild(row);
   });
+
+  if (cartTotalElement) {
+    cartTotalElement.textContent = formatPrice(total);
+  }
+
+  if (bagCountElement) {
+    bagCountElement.textContent = count;
+  }
+
+  const checkoutSummary = document.getElementById("checkout-summary");
+
+  if (checkoutSummary) {
+    checkoutSummary.textContent =
+      `Your order total: ${formatPrice(total)}`;
+  }
 }
 
-
-/* =========================================
-   CART DRAWER
-========================================= */
-
-function openCart() {
-  cartDrawer.classList.add("open");
-  backdrop.classList.add("open");
-}
+document.getElementById("bag-toggle")?.addEventListener("click", () => {
+  document.getElementById("cart-drawer")?.classList.add("open");
+  document.getElementById("drawer-backdrop")?.classList.add("open");
+});
 
 function closeCart() {
-  cartDrawer.classList.remove("open");
-  backdrop.classList.remove("open");
+  document.getElementById("cart-drawer")?.classList.remove("open");
+  document.getElementById("drawer-backdrop")?.classList.remove("open");
 }
 
+document.getElementById("cart-close")?.addEventListener("click", closeCart);
+document.getElementById("drawer-backdrop")?.addEventListener("click", closeCart);
 
-/* =========================================
-   CHECKOUT
-========================================= */
+// ==========================================
+// CHECKOUT
+// ==========================================
 
-function openCheckout() {
+const checkoutOverlay = document.getElementById("checkout-overlay");
+
+document.getElementById("checkout-open")?.addEventListener("click", async () => {
   if (cart.length === 0) {
-    alert("Your bag is empty. Add a product first.");
+    alert("Your bag is empty.");
     return;
   }
 
   closeCart();
 
-  const summary = document.getElementById("checkout-summary");
+  const { data: { user } } = await supabaseClient.auth.getUser();
 
-  summary.innerHTML = cart.map(item => {
-    const product = products.find(p => p.id === item.id);
-    return `<div>${product.name} × ${item.quantity} — ${money(product.price * item.quantity)}</div>`;
-  }).join("");
+  if (user) {
+    await loadProfileIntoCheckout(user);
+  }
 
-  summary.innerHTML += `<strong>Total: ${money(getTotal())}</strong>`;
+  renderCart();
+  checkoutOverlay?.classList.add("open");
+});
 
-  document.getElementById("order-message").textContent = "";
-  document.getElementById("checkout-overlay").classList.add("open");
+document.getElementById("checkout-close")?.addEventListener("click", () => {
+  checkoutOverlay?.classList.remove("open");
+});
+
+async function loadProfileIntoCheckout(user) {
+  const { data } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (!data) return;
+
+  setValue("customer-first-name", data.first_name);
+  setValue("customer-last-name", data.last_name);
+  setValue("customer-email", user.email);
+  setValue("customer-phone", data.phone);
+  setValue("customer-address", data.delivery_address);
 }
 
-function closeCheckout() {
-  document.getElementById("checkout-overlay").classList.remove("open");
+function setValue(id, value) {
+  const element = document.getElementById(id);
+  if (element && value) element.value = value;
 }
 
+document.getElementById("place-order")?.addEventListener("click", () => {
+  const message = document.getElementById("order-message");
 
-/* =========================================
-   CATEGORY FILTERS
-========================================= */
+  const firstName = document.getElementById("customer-first-name").value.trim();
+  const lastName = document.getElementById("customer-last-name").value.trim();
+  const email = document.getElementById("customer-email").value.trim();
+  const phone = document.getElementById("customer-phone").value.trim();
+  const address = document.getElementById("customer-address").value.trim();
 
-document.querySelectorAll(".category-button").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".category-button").forEach(btn =>
-      btn.classList.remove("active")
-    );
+  if (!firstName || !lastName || !email || !phone || !address) {
+    message.textContent = "Please complete all required fields.";
+    return;
+  }
 
-    button.classList.add("active");
-    activeCategory = button.dataset.category;
-    searchTerm = "";
-    document.getElementById("search-input").value = "";
+  if (cart.length === 0) {
+    message.textContent = "Your bag is empty.";
+    return;
+  }
 
-    renderProducts();
-  });
+  message.textContent =
+    "Online payment is not active yet. Your order has not been submitted or saved. No payment has been taken.";
 });
 
-
-/* =========================================
-   PRODUCT AND CART BUTTONS
-========================================= */
-
-document.addEventListener("click", event => {
-  const add = event.target.closest("[data-add]");
-  const plus = event.target.closest("[data-plus]");
-  const minus = event.target.closest("[data-minus]");
-  const remove = event.target.closest("[data-remove]");
-
-  if (add) addToCart(Number(add.dataset.add));
-  if (plus) changeQuantity(Number(plus.dataset.plus), 1);
-  if (minus) changeQuantity(Number(minus.dataset.minus), -1);
-  if (remove) removeFromCart(Number(remove.dataset.remove));
-});
-
-
-/* =========================================
-   SEARCH
-========================================= */
-
-document.getElementById("search-toggle").addEventListener("click", () => {
-  document.getElementById("search-panel").classList.add("open");
-  document.getElementById("search-input").focus();
-});
-
-document.getElementById("search-close").addEventListener("click", () => {
-  document.getElementById("search-panel").classList.remove("open");
-  document.getElementById("search-input").value = "";
-  searchTerm = "";
-  renderProducts();
-});
-
-document.getElementById("search-input").addEventListener("input", event => {
-  searchTerm = event.target.value;
-  activeCategory = "all";
-
-  document.querySelectorAll(".category-button").forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.category === "all");
-  });
-
-  renderProducts();
-});
-
-
-/* =========================================
-   OPEN AND CLOSE CONTROLS
-========================================= */
-
-document.getElementById("bag-toggle").addEventListener("click", openCart);
-document.getElementById("cart-close").addEventListener("click", closeCart);
-backdrop.addEventListener("click", closeCart);
-
-document.getElementById("checkout-open").addEventListener("click", openCheckout);
-document.getElementById("checkout-close").addEventListener("click", closeCheckout);
-
-
-/* =========================================
-   ACCOUNT — REGISTRATION AND LOGIN
-========================================= */
+// ==========================================
+// ACCOUNT ELEMENTS
+// ==========================================
 
 const accountOverlay = document.getElementById("account-overlay");
 const accountTitle = document.getElementById("account-title");
-const accountMessage = document.getElementById("account-message");
 const signupForm = document.getElementById("signup-form");
 const loginForm = document.getElementById("login-form");
+const dashboard = document.getElementById("account-dashboard");
+const accountMessage = document.getElementById("account-message");
 const accountSwitch = document.getElementById("account-switch");
+
+let currentUser = null;
+let currentProfile = null;
+
+// ==========================================
+// ACCOUNT VIEW HELPERS
+// ==========================================
 
 function showSignup() {
   accountTitle.textContent = "Create Account";
   signupForm.hidden = false;
   loginForm.hidden = true;
+  dashboard.hidden = true;
+  accountSwitch.hidden = false;
   accountMessage.textContent = "";
-
   accountSwitch.innerHTML =
     'Already have an account? <button type="button" id="show-login">Sign in</button>';
+
+  document.getElementById("show-login")?.addEventListener("click", showLogin);
 }
 
 function showLogin() {
   accountTitle.textContent = "Welcome Back";
   signupForm.hidden = true;
   loginForm.hidden = false;
+  dashboard.hidden = true;
+  accountSwitch.hidden = false;
   accountMessage.textContent = "";
-
   accountSwitch.innerHTML =
-    'New to MISTÉ? <button type="button" id="show-signup">Create account</button>';
+    'Don’t have an account? <button type="button" id="show-signup">Create account</button>';
+
+  document.getElementById("show-signup")?.addEventListener("click", showSignup);
 }
 
-function showLoggedIn(user) {
-  accountTitle.textContent = "Your Account";
+function showDashboard() {
   signupForm.hidden = true;
   loginForm.hidden = true;
+  dashboard.hidden = false;
+  accountSwitch.hidden = true;
+  accountTitle.textContent = "My Account";
+  accountMessage.textContent = "";
 
-  accountMessage.textContent = `You are signed in as ${user.email || ""}.`;
+  document.getElementById("dashboard-email").textContent =
+    currentUser?.email || "";
 
-  accountSwitch.innerHTML =
-    '<button type="button" id="sign-out-button">Sign out</button>';
-
-  document.getElementById("account-toggle").textContent = "My Account";
+  loadProfile();
+  loadOrders();
 }
 
 function openAccount() {
-  accountOverlay.classList.add("open");
+  accountOverlay?.classList.add("open");
+  accountMessage.textContent = "";
+
+  if (currentUser) {
+    showDashboard();
+  } else {
+    showSignup();
+  }
 }
 
 function closeAccount() {
-  accountOverlay.classList.remove("open");
+  accountOverlay?.classList.remove("open");
 }
 
-document.getElementById("account-toggle").addEventListener("click", async () => {
-  openAccount();
+document.getElementById("account-toggle")?.addEventListener("click", openAccount);
+document.getElementById("account-close")?.addEventListener("click", closeAccount);
 
-  const { data, error } = await supabaseClient.auth.getUser();
+// ==========================================
+// SIGN UP
+// ==========================================
 
-  if (error) {
-    accountMessage.textContent = error.message;
-    return;
-  }
-
-  if (data.user) {
-    showLoggedIn(data.user);
-  } else {
-    document.getElementById("account-toggle").textContent = "Account";
-    showSignup();
-  }
-});
-
-document.getElementById("account-close").addEventListener("click", closeAccount);
-
-accountOverlay.addEventListener("click", event => {
-  if (event.target === accountOverlay) closeAccount();
-});
-
-accountSwitch.addEventListener("click", event => {
-  if (event.target.id === "show-login") showLogin();
-  if (event.target.id === "show-signup") showSignup();
-});
-
-
-/* =========================================
-   REGISTRATION
-========================================= */
-
-signupForm.addEventListener("submit", async event => {
+signupForm?.addEventListener("submit", async event => {
   event.preventDefault();
 
   const firstName = document.getElementById("signup-first-name").value.trim();
@@ -442,23 +497,22 @@ signupForm.addEventListener("submit", async event => {
     return;
   }
 
-  if (data.session && data.user) {
-    showLoggedIn(data.user);
-    accountMessage.textContent = "Your MISTÉ account has been created successfully.";
+  if (data.session) {
+    currentUser = data.user;
+    accountMessage.textContent = "Your account has been created.";
+    showDashboard();
   } else {
     accountMessage.textContent =
       "Registration successful! Please check your email and confirm your account before signing in.";
+    showLogin();
   }
-
-  signupForm.reset();
 });
 
+// ==========================================
+// SIGN IN
+// ==========================================
 
-/* =========================================
-   LOGIN
-========================================= */
-
-loginForm.addEventListener("submit", async event => {
+loginForm?.addEventListener("submit", async event => {
   event.preventDefault();
 
   const email = document.getElementById("login-email").value.trim();
@@ -476,18 +530,178 @@ loginForm.addEventListener("submit", async event => {
     return;
   }
 
-  showLoggedIn(data.user);
-  loginForm.reset();
+  currentUser = data.user;
+  showDashboard();
 });
 
+// ==========================================
+// LOAD PROFILE
+// ==========================================
 
-/* =========================================
-   SIGN OUT
-========================================= */
+async function loadProfile() {
+  if (!currentUser) return;
 
-accountSwitch.addEventListener("click", async event => {
-  if (event.target.id !== "sign-out-button") return;
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", currentUser.id)
+    .maybeSingle();
 
+  if (error) {
+    accountMessage.textContent = "Could not load your profile: " + error.message;
+    return;
+  }
+
+  currentProfile = data || {};
+
+  displayProfile(currentProfile);
+  fillEditForm(currentProfile);
+}
+
+function displayProfile(profile) {
+  setText("profile-first-name", profile.first_name);
+  setText("profile-last-name", profile.last_name);
+  setText("profile-email", currentUser?.email);
+  setText("profile-phone", profile.phone);
+  setText("profile-address", profile.delivery_address);
+}
+
+function fillEditForm(profile) {
+  setValue("edit-first-name", profile.first_name);
+  setValue("edit-last-name", profile.last_name);
+  setValue("edit-email", currentUser?.email);
+  setValue("edit-phone", profile.phone);
+  setValue("edit-address", profile.delivery_address);
+}
+
+function setText(id, value) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = value || "Not provided";
+}
+
+// ==========================================
+// EDIT PROFILE
+// ==========================================
+
+document.getElementById("profile-form")?.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!currentUser) return;
+
+  const profileData = {
+    first_name: document.getElementById("edit-first-name").value.trim(),
+    last_name: document.getElementById("edit-last-name").value.trim(),
+    phone: document.getElementById("edit-phone").value.trim(),
+    delivery_address: document.getElementById("edit-address").value.trim()
+  };
+
+  accountMessage.textContent = "Saving your changes...";
+
+  const { error } = await supabaseClient
+    .from("profiles")
+    .update(profileData)
+    .eq("id", currentUser.id);
+
+  if (error) {
+    accountMessage.textContent = "Could not save changes: " + error.message;
+    return;
+  }
+
+  currentProfile = { ...currentProfile, ...profileData };
+
+  displayProfile(currentProfile);
+  fillEditForm(currentProfile);
+
+  accountMessage.textContent = "Your profile has been updated successfully.";
+  switchAccountTab("profile");
+});
+
+// ==========================================
+// ACCOUNT TABS
+// ==========================================
+
+function switchAccountTab(tabName) {
+  document.querySelectorAll(".account-tab").forEach(button => {
+    button.classList.toggle("active", button.dataset.tab === tabName);
+  });
+
+  document.querySelectorAll(".account-panel").forEach(panel => {
+    panel.classList.toggle("active", panel.id === `${tabName}-panel`);
+  });
+}
+
+document.querySelectorAll(".account-tab").forEach(button => {
+  button.addEventListener("click", () => {
+    switchAccountTab(button.dataset.tab);
+  });
+});
+
+// ==========================================
+// ORDER HISTORY
+// ==========================================
+
+async function loadOrders() {
+  const ordersList = document.getElementById("orders-list");
+
+  if (!ordersList || !currentUser) return;
+
+  ordersList.textContent = "Loading your orders...";
+
+  const { data, error } = await supabaseClient
+    .from("orders")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    ordersList.textContent = "Could not load orders: " + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    ordersList.innerHTML =
+      '<p class="empty-orders">You have no orders yet.</p>';
+    return;
+  }
+
+  ordersList.innerHTML = "";
+
+  data.forEach(order => {
+    const card = document.createElement("article");
+    card.className = "order-card";
+
+    const heading = document.createElement("div");
+    heading.className = "order-card-heading";
+
+    const orderName = document.createElement("strong");
+    orderName.textContent = "Order #" + order.id.slice(0, 8);
+
+    const status = document.createElement("span");
+    status.className = "order-status";
+    status.textContent = order.payment_status;
+
+    heading.append(orderName, status);
+
+    const date = document.createElement("p");
+    date.textContent = new Date(order.created_at).toLocaleDateString();
+
+    const amount = document.createElement("p");
+    amount.textContent =
+      "Total: " + formatPrice(order.total_amount);
+
+    const payment = document.createElement("p");
+    payment.textContent = "Payment: " + order.payment_method;
+
+    card.append(heading, date, amount, payment);
+    ordersList.appendChild(card);
+  });
+}
+
+// ==========================================
+// SIGN OUT
+// ==========================================
+
+document.getElementById("sign-out-button")?.addEventListener("click", async () => {
   const { error } = await supabaseClient.auth.signOut();
 
   if (error) {
@@ -495,86 +709,53 @@ accountSwitch.addEventListener("click", async event => {
     return;
   }
 
-  document.getElementById("account-toggle").textContent = "Account";
-  showSignup();
-  accountMessage.textContent = "You have signed out successfully.";
+  currentUser = null;
+  currentProfile = null;
+
+  updateAccountButton();
+  showLogin();
+  accountMessage.textContent = "You have signed out.";
 });
 
+// ==========================================
+// AUTH STATE
+// ==========================================
 
-/* =========================================
-   RESTORE EXISTING SESSION
-========================================= */
-
-supabaseClient.auth.onAuthStateChange((event, session) => {
+function updateAccountButton() {
   const button = document.getElementById("account-toggle");
 
-  if (session?.user) {
-    button.textContent = "My Account";
-  } else {
-    button.textContent = "Account";
+  if (!button) return;
+
+  button.textContent = currentUser ? "My Account" : "Account";
+}
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  currentUser = session?.user || null;
+  updateAccountButton();
+
+  if (currentUser && accountOverlay?.classList.contains("open")) {
+    showDashboard();
   }
 });
 
+async function initializeAccount() {
+  const { data, error } = await supabaseClient.auth.getSession();
 
-/* =========================================
-   CHECKOUT VALIDATION — DEMO ONLY
-========================================= */
-
-document.getElementById("place-order").addEventListener("click", () => {
-  const firstName = document.getElementById("customer-first-name").value.trim();
-  const lastName = document.getElementById("customer-last-name").value.trim();
-  const emailInput = document.getElementById("customer-email");
-  const email = emailInput.value.trim();
-  const phone = document.getElementById("customer-phone").value.trim();
-  const address = document.getElementById("customer-address").value.trim();
-
-  const payment = document.querySelector('input[name="payment"]:checked').value;
-  const message = document.getElementById("order-message");
-
-  if (!firstName || !lastName || !email || !phone || !address) {
-    message.textContent = "Please complete all required fields.";
+  if (error) {
+    console.error("Session error:", error.message);
     return;
   }
 
-  if (!emailInput.checkValidity()) {
-    message.textContent = "Please enter a valid email address.";
-    return;
-  }
+  currentUser = data.session?.user || null;
+  updateAccountButton();
+}
 
-  const order = {
-    customer: {
-      firstName,
-      lastName,
-      email,
-      phone,
-      address
-    },
-    paymentMethod: payment,
-    items: cart.map(item => {
-      const product = products.find(p => p.id === item.id);
-
-      return {
-        name: product.name,
-        quantity: item.quantity,
-        price: product.price
-      };
-    }),
-    total: getTotal()
-  };
-
-  console.log("MISTÉ demo order:", order);
-
-  message.textContent =
-    `Thank you, ${firstName}! Your details have been validated. ` +
-    `Selected payment: ${payment}. This is still a demo: no payment was taken and no order was saved.`;
-});
-
-
-/* =========================================
-   INITIAL DISPLAY
-========================================= */
+// ==========================================
+// INITIALIZE WEBSITE
+// ==========================================
 
 renderProducts();
 renderCart();
-
 showSignup();
+initializeAccount();
+```
