@@ -1,4 +1,21 @@
 
+/* =========================================
+   MISTÉ — SUPABASE CONNECTION
+========================================= */
+
+const SUPABASE_URL = "https://bizzcdgmyhutfldyxybt.supabase.co";
+const SUPABASE_KEY = "sb_publishable_iS1M8xoWqLLhxy6f5w4DfA_QKWu8BwD";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =========================================
+   PRODUCTS
+========================================= */
+
 const products = [
   {
     id: 1,
@@ -68,7 +85,10 @@ function money(amount) {
   return "₾" + amount.toFixed(2);
 }
 
-/* PRODUCTS */
+
+/* =========================================
+   PRODUCTS DISPLAY
+========================================= */
 
 function renderProducts() {
   const filtered = products.filter(product => {
@@ -107,7 +127,10 @@ function renderProducts() {
   });
 }
 
-/* CART */
+
+/* =========================================
+   SHOPPING CART
+========================================= */
 
 function addToCart(id) {
   const existing = cart.find(item => item.id === id);
@@ -184,7 +207,10 @@ function renderCart() {
   });
 }
 
-/* DRAWER */
+
+/* =========================================
+   CART DRAWER
+========================================= */
 
 function openCart() {
   cartDrawer.classList.add("open");
@@ -196,7 +222,10 @@ function closeCart() {
   backdrop.classList.remove("open");
 }
 
-/* CHECKOUT */
+
+/* =========================================
+   CHECKOUT
+========================================= */
 
 function openCheckout() {
   if (cart.length === 0) {
@@ -223,7 +252,10 @@ function closeCheckout() {
   document.getElementById("checkout-overlay").classList.remove("open");
 }
 
-/* CATEGORY FILTERS */
+
+/* =========================================
+   CATEGORY FILTERS
+========================================= */
 
 document.querySelectorAll(".category-button").forEach(button => {
   button.addEventListener("click", () => {
@@ -240,7 +272,10 @@ document.querySelectorAll(".category-button").forEach(button => {
   });
 });
 
-/* PRODUCT AND CART BUTTONS */
+
+/* =========================================
+   PRODUCT AND CART BUTTONS
+========================================= */
 
 document.addEventListener("click", event => {
   const add = event.target.closest("[data-add]");
@@ -254,7 +289,10 @@ document.addEventListener("click", event => {
   if (remove) removeFromCart(Number(remove.dataset.remove));
 });
 
-/* SEARCH */
+
+/* =========================================
+   SEARCH
+========================================= */
 
 document.getElementById("search-toggle").addEventListener("click", () => {
   document.getElementById("search-panel").classList.add("open");
@@ -279,7 +317,10 @@ document.getElementById("search-input").addEventListener("input", event => {
   renderProducts();
 });
 
-/* OPEN AND CLOSE CONTROLS */
+
+/* =========================================
+   OPEN AND CLOSE CONTROLS
+========================================= */
 
 document.getElementById("bag-toggle").addEventListener("click", openCart);
 document.getElementById("cart-close").addEventListener("click", closeCart);
@@ -288,7 +329,196 @@ backdrop.addEventListener("click", closeCart);
 document.getElementById("checkout-open").addEventListener("click", openCheckout);
 document.getElementById("checkout-close").addEventListener("click", closeCheckout);
 
-/* CHECKOUT VALIDATION */
+
+/* =========================================
+   ACCOUNT — REGISTRATION AND LOGIN
+========================================= */
+
+const accountOverlay = document.getElementById("account-overlay");
+const accountTitle = document.getElementById("account-title");
+const accountMessage = document.getElementById("account-message");
+const signupForm = document.getElementById("signup-form");
+const loginForm = document.getElementById("login-form");
+const accountSwitch = document.getElementById("account-switch");
+
+function showSignup() {
+  accountTitle.textContent = "Create Account";
+  signupForm.hidden = false;
+  loginForm.hidden = true;
+  accountMessage.textContent = "";
+
+  accountSwitch.innerHTML =
+    'Already have an account? <button type="button" id="show-login">Sign in</button>';
+}
+
+function showLogin() {
+  accountTitle.textContent = "Welcome Back";
+  signupForm.hidden = true;
+  loginForm.hidden = false;
+  accountMessage.textContent = "";
+
+  accountSwitch.innerHTML =
+    'New to MISTÉ? <button type="button" id="show-signup">Create account</button>';
+}
+
+function showLoggedIn(user) {
+  accountTitle.textContent = "Your Account";
+  signupForm.hidden = true;
+  loginForm.hidden = true;
+
+  accountMessage.textContent = `You are signed in as ${user.email || ""}.`;
+
+  accountSwitch.innerHTML =
+    '<button type="button" id="sign-out-button">Sign out</button>';
+
+  document.getElementById("account-toggle").textContent = "My Account";
+}
+
+function openAccount() {
+  accountOverlay.classList.add("open");
+}
+
+function closeAccount() {
+  accountOverlay.classList.remove("open");
+}
+
+document.getElementById("account-toggle").addEventListener("click", async () => {
+  openAccount();
+
+  const { data, error } = await supabaseClient.auth.getUser();
+
+  if (error) {
+    accountMessage.textContent = error.message;
+    return;
+  }
+
+  if (data.user) {
+    showLoggedIn(data.user);
+  } else {
+    document.getElementById("account-toggle").textContent = "Account";
+    showSignup();
+  }
+});
+
+document.getElementById("account-close").addEventListener("click", closeAccount);
+
+accountOverlay.addEventListener("click", event => {
+  if (event.target === accountOverlay) closeAccount();
+});
+
+accountSwitch.addEventListener("click", event => {
+  if (event.target.id === "show-login") showLogin();
+  if (event.target.id === "show-signup") showSignup();
+});
+
+
+/* =========================================
+   REGISTRATION
+========================================= */
+
+signupForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const firstName = document.getElementById("signup-first-name").value.trim();
+  const lastName = document.getElementById("signup-last-name").value.trim();
+  const email = document.getElementById("signup-email").value.trim();
+  const password = document.getElementById("signup-password").value;
+
+  accountMessage.textContent = "Creating your account...";
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        first_name: firstName,
+        last_name: lastName
+      }
+    }
+  });
+
+  if (error) {
+    accountMessage.textContent = error.message;
+    return;
+  }
+
+  if (data.session && data.user) {
+    showLoggedIn(data.user);
+    accountMessage.textContent = "Your MISTÉ account has been created successfully.";
+  } else {
+    accountMessage.textContent =
+      "Registration successful! Please check your email and confirm your account before signing in.";
+  }
+
+  signupForm.reset();
+});
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+loginForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const email = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value;
+
+  accountMessage.textContent = "Signing in...";
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    accountMessage.textContent = error.message;
+    return;
+  }
+
+  showLoggedIn(data.user);
+  loginForm.reset();
+});
+
+
+/* =========================================
+   SIGN OUT
+========================================= */
+
+accountSwitch.addEventListener("click", async event => {
+  if (event.target.id !== "sign-out-button") return;
+
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    accountMessage.textContent = error.message;
+    return;
+  }
+
+  document.getElementById("account-toggle").textContent = "Account";
+  showSignup();
+  accountMessage.textContent = "You have signed out successfully.";
+});
+
+
+/* =========================================
+   RESTORE EXISTING SESSION
+========================================= */
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  const button = document.getElementById("account-toggle");
+
+  if (session?.user) {
+    button.textContent = "My Account";
+  } else {
+    button.textContent = "Account";
+  }
+});
+
+
+/* =========================================
+   CHECKOUT VALIDATION — DEMO ONLY
+========================================= */
 
 document.getElementById("place-order").addEventListener("click", () => {
   const firstName = document.getElementById("customer-first-name").value.trim();
@@ -329,20 +559,22 @@ document.getElementById("place-order").addEventListener("click", () => {
         price: product.price
       };
     }),
-    total: getTotal(),
-    notificationEmail: "support.miste@gmail.com"
+    total: getTotal()
   };
 
   console.log("MISTÉ demo order:", order);
 
   message.textContent =
     `Thank you, ${firstName}! Your details have been validated. ` +
-    `Selected payment: ${payment}. This is still a demo: no payment was taken and no email was sent.`;
-
-  // Cart stays intact until real payment integration is activated.
+    `Selected payment: ${payment}. This is still a demo: no payment was taken and no order was saved.`;
 });
 
-/* INITIAL DISPLAY */
+
+/* =========================================
+   INITIAL DISPLAY
+========================================= */
 
 renderProducts();
 renderCart();
+
+showSignup();
