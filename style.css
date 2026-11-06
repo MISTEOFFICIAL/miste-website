@@ -1477,3 +1477,53 @@ footer p {
   border-radius: 0 0 14px 14px !important;
   border-top: none !important;
 }
+
+/* MISTÉ — ROUNDED DESIGN */
+:root {
+  --miste-radius: 50px;
+}
+
+/* BUTTONS */
+button,
+.shop-button,
+.add-to-cart,
+.checkout-button,
+.category-button {
+  border-radius: 50px !important;
+}
+
+/* SEARCH */
+#search-input,
+.search-panel {
+  border-radius: 50px !important;
+}
+
+/* PRODUCT CARDS */
+.product-card {
+  border-radius: 22px !important;
+  overflow: hidden;
+}
+
+.product-card img {
+  border-radius: 22px !important;
+}
+
+/* INPUTS */
+input,
+textarea,
+select {
+  border-radius: 50px !important;
+}
+
+/* PANELS AND WINDOWS */
+.search-results,
+.checkout-box,
+.account-box,
+.cart-drawer {
+  border-radius: 22px !important;
+}
+
+/* IMAGES */
+img {
+  border-radius: 18px;
+}
