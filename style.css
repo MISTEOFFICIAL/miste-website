@@ -1116,3 +1116,75 @@ footer p {
     font-size: 9px;
   }
 }
+
+
+/* ==========================================
+   MISTÉ SEARCH RESULTS
+========================================== */
+
+.search-panel {
+  position: relative;
+}
+
+.search-results {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  max-height: 420px;
+  overflow-y: auto;
+  background: #17152d;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  z-index: 9999;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+
+.search-results.open {
+  display: block;
+}
+
+.search-result-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  color: white;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.search-result-item:hover {
+  background: rgba(143,122,230,0.15);
+}
+
+.search-result-item img {
+  width: 58px;
+  height: 65px;
+  object-fit: cover;
+  border-radius: 7px;
+}
+
+.search-result-item span {
+  flex: 1;
+  font-size: 14px;
+  letter-spacing: 0.4px;
+}
+
+.search-result-item strong {
+  color: #c5b4ff;
+  font-size: 14px;
+}
+
+.search-results > p {
+  color: white;
+  padding: 18px;
+  margin: 0;
+  font-size: 14px;
+}
