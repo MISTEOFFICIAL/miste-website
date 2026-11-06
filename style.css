@@ -1352,3 +1352,17 @@ footer p {
   border-bottom: 0.25px solid rgba(255, 255, 255, 0.06) !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
 }
+
+/* MISTÉ — OVAL SEARCH FIELD */
+#search-input {
+  border-radius: 50px !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  outline: none !important;
+}
+
+#search-input:focus {
+  border-radius: 50px !important;
+  border-color: rgba(255, 255, 255, 0.65) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(197, 180, 255, 0.12) !important;
+}
