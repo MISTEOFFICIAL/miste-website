@@ -13,14 +13,12 @@
 <body>
   <header class="header">
     <a class="logo" href="#">MISTÉ</a>
-
     <nav class="navigation">
       <a href="#shop">Shop</a>
       <a href="#about">About</a>
       <a href="#journal">Journal</a>
       <a href="#contact">Contact</a>
     </nav>
-
     <div class="header-icons">
       <button id="search-toggle" aria-label="Search" class="icon-button">
         <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
@@ -68,14 +66,12 @@
         <h2>Find your atmosphere.</h2>
         <p>Thoughtful details for beautiful spaces.</p>
       </div>
-
       <div class="shop-categories">
         <button class="category-button active" data-category="all">All</button>
         <button class="category-button" data-category="candles">Candles</button>
         <button class="category-button" data-category="diffusers">Diffusers</button>
         <button class="category-button" data-category="sprays">Room Sprays</button>
       </div>
-
       <p class="results-message" id="results-message"></p>
       <div class="product-grid" id="product-grid"></div>
     </section>
@@ -99,7 +95,7 @@
     </div>
     <div class="footer-contact">
       <p class="eyebrow">STAY IN TOUCH</p>
-      <a href="mailto:hello@miste.com">hello@miste.com</a>
+      <a href="mailto:support.miste@gmail.com">support.miste@gmail.com</a>
     </div>
     <p class="copyright">© 2026 MISTÉ. ALL RIGHTS RESERVED.</p>
   </footer>
@@ -126,29 +122,35 @@
       <h2>Checkout</h2>
       <div id="checkout-summary"></div>
 
-      <label class="field-label" for="customer-name">Full name</label>
-      <input class="checkout-input" id="customer-name" placeholder="Your name">
+      <label class="field-label" for="customer-first-name">First Name *</label>
+      <input class="checkout-input" id="customer-first-name" name="firstName" autocomplete="given-name" required placeholder="Your first name">
 
-      <label class="field-label" for="customer-phone">Phone number</label>
-      <input class="checkout-input" id="customer-phone" type="tel" placeholder="+995">
+      <label class="field-label" for="customer-last-name">Last Name *</label>
+      <input class="checkout-input" id="customer-last-name" name="lastName" autocomplete="family-name" required placeholder="Your last name">
 
-      <label class="field-label" for="customer-address">Delivery address</label>
-      <textarea class="checkout-input" id="customer-address" rows="2" placeholder="City, street, building"></textarea>
+      <label class="field-label" for="customer-email">Email Address *</label>
+      <input class="checkout-input" id="customer-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
 
-      <p class="field-label">Choose payment method</p>
+      <label class="field-label" for="customer-phone">Phone Number *</label>
+      <input class="checkout-input" id="customer-phone" name="phone" type="tel" autocomplete="tel" required placeholder="+995 5XX XX XX XX">
+
+      <label class="field-label" for="customer-address">Delivery Address *</label>
+      <textarea class="checkout-input" id="customer-address" name="address" autocomplete="street-address" rows="3" required placeholder="City, street, building, apartment"></textarea>
+
+      <p class="field-label">Choose Payment Method</p>
       <div class="payment-options">
         <label class="payment-option">
           <input type="radio" name="payment" value="TBC Bank" checked>
-          <span><strong>TBC Bank</strong><small>Card payment · Demo</small></span>
+          <span><strong>TBC Bank</strong><small>Card payment</small></span>
         </label>
         <label class="payment-option">
           <input type="radio" name="payment" value="Bank of Georgia">
-          <span><strong>Bank of Georgia</strong><small>Card payment · Demo</small></span>
+          <span><strong>Bank of Georgia</strong><small>Card payment</small></span>
         </label>
       </div>
 
-      <p class="demo-note">Demo checkout — no real payment will be made.</p>
-      <button class="checkout-button" id="place-order">PLACE DEMO ORDER</button>
+      <p class="demo-note">Payment integration is not active yet. No payment will be charged.</p>
+      <button class="checkout-button" id="place-order">CONTINUE</button>
       <p id="order-message" class="order-message"></p>
     </div>
   </section>
