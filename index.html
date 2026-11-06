@@ -1,86 +1,155 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MISTÉ — Home Fragrance</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MISTÉ — Home Fragrance</title>
+  <meta name="description" content="MISTÉ Home Fragrance. Scent your space.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-  <a href="#" class="logo">MISTÉ</a>
+  <header class="header">
+    <a href="#" class="logo">MISTÉ</a>
 
-  <nav>
-    <a href="#home">HOME</a>
-    <a href="#shop">SHOP</a>
-    <a href="#about">ABOUT</a>
-    <a href="#journal">JOURNAL</a>
-    <a href="#contact">CONTACT</a>
-  </nav>
+    <nav class="navigation">
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+      <a href="#journal">Journal</a>
+      <a href="#contact">Contact</a>
+    </nav>
 
-  <a href="#shop" class="bag">BAG (0)</a>
-</header>
-
-<main id="home">
-  <section class="hero">
-    <div class="hero-content">
-      <p class="eyebrow">THE ART OF HOME FRAGRANCE</p>
-      <h1>SCENT YOUR<br><span>SPACE.</span></h1>
-      <p class="description">
-        Discover a new atmosphere.
-        Thoughtfully selected fragrances for every space.
-      </p>
-      <a href="#shop" class="button">EXPLORE COLLECTION ↗</a>
+    <div class="header-icons">
+      <a href="#shop" aria-label="Search">
+        <svg viewBox="0 0 24 24">
+          <circle cx="10.8" cy="10.8" r="6.8"/>
+          <path d="m16 16 5 5"/>
+        </svg>
+      </a>
+      <a href="#shop" aria-label="Shopping bag">
+        <svg viewBox="0 0 24 24">
+          <path d="M5 8h14l1 13H4L5 8Z"/>
+          <path d="M9 9V6a3 3 0 0 1 6 0v3"/>
+        </svg>
+      </a>
     </div>
+  </header>
 
-    <div class="hero-image">
-      <div class="product">
-        <div class="bottle"></div>
-        <p>MISTÉ</p>
-        <small>HOME FRAGRANCE</small>
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">HOME FRAGRANCE</p>
+        <h1>SCENT<br>YOUR SPACE</h1>
+        <p class="hero-description">
+          Home fragrance for<br>
+          a more beautiful everyday.
+        </p>
+        <a href="#shop" class="shop-button">SHOP NOW</a>
       </div>
-    </div>
-  </section>
 
-  <section id="shop" class="shop">
-    <p class="eyebrow">DISCOVER MISTÉ</p>
-    <h2>Our Collection</h2>
+      <div class="hero-caption">
+        <span>MISTÉ</span>
+        <span>THE ART OF HOME FRAGRANCE</span>
+      </div>
+    </section>
 
-    <div class="categories">
-      <article>
-        <div class="visual candle"></div>
-        <h3>Scented Candles</h3>
-      </article>
-      <article>
-        <div class="visual diffuser"></div>
-        <h3>Reed Diffusers</h3>
-      </article>
-      <article>
-        <div class="visual spray"></div>
-        <h3>Room Sprays</h3>
-      </article>
-    </div>
-  </section>
+    <section class="categories" id="shop">
+      <a href="#products" class="category">
+        <svg viewBox="0 0 48 48">
+          <path d="M24 5c-4 5-3 8 0 10 3-3 4-6 0-10Z"/>
+          <path d="M12 19h24v23H12z"/>
+          <path d="M12 23h24M18 19v-3h12v3"/>
+        </svg>
+        <span>Candles</span>
+      </a>
 
-  <section id="about" class="about">
-    <p class="eyebrow">ABOUT MISTÉ</p>
-    <h2>More than a scent.<br>A feeling.</h2>
-    <p>We believe every space deserves its own atmosphere.</p>
-  </section>
+      <a href="#products" class="category">
+        <svg viewBox="0 0 48 48">
+          <path d="M24 7 15 22M24 7l2 15M24 7 35 19"/>
+          <path d="M16 23h16l3 19H13z"/>
+          <path d="M18 27h12"/>
+        </svg>
+        <span>Diffusers</span>
+      </a>
 
-  <section id="journal" class="about">
-    <p class="eyebrow">THE JOURNAL</p>
-    <h2>The world of scent.</h2>
-  </section>
+      <a href="#products" class="category">
+        <svg viewBox="0 0 48 48">
+          <path d="M19 7h10v5H19zM17 12h14v29H17z"/>
+          <path d="M20 20h8M21 28h6"/>
+          <path d="M24 3v4"/>
+        </svg>
+        <span>Room Sprays</span>
+      </a>
 
-  <section id="contact" class="about">
-    <p class="eyebrow">GET IN TOUCH</p>
-    <h2>Stay in the atmosphere.</h2>
-  </section>
-</main>
+      <a href="#products" class="category">
+        <svg viewBox="0 0 48 48">
+          <path d="M8 22h32l-4 13H12z"/>
+          <path d="M13 35v5M35 35v5M17 18c-4-4 2-7 0-11M27 18c-4-4 2-7 0-11"/>
+          <path d="M8 22v-4h32v4"/>
+        </svg>
+        <span>Bathroom</span>
+      </a>
+    </section>
 
-<footer>MISTÉ — HOME FRAGRANCE</footer>
+    <section class="products-section" id="products">
+      <div class="section-heading">
+        <p class="eyebrow">THE MISTÉ COLLECTION</p>
+        <h2>Find your atmosphere.</h2>
+      </div>
+
+      <div class="product-grid">
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=900&q=85" alt="Elegant scented candle">
+          <h3>Signature Candles</h3>
+          <p>Warm light. Beautiful fragrance.</p>
+        </article>
+
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?auto=format&fit=crop&w=900&q=85" alt="Home fragrance diffuser">
+          <h3>Reed Diffusers</h3>
+          <p>A scent that stays with you.</p>
+        </article>
+
+        <article class="product-card">
+          <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=900&q=85" alt="Luxury fragrance bottle">
+          <h3>Room Sprays</h3>
+          <p>Refresh your everyday.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="about-section" id="about">
+      <p class="eyebrow">A LITTLE MORE BEAUTY</p>
+      <h2>Make room for atmosphere.</h2>
+      <p>
+        MISTÉ brings together carefully selected home fragrances
+        to make everyday spaces feel a little more special.
+      </p>
+    </section>
+
+    <section class="journal-section" id="journal">
+      <p class="eyebrow">NOTES FROM MISTÉ</p>
+      <h2>The art of scent.</h2>
+      <p>Discover the little details that make a space feel like yours.</p>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <p class="eyebrow">STAY IN TOUCH</p>
+      <h2>Something beautiful is in the air.</h2>
+      <a href="mailto:hello@misté.com" class="shop-button">CONTACT US</a>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#" class="footer-logo">MISTÉ</a>
+    <p>HOME FRAGRANCE</p>
+    <small>© 2026 MISTÉ. ALL RIGHTS RESERVED.</small>
+  </footer>
 
 </body>
 </html>
