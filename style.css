@@ -1315,3 +1315,40 @@ footer p {
     url('https://images.unsplash.com/photo-1603006905003-be475563bc59?w=2000')
     center center / cover no-repeat !important;
 }
+
+/* MISTÉ — RESTORE ORIGINAL LOGO SIZE */
+
+.header .logo {
+  font-size: 39px !important;
+  letter-spacing: 7px !important;
+}
+
+@media (max-width: 600px) {
+  .header .logo {
+    font-size: 29px !important;
+    letter-spacing: 4px !important;
+  }
+}
+
+/* RESTORE HERO PHOTO */
+
+.hero {
+  height: 100vh !important;
+  min-height: 650px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(16,17,61,.78),
+      rgba(16,17,61,.1)
+    ),
+    url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=2000')
+    center center / cover no-repeat !important;
+}
+
+/* EXTRA THIN LIQUID GLASS LINE */
+
+.header {
+  border-bottom: 0.25px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+}
