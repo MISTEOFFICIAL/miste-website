@@ -1188,3 +1188,8 @@ footer p {
   margin: 0;
   font-size: 14px;
 }
+.search-result-item span,
+.search-result-item strong,
+.search-results > p {
+  color: #FFFFFF !important;
+}
