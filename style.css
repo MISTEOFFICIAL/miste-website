@@ -1286,3 +1286,16 @@ footer p {
     top: 70px;
   }
 }
+
+/* THINNER LIQUID GLASS LINE */
+
+.header {
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.10) !important;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.035) !important;
+}
+
+/* REDUCE MISTÉ LOGO SIZE */
+
+.header .logo {
+  font-size: 50% !important;
+}
