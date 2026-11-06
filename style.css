@@ -1193,3 +1193,41 @@ footer p {
 .search-results > p {
   color: #FFFFFF !important;
 }
+
+
+/* ==========================================
+   MISTÉ — LIQUID GLASS HEADER
+========================================== */
+
+.header {
+  position: sticky;
+  top: 0;
+  margin-bottom: -88px;
+  z-index: 1000;
+
+  background: rgba(16, 17, 61, 0.32) !important;
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+  transition: background 0.3s ease;
+}
+
+.header .logo,
+.header .navigation a,
+.header .icon-button {
+  color: #FFFFFF !important;
+}
+
+.header .navigation a:hover {
+  color: #C5B4FF !important;
+}
+
+@media (max-width: 600px) {
+  .header {
+    margin-bottom: -70px;
+  }
+}
+
