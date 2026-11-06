@@ -505,3 +505,70 @@ footer p { color: #c8c4dd; font-size: 11px; }
   .product-description { font-size: 10px; }
   .checkout-box { padding: 28px 20px; }
 }
+/* MISTÉ Account */
+.account-overlay {
+  position: fixed;
+  z-index: 60;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #10113dcc;
+}
+
+.account-overlay.open {
+  display: flex;
+}
+
+.account-box {
+  position: relative;
+  width: min(420px, 100%);
+  padding: 40px 32px;
+  background: white;
+  box-shadow: 0 20px 60px #10113d30;
+}
+
+.account-box > .eyebrow {
+  color: #8174bb;
+  letter-spacing: 3px;
+}
+
+.account-box h2 {
+  margin: 10px 0 25px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 400;
+  color: var(--deep);
+}
+
+.account-box form {
+  display: grid;
+  gap: 13px;
+}
+
+.account-box .close-button {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+}
+
+.account-switch {
+  margin-top: 22px;
+  text-align: center;
+  color: #77738c;
+  font-size: 11px;
+}
+
+.account-switch button {
+  border: 0;
+  background: none;
+  color: var(--lavender);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+#account-message {
+  margin-top: 15px;
+}
