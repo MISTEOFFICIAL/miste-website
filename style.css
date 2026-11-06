@@ -572,3 +572,6 @@ footer p { color: #c8c4dd; font-size: 11px; }
 #account-message {
   margin-top: 15px;
 }
+.account-box form[hidden] {
+  display: none !important;
+}
