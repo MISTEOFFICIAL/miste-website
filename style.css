@@ -1366,3 +1366,38 @@ footer p {
   outline: none !important;
   box-shadow: 0 0 0 3px rgba(197, 180, 255, 0.12) !important;
 }
+
+/* FIX — BAG AND CHECKOUT ABOVE LIQUID GLASS */
+
+.drawer-backdrop {
+  z-index: 1100 !important;
+}
+
+.cart-drawer {
+  z-index: 1101 !important;
+}
+
+.checkout-overlay {
+  z-index: 1200 !important;
+}
+
+/* MAKE LIQUID GLASS HEADER SHORTER */
+.header {
+  height: 64px !important;
+  min-height: 64px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.header .logo,
+.header .navigation,
+.header .header-icons {
+  transform: translateY(-3px);
+}
+
+@media (max-width: 600px) {
+  .header {
+    height: 56px !important;
+    min-height: 56px !important;
+  }
+}
