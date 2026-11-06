@@ -20,6 +20,9 @@
       <a href="#contact">Contact</a>
     </nav>
     <div class="header-icons">
+      <button id="account-toggle" class="icon-button account-button">
+  Account
+</button>
       <button id="search-toggle" aria-label="Search" class="icon-button">
         <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
       </button>
@@ -155,6 +158,53 @@
     </div>
   </section>
 
+  <div class="account-overlay" id="account-overlay">
+  <div class="account-box">
+    <button class="close-button" id="account-close">×</button>
+
+    <p class="eyebrow">WELCOME TO MISTÉ</p>
+    <h2 id="account-title">Create Account</h2>
+
+    <form id="signup-form">
+      <input class="checkout-input" id="signup-first-name"
+        placeholder="First name" required>
+
+      <input class="checkout-input" id="signup-last-name"
+        placeholder="Last name" required>
+
+      <input class="checkout-input" id="signup-email"
+        type="email" placeholder="Email address" required>
+
+      <input class="checkout-input" id="signup-password"
+        type="password" placeholder="Password (at least 6 characters)"
+        minlength="6" required>
+
+      <button class="checkout-button" type="submit">
+        CREATE ACCOUNT
+      </button>
+    </form>
+
+    <form id="login-form" hidden>
+      <input class="checkout-input" id="login-email"
+        type="email" placeholder="Email address" required>
+
+      <input class="checkout-input" id="login-password"
+        type="password" placeholder="Password" required>
+
+      <button class="checkout-button" type="submit">
+        SIGN IN
+      </button>
+    </form>
+
+    <p id="account-message" class="order-message"></p>
+
+    <p class="account-switch" id="account-switch">
+      Already have an account? <button type="button"
+      id="show-login">Sign in</button>
+    </p>
+  </div>
+</div>
+  
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
 </body>
