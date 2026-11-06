@@ -1572,3 +1572,70 @@ footer {
   border-top: 1px solid rgba(139, 124, 199, 0.2);
 }
 
+/* ==========================================
+   MISTÉ — FINAL HEADER & SEARCH ALIGNMENT
+========================================== */
+
+/* HEADER */
+.header {
+  height: 64px !important;
+  min-height: 64px !important;
+  margin-bottom: -64px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-bottom: 0.25px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* BAG — LOWER POSITION */
+.header .header-icons {
+  transform: translateY(0) !important;
+}
+
+/* SEARCH — ATTACH TO LIQUID LINE */
+.search-panel {
+  top: 64px !important;
+  margin-top: 0 !important;
+  border-bottom: 0.25px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* SEARCH INPUT — OVAL AND EXTRA THIN */
+#search-input {
+  border-radius: 50px !important;
+  border: 0.25px solid rgba(255, 255, 255, 0.06) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+#search-input:focus {
+  border: 0.25px solid rgba(255, 255, 255, 0.12) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* HERO — FULL SCREEN */
+.hero {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  width: 100% !important;
+  background-position: center center !important;
+  background-size: cover !important;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .header {
+    height: 56px !important;
+    min-height: 56px !important;
+    margin-bottom: -56px !important;
+  }
+
+  .search-panel {
+    top: 56px !important;
+  }
+
+  .hero {
+    height: 100vh !important;
+    min-height: 100vh !important;
+  }
+}
