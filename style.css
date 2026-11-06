@@ -1401,3 +1401,174 @@ footer p {
     min-height: 56px !important;
   }
 }
+
+
+/* ==========================================
+   MISTÉ — NEW SIGNATURE COLOR PALETTE
+========================================== */
+
+:root {
+  --navy: #2A1E4D;
+  --deep: #0E0B1D;
+  --lavender: #8B7CC7;
+  --silver: #C9C2E3;
+  --light: #2A1E4D;
+  --text: #C9C2E3;
+  --white: #FFFFFF;
+  --border: rgba(201, 194, 227, 0.18);
+}
+
+/* MAIN BACKGROUND */
+body {
+  background: #0E0B1D !important;
+  color: #C9C2E3 !important;
+}
+
+/* LIQUID GLASS HEADER */
+.header {
+  background: rgba(42, 30, 77, 0.58) !important;
+  border-bottom-color: rgba(201, 194, 227, 0.12) !important;
+}
+
+/* HERO */
+.hero {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(14, 11, 29, 0.88),
+      rgba(42, 30, 77, 0.32)
+    ),
+    url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=2000')
+    center center / cover no-repeat !important;
+}
+
+/* MAIN SECTIONS */
+.mood-section,
+.about-section,
+.journal-section {
+  background: #0E0B1D !important;
+  color: #C9C2E3 !important;
+}
+
+.shop-section {
+  background: #2A1E4D !important;
+}
+
+/* HEADINGS */
+.section-heading h2,
+.about-section h2,
+.journal-section h2,
+.product-details h3 {
+  color: #C9C2E3 !important;
+}
+
+.section-heading .eyebrow,
+.about-section .eyebrow,
+.journal-section .eyebrow {
+  color: #8B7CC7 !important;
+}
+
+/* PRODUCT CARDS */
+.product-card {
+  background: #3A3A52 !important;
+}
+
+.product-details h3,
+.product-bottom strong {
+  color: #C9C2E3 !important;
+}
+
+.product-details > p {
+  color: rgba(201, 194, 227, 0.7) !important;
+}
+
+/* BUTTONS */
+.shop-button,
+.add-to-cart,
+.checkout-button {
+  background: #5A3B8C !important;
+  color: #FFFFFF !important;
+  border-radius: 40px !important;
+}
+
+.shop-button:hover,
+.add-to-cart:hover,
+.checkout-button:hover {
+  background: #8B7CC7 !important;
+  color: #0E0B1D !important;
+}
+
+/* CATEGORY BUTTONS */
+.category-button {
+  color: #C9C2E3 !important;
+  border-color: #8B7CC7 !important;
+}
+
+.category-button.active,
+.category-button:hover {
+  background: #5A3B8C !important;
+  border-color: #5A3B8C !important;
+  color: #FFFFFF !important;
+}
+
+/* SEARCH */
+.search-panel,
+.search-results {
+  background: rgba(14, 11, 29, 0.97) !important;
+  border-color: rgba(139, 124, 199, 0.35) !important;
+}
+
+/* BAG DRAWER */
+.cart-drawer {
+  background: #2A1E4D !important;
+  color: #C9C2E3 !important;
+}
+
+.drawer-header,
+.cart-bottom,
+.cart-item {
+  border-color: rgba(201, 194, 227, 0.2) !important;
+}
+
+.drawer-header h2,
+.cart-item-info h3,
+.cart-item-info p,
+.subtotal {
+  color: #C9C2E3 !important;
+}
+
+.close-button {
+  color: #C9C2E3 !important;
+}
+
+/* CHECKOUT AND ACCOUNT */
+.checkout-box,
+.account-box {
+  background: #2A1E4D !important;
+  color: #C9C2E3 !important;
+}
+
+.checkout-box h2,
+.account-box h2,
+.account-panel h3,
+.field-label {
+  color: #C9C2E3 !important;
+}
+
+.checkout-input {
+  background: #3A3A52 !important;
+  color: #FFFFFF !important;
+  border-color: rgba(201, 194, 227, 0.25) !important;
+}
+
+.checkout-input::placeholder {
+  color: rgba(201, 194, 227, 0.65) !important;
+}
+
+/* FOOTER */
+footer {
+  background: #0E0B1D !important;
+  color: #C9C2E3 !important;
+  border-top: 1px solid rgba(139, 124, 199, 0.2);
+}
+
