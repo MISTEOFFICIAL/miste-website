@@ -1,4 +1,4 @@
-```javascript
+
 // ==========================================
 // MISTÉ — SUPABASE CONFIGURATION
 // ==========================================
@@ -758,4 +758,3 @@ renderProducts();
 renderCart();
 showSignup();
 initializeAccount();
-```
