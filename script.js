@@ -68,6 +68,8 @@ function money(amount) {
   return "₾" + amount.toFixed(2);
 }
 
+/* PRODUCTS */
+
 function renderProducts() {
   const filtered = products.filter(product => {
     const matchesCategory =
@@ -104,6 +106,8 @@ function renderProducts() {
     productGrid.appendChild(card);
   });
 }
+
+/* CART */
 
 function addToCart(id) {
   const existing = cart.find(item => item.id === id);
@@ -150,7 +154,8 @@ function renderCart() {
   document.getElementById("cart-total").textContent = money(getTotal());
 
   if (cart.length === 0) {
-    container.innerHTML = '<p class="empty-cart">Your bag is waiting for something beautiful.</p>';
+    container.innerHTML =
+      '<p class="empty-cart">Your bag is waiting for something beautiful.</p>';
     return;
   }
 
@@ -179,6 +184,8 @@ function renderCart() {
   });
 }
 
+/* DRAWER */
+
 function openCart() {
   cartDrawer.classList.add("open");
   backdrop.classList.add("open");
@@ -189,6 +196,8 @@ function closeCart() {
   backdrop.classList.remove("open");
 }
 
+/* CHECKOUT */
+
 function openCheckout() {
   if (cart.length === 0) {
     alert("Your bag is empty. Add a product first.");
@@ -198,6 +207,7 @@ function openCheckout() {
   closeCart();
 
   const summary = document.getElementById("checkout-summary");
+
   summary.innerHTML = cart.map(item => {
     const product = products.find(p => p.id === item.id);
     return `<div>${product.name} × ${item.quantity} — ${money(product.price * item.quantity)}</div>`;
@@ -213,7 +223,8 @@ function closeCheckout() {
   document.getElementById("checkout-overlay").classList.remove("open");
 }
 
-/* Category filters */
+/* CATEGORY FILTERS */
+
 document.querySelectorAll(".category-button").forEach(button => {
   button.addEventListener("click", () => {
     document.querySelectorAll(".category-button").forEach(btn =>
@@ -224,11 +235,13 @@ document.querySelectorAll(".category-button").forEach(button => {
     activeCategory = button.dataset.category;
     searchTerm = "";
     document.getElementById("search-input").value = "";
+
     renderProducts();
   });
 });
 
-/* Add to bag and quantity controls */
+/* PRODUCT AND CART BUTTONS */
+
 document.addEventListener("click", event => {
   const add = event.target.closest("[data-add]");
   const plus = event.target.closest("[data-plus]");
@@ -241,7 +254,8 @@ document.addEventListener("click", event => {
   if (remove) removeFromCart(Number(remove.dataset.remove));
 });
 
-/* Search */
+/* SEARCH */
+
 document.getElementById("search-toggle").addEventListener("click", () => {
   document.getElementById("search-panel").classList.add("open");
   document.getElementById("search-input").focus();
@@ -265,34 +279,70 @@ document.getElementById("search-input").addEventListener("input", event => {
   renderProducts();
 });
 
-/* Bag and checkout */
+/* OPEN AND CLOSE CONTROLS */
+
 document.getElementById("bag-toggle").addEventListener("click", openCart);
 document.getElementById("cart-close").addEventListener("click", closeCart);
 backdrop.addEventListener("click", closeCart);
+
 document.getElementById("checkout-open").addEventListener("click", openCheckout);
 document.getElementById("checkout-close").addEventListener("click", closeCheckout);
 
-/* Demo order — no real bank payment */
+/* CHECKOUT VALIDATION */
+
 document.getElementById("place-order").addEventListener("click", () => {
-  const name = document.getElementById("customer-name").value.trim();
+  const firstName = document.getElementById("customer-first-name").value.trim();
+  const lastName = document.getElementById("customer-last-name").value.trim();
+  const emailInput = document.getElementById("customer-email");
+  const email = emailInput.value.trim();
   const phone = document.getElementById("customer-phone").value.trim();
   const address = document.getElementById("customer-address").value.trim();
-  const payment = document.querySelector('input[name="payment"]:checked').value;
 
+  const payment = document.querySelector('input[name="payment"]:checked').value;
   const message = document.getElementById("order-message");
 
-  if (!name || !phone || !address) {
-    message.textContent = "Please fill in your name, phone number and delivery address.";
+  if (!firstName || !lastName || !email || !phone || !address) {
+    message.textContent = "Please complete all required fields.";
     return;
   }
 
-  message.textContent =
-    `Demo order created! Payment method selected: ${payment}. No payment was taken.`;
+  if (!emailInput.checkValidity()) {
+    message.textContent = "Please enter a valid email address.";
+    return;
+  }
 
-  cart = [];
-  renderCart();
+  const order = {
+    customer: {
+      firstName,
+      lastName,
+      email,
+      phone,
+      address
+    },
+    paymentMethod: payment,
+    items: cart.map(item => {
+      const product = products.find(p => p.id === item.id);
+
+      return {
+        name: product.name,
+        quantity: item.quantity,
+        price: product.price
+      };
+    }),
+    total: getTotal(),
+    notificationEmail: "support.miste@gmail.com"
+  };
+
+  console.log("MISTÉ demo order:", order);
+
+  message.textContent =
+    `Thank you, ${firstName}! Your details have been validated. ` +
+    `Selected payment: ${payment}. This is still a demo: no payment was taken and no email was sent.`;
+
+  // Cart stays intact until real payment integration is activated.
 });
 
-/* Initial display */
+/* INITIAL DISPLAY */
+
 renderProducts();
 renderCart();
