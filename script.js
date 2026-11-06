@@ -176,22 +176,56 @@ const searchToggle = document.getElementById("search-toggle");
 const searchPanel = document.getElementById("search-panel");
 const searchInput = document.getElementById("search-input");
 
+function performSearch() {
+  if (!searchInput) return;
+
+  const query = searchInput.value.trim();
+
+  // Search across all categories
+  document.querySelectorAll(".category-button").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.category === "all"
+    );
+  });
+
+  renderProducts("all", query);
+
+  // Show the search results
+  document.getElementById("shop")?.scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
 searchToggle?.addEventListener("click", () => {
   searchPanel?.classList.toggle("open");
   searchInput?.focus();
 });
 
-document.getElementById("search-close")?.addEventListener("click", () => {
-  searchPanel?.classList.remove("open");
-  if (searchInput) searchInput.value = "";
-  renderProducts();
+searchInput?.addEventListener("input", performSearch);
+
+searchInput?.addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    performSearch();
+  }
 });
 
-searchInput?.addEventListener("input", () => {
-  const activeCategory =
-    document.querySelector(".category-button.active")?.dataset.category || "all";
+document.getElementById("search-close")?.addEventListener("click", () => {
+  searchPanel?.classList.remove("open");
 
-  renderProducts(activeCategory, searchInput.value);
+  if (searchInput) {
+    searchInput.value = "";
+  }
+
+  document.querySelectorAll(".category-button").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.category === "all"
+    );
+  });
+
+  renderProducts("all", "");
 });
 
 // ==========================================
