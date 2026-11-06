@@ -1299,3 +1299,19 @@ footer p {
 .header .logo {
   font-size: 50% !important;
 }
+
+/* MISTÉ — DARK PURPLE HERO */
+
+.hero {
+  height: 100vh !important;
+  min-height: 700px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(19, 5, 38, 0.78),
+      rgba(35, 8, 65, 0.25)
+    ),
+    url('https://images.unsplash.com/photo-1603006905003-be475563bc59?w=2000')
+    center center / cover no-repeat !important;
+}
