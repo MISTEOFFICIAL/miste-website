@@ -1469,3 +1469,11 @@ footer p {
     min-height: 100vh !important;
   }
 }
+
+/* ATTACH SEARCH RESULTS TO SEARCH FIELD */
+.search-results {
+  top: 100% !important;
+  margin-top: 0 !important;
+  border-radius: 0 0 14px 14px !important;
+  border-top: none !important;
+}
