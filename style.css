@@ -1650,7 +1650,7 @@ footer p {
   stroke-width: 1.3;
   stroke-linecap: round;
   stroke-linejoin: round;
-transform: translateY(3px);
+transform: translateY(2px);
   }
 
   .header-icons .account-label {
