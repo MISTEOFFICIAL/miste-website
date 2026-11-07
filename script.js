@@ -1,4 +1,3 @@
-
 // ==========================================
 // MISTÉ — SUPABASE CONFIGURATION
 // ==========================================
@@ -79,7 +78,10 @@ let cart = [];
 
 try {
   cart = JSON.parse(localStorage.getItem("miste-cart")) || [];
-  if (!Array.isArray(cart)) cart = [];
+
+  if (!Array.isArray(cart)) {
+    cart = [];
+  }
 } catch {
   cart = [];
 }
@@ -93,6 +95,65 @@ function formatPrice(price) {
 }
 
 // ==========================================
+// PRODUCT DETAILS
+// ==========================================
+
+function openProductDetails(product) {
+  if (!product) return;
+
+  let overlay = document.getElementById("product-detail-overlay");
+
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "product-detail-overlay";
+    overlay.className = "product-detail-overlay";
+
+    overlay.innerHTML = `
+      <div class="product-detail-box">
+        <button class="product-detail-close" aria-label="Close">×</button>
+        <img class="product-detail-image" src="" alt="">
+        <div class="product-detail-content">
+          <p class="eyebrow">THE MISTÉ COLLECTION</p>
+          <h2 class="product-detail-name"></h2>
+          <p class="product-detail-description"></p>
+          <strong class="product-detail-price"></strong>
+          <button class="product-detail-add">ADD TO BAG</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener("click", event => {
+      if (
+        event.target === overlay ||
+        event.target.closest(".product-detail-close")
+      ) {
+        overlay.classList.remove("open");
+      }
+    });
+
+    overlay.querySelector(".product-detail-add").addEventListener("click", () => {
+      const productId = Number(overlay.dataset.productId);
+      addToCart(productId);
+      overlay.classList.remove("open");
+    });
+  }
+
+  overlay.dataset.productId = product.id;
+
+  overlay.querySelector(".product-detail-image").src = product.image;
+  overlay.querySelector(".product-detail-image").alt = product.name;
+  overlay.querySelector(".product-detail-name").textContent = product.name;
+  overlay.querySelector(".product-detail-description").textContent =
+    product.description;
+  overlay.querySelector(".product-detail-price").textContent =
+    formatPrice(product.price);
+
+  overlay.classList.add("open");
+}
+
+// ==========================================
 // PRODUCTS DISPLAY
 // ==========================================
 
@@ -101,13 +162,15 @@ function renderProducts(category = "all", search = "") {
 
   productGrid.innerHTML = "";
 
+  const normalizedSearch = search.trim().toLowerCase();
+
   const filteredProducts = products.filter(product => {
     const matchesCategory =
       category === "all" || product.category === category;
 
     const matchesSearch =
-      product.name.toLowerCase().includes(search.toLowerCase()) ||
-      product.description.toLowerCase().includes(search.toLowerCase());
+      product.name.toLowerCase().includes(normalizedSearch) ||
+      product.description.toLowerCase().includes(normalizedSearch);
 
     return matchesCategory && matchesSearch;
   });
@@ -148,14 +211,27 @@ function renderProducts(category = "all", search = "") {
     const button = document.createElement("button");
     button.className = "add-to-cart";
     button.textContent = "ADD TO BAG";
-    button.addEventListener("click", () => addToCart(product.id));
+
+    button.addEventListener("click", event => {
+      event.stopPropagation();
+      addToCart(product.id);
+    });
 
     bottom.append(price, button);
     details.append(name, description, bottom);
     card.append(image, details);
+
+    card.addEventListener("click", () => {
+      openProductDetails(product);
+    });
+
     productGrid.appendChild(card);
   });
 }
+
+// ==========================================
+// CATEGORY FILTERS
+// ==========================================
 
 document.querySelectorAll(".category-button").forEach(button => {
   button.addEventListener("click", () => {
@@ -175,80 +251,115 @@ document.querySelectorAll(".category-button").forEach(button => {
 const searchToggle = document.getElementById("search-toggle");
 const searchPanel = document.getElementById("search-panel");
 const searchInput = document.getElementById("search-input");
+const searchResults = document.getElementById("search-results");
+const searchClose = document.getElementById("search-close");
 
-function performSearch() {
-  if (!searchInput) return;
-  showSearchResults(searchInput.value);
+function openSearch() {
+  searchPanel?.classList.add("open");
+
+  setTimeout(() => {
+    searchInput?.focus();
+  }, 150);
 }
 
-searchToggle?.addEventListener("click", () => {
-  searchPanel?.classList.toggle("open");
-  searchInput?.focus();
-});
-
-searchInput?.addEventListener("input", performSearch);
-function showSearchResults(query) {
-  const resultsBox = document.getElementById("search-results");
-  if (!resultsBox) return;
-
-  const text = query.trim().toLowerCase();
-
-  if (!text) {
-    resultsBox.innerHTML = "";
-    resultsBox.classList.remove("open");
-    return;
-  }
-
-  const matches = products.filter(product =>
-    product.name.toLowerCase().includes(text) ||
-    product.description.toLowerCase().includes(text)
-  );
-
-  resultsBox.classList.add("open");
-
-  if (!matches.length) {
-    resultsBox.innerHTML = "<p>No products found.</p>";
-    return;
-  }
-
-  resultsBox.innerHTML = matches.map(product => `
-    <button class="search-result-item" data-product-id="${product.id}">
-      <img src="${product.image}" alt="${product.name}">
-      <span>${product.name}</span>
-      <strong>₾${product.price}</strong>
-    </button>
-  `).join("");
-
-  resultsBox.querySelectorAll(".search-result-item").forEach(item => {
-    item.addEventListener("click", () => {
-      const product = products.find(p => p.id === Number(item.dataset.productId));
-      if (product) openProductDetails(product);
-    });
-  });
-}
-
-searchInput?.addEventListener("keydown", event => {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    performSearch();
-  }
-});
-
-document.getElementById("search-close")?.addEventListener("click", () => {
+function closeSearch() {
   searchPanel?.classList.remove("open");
 
   if (searchInput) {
     searchInput.value = "";
   }
 
-  document.querySelectorAll(".category-button").forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.category === "all"
-    );
-  });
+  if (searchResults) {
+    searchResults.innerHTML = "";
+    searchResults.classList.remove("open");
+  }
+}
 
-  renderProducts("all", "");
+searchToggle?.addEventListener("click", () => {
+  if (searchPanel?.classList.contains("open")) {
+    closeSearch();
+  } else {
+    openSearch();
+  }
+});
+
+searchClose?.addEventListener("click", closeSearch);
+
+function showSearchResults(query) {
+  if (!searchResults) return;
+
+  const text = query.trim().toLowerCase();
+
+  if (!text) {
+    searchResults.innerHTML = "";
+    searchResults.classList.remove("open");
+    return;
+  }
+
+  const matches = products.filter(product =>
+    product.name.toLowerCase().includes(text) ||
+    product.description.toLowerCase().includes(text) ||
+    product.category.toLowerCase().includes(text)
+  );
+
+  searchResults.classList.add("open");
+
+  if (!matches.length) {
+    searchResults.innerHTML = "<p>No products found.</p>";
+    return;
+  }
+
+  searchResults.innerHTML = matches.map(product => `
+    <button
+      type="button"
+      class="search-result-item"
+      data-product-id="${product.id}"
+    >
+      <img src="${product.image}" alt="${product.name}">
+      <span>${product.name}</span>
+      <strong>${formatPrice(product.price)}</strong>
+    </button>
+  `).join("");
+
+  searchResults.querySelectorAll(".search-result-item").forEach(item => {
+    item.addEventListener("click", () => {
+      const productId = Number(item.dataset.productId);
+      const product = products.find(p => p.id === productId);
+
+      closeSearch();
+
+      if (product) {
+        openProductDetails(product);
+      }
+    });
+  });
+}
+
+searchInput?.addEventListener("input", () => {
+  showSearchResults(searchInput.value);
+});
+
+searchInput?.addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+
+    const firstResult = searchResults?.querySelector(".search-result-item");
+
+    if (firstResult) {
+      firstResult.click();
+    } else {
+      showSearchResults(searchInput.value);
+    }
+  }
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeSearch();
+
+    document.getElementById("product-detail-overlay")
+      ?.classList.remove("open");
+  }
 });
 
 // ==========================================
@@ -270,6 +381,7 @@ function addToCart(productId) {
 
 function changeQuantity(productId, change) {
   const item = cart.find(item => item.id === productId);
+
   if (!item) return;
 
   item.quantity += change;
@@ -284,6 +396,7 @@ function changeQuantity(productId, change) {
 
 function removeFromCart(productId) {
   cart = cart.filter(item => item.id !== productId);
+
   saveCart();
   renderCart();
 }
@@ -298,6 +411,7 @@ function renderCart() {
 
   cart.forEach(item => {
     const product = products.find(product => product.id === item.id);
+
     if (!product) return;
 
     total += product.price * item.quantity;
@@ -324,24 +438,31 @@ function renderCart() {
 
     const minus = document.createElement("button");
     minus.textContent = "−";
-    minus.addEventListener("click", () => changeQuantity(product.id, -1));
+    minus.addEventListener("click", () => {
+      changeQuantity(product.id, -1);
+    });
 
     const number = document.createElement("span");
     number.textContent = item.quantity;
 
     const plus = document.createElement("button");
     plus.textContent = "+";
-    plus.addEventListener("click", () => changeQuantity(product.id, 1));
+    plus.addEventListener("click", () => {
+      changeQuantity(product.id, 1);
+    });
 
     quantity.append(minus, number, plus);
 
     const remove = document.createElement("button");
     remove.className = "remove-item";
     remove.textContent = "Remove";
-    remove.addEventListener("click", () => removeFromCart(product.id));
+    remove.addEventListener("click", () => {
+      removeFromCart(product.id);
+    });
 
     info.append(name, price, quantity, remove);
     row.append(image, info);
+
     cartItemsElement.appendChild(row);
   });
 
@@ -360,6 +481,10 @@ function renderCart() {
       `Your order total: ${formatPrice(total)}`;
   }
 }
+
+// ==========================================
+// CART OPEN / CLOSE
+// ==========================================
 
 document.getElementById("bag-toggle")?.addEventListener("click", () => {
   document.getElementById("cart-drawer")?.classList.add("open");
@@ -420,17 +545,29 @@ async function loadProfileIntoCheckout(user) {
 
 function setValue(id, value) {
   const element = document.getElementById(id);
-  if (element && value) element.value = value;
+
+  if (element && value !== null && value !== undefined) {
+    element.value = value;
+  }
 }
 
 document.getElementById("place-order")?.addEventListener("click", () => {
   const message = document.getElementById("order-message");
 
-  const firstName = document.getElementById("customer-first-name").value.trim();
-  const lastName = document.getElementById("customer-last-name").value.trim();
-  const email = document.getElementById("customer-email").value.trim();
-  const phone = document.getElementById("customer-phone").value.trim();
-  const address = document.getElementById("customer-address").value.trim();
+  const firstName =
+    document.getElementById("customer-first-name").value.trim();
+
+  const lastName =
+    document.getElementById("customer-last-name").value.trim();
+
+  const email =
+    document.getElementById("customer-email").value.trim();
+
+  const phone =
+    document.getElementById("customer-phone").value.trim();
+
+  const address =
+    document.getElementById("customer-address").value.trim();
 
   if (!firstName || !lastName || !email || !phone || !address) {
     message.textContent = "Please complete all required fields.";
@@ -467,28 +604,36 @@ let currentProfile = null;
 
 function showSignup() {
   accountTitle.textContent = "Create Account";
+
   signupForm.hidden = false;
   loginForm.hidden = true;
   dashboard.hidden = true;
   accountSwitch.hidden = false;
+
   accountMessage.textContent = "";
+
   accountSwitch.innerHTML =
     'Already have an account? <button type="button" id="show-login">Sign in</button>';
 
-  document.getElementById("show-login")?.addEventListener("click", showLogin);
+  document.getElementById("show-login")
+    ?.addEventListener("click", showLogin);
 }
 
 function showLogin() {
   accountTitle.textContent = "Welcome Back";
+
   signupForm.hidden = true;
   loginForm.hidden = false;
   dashboard.hidden = true;
   accountSwitch.hidden = false;
+
   accountMessage.textContent = "";
+
   accountSwitch.innerHTML =
     'Don’t have an account? <button type="button" id="show-signup">Create account</button>';
 
-  document.getElementById("show-signup")?.addEventListener("click", showSignup);
+  document.getElementById("show-signup")
+    ?.addEventListener("click", showSignup);
 }
 
 function showDashboard() {
@@ -496,6 +641,7 @@ function showDashboard() {
   loginForm.hidden = true;
   dashboard.hidden = false;
   accountSwitch.hidden = true;
+
   accountTitle.textContent = "My Account";
   accountMessage.textContent = "";
 
@@ -521,8 +667,11 @@ function closeAccount() {
   accountOverlay?.classList.remove("open");
 }
 
-document.getElementById("account-toggle")?.addEventListener("click", openAccount);
-document.getElementById("account-close")?.addEventListener("click", closeAccount);
+document.getElementById("account-toggle")
+  ?.addEventListener("click", openAccount);
+
+document.getElementById("account-close")
+  ?.addEventListener("click", closeAccount);
 
 // ==========================================
 // SIGN UP
@@ -531,10 +680,17 @@ document.getElementById("account-close")?.addEventListener("click", closeAccount
 signupForm?.addEventListener("submit", async event => {
   event.preventDefault();
 
-  const firstName = document.getElementById("signup-first-name").value.trim();
-  const lastName = document.getElementById("signup-last-name").value.trim();
-  const email = document.getElementById("signup-email").value.trim();
-  const password = document.getElementById("signup-password").value;
+  const firstName =
+    document.getElementById("signup-first-name").value.trim();
+
+  const lastName =
+    document.getElementById("signup-last-name").value.trim();
+
+  const email =
+    document.getElementById("signup-email").value.trim();
+
+  const password =
+    document.getElementById("signup-password").value;
 
   accountMessage.textContent = "Creating your account...";
 
@@ -556,12 +712,14 @@ signupForm?.addEventListener("submit", async event => {
 
   if (data.session) {
     currentUser = data.user;
-    accountMessage.textContent = "Your account has been created.";
+    updateAccountButton();
     showDashboard();
+    accountMessage.textContent = "Your account has been created.";
   } else {
+    showLogin();
+
     accountMessage.textContent =
       "Registration successful! Please check your email and confirm your account before signing in.";
-    showLogin();
   }
 });
 
@@ -572,8 +730,11 @@ signupForm?.addEventListener("submit", async event => {
 loginForm?.addEventListener("submit", async event => {
   event.preventDefault();
 
-  const email = document.getElementById("login-email").value.trim();
-  const password = document.getElementById("login-password").value;
+  const email =
+    document.getElementById("login-email").value.trim();
+
+  const password =
+    document.getElementById("login-password").value;
 
   accountMessage.textContent = "Signing in...";
 
@@ -588,6 +749,7 @@ loginForm?.addEventListener("submit", async event => {
   }
 
   currentUser = data.user;
+  updateAccountButton();
   showDashboard();
 });
 
@@ -605,7 +767,8 @@ async function loadProfile() {
     .maybeSingle();
 
   if (error) {
-    accountMessage.textContent = "Could not load your profile: " + error.message;
+    accountMessage.textContent =
+      "Could not load your profile: " + error.message;
     return;
   }
 
@@ -633,45 +796,52 @@ function fillEditForm(profile) {
 
 function setText(id, value) {
   const element = document.getElementById(id);
-  if (element) element.textContent = value || "Not provided";
+
+  if (element) {
+    element.textContent = value || "Not provided";
+  }
 }
 
 // ==========================================
 // EDIT PROFILE
 // ==========================================
 
-document.getElementById("profile-form")?.addEventListener("submit", async event => {
-  event.preventDefault();
+document.getElementById("profile-form")
+  ?.addEventListener("submit", async event => {
+    event.preventDefault();
 
-  if (!currentUser) return;
+    if (!currentUser) return;
 
-  const profileData = {
-    first_name: document.getElementById("edit-first-name").value.trim(),
-    last_name: document.getElementById("edit-last-name").value.trim(),
-    phone: document.getElementById("edit-phone").value.trim(),
-    delivery_address: document.getElementById("edit-address").value.trim()
-  };
+    const profileData = {
+      first_name: document.getElementById("edit-first-name").value.trim(),
+      last_name: document.getElementById("edit-last-name").value.trim(),
+      phone: document.getElementById("edit-phone").value.trim(),
+      delivery_address: document.getElementById("edit-address").value.trim()
+    };
 
-  accountMessage.textContent = "Saving your changes...";
+    accountMessage.textContent = "Saving your changes...";
 
-  const { error } = await supabaseClient
-    .from("profiles")
-    .update(profileData)
-    .eq("id", currentUser.id);
+    const { error } = await supabaseClient
+      .from("profiles")
+      .update(profileData)
+      .eq("id", currentUser.id);
 
-  if (error) {
-    accountMessage.textContent = "Could not save changes: " + error.message;
-    return;
-  }
+    if (error) {
+      accountMessage.textContent =
+        "Could not save changes: " + error.message;
+      return;
+    }
 
-  currentProfile = { ...currentProfile, ...profileData };
+    currentProfile = { ...currentProfile, ...profileData };
 
-  displayProfile(currentProfile);
-  fillEditForm(currentProfile);
+    displayProfile(currentProfile);
+    fillEditForm(currentProfile);
 
-  accountMessage.textContent = "Your profile has been updated successfully.";
-  switchAccountTab("profile");
-});
+    accountMessage.textContent =
+      "Your profile has been updated successfully.";
+
+    switchAccountTab("profile");
+  });
 
 // ==========================================
 // ACCOUNT TABS
@@ -679,11 +849,17 @@ document.getElementById("profile-form")?.addEventListener("submit", async event 
 
 function switchAccountTab(tabName) {
   document.querySelectorAll(".account-tab").forEach(button => {
-    button.classList.toggle("active", button.dataset.tab === tabName);
+    button.classList.toggle(
+      "active",
+      button.dataset.tab === tabName
+    );
   });
 
   document.querySelectorAll(".account-panel").forEach(panel => {
-    panel.classList.toggle("active", panel.id === `${tabName}-panel`);
+    panel.classList.toggle(
+      "active",
+      panel.id === `${tabName}-panel`
+    );
   });
 }
 
@@ -711,7 +887,8 @@ async function loadOrders() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    ordersList.textContent = "Could not load orders: " + error.message;
+    ordersList.textContent =
+      "Could not load orders: " + error.message;
     return;
   }
 
@@ -731,11 +908,11 @@ async function loadOrders() {
     heading.className = "order-card-heading";
 
     const orderName = document.createElement("strong");
-    orderName.textContent = "Order #" + order.id.slice(0, 8);
+    orderName.textContent = "Order #" + String(order.id).slice(0, 8);
 
     const status = document.createElement("span");
     status.className = "order-status";
-    status.textContent = order.payment_status;
+    status.textContent = order.payment_status || "Pending";
 
     heading.append(orderName, status);
 
@@ -747,7 +924,8 @@ async function loadOrders() {
       "Total: " + formatPrice(order.total_amount);
 
     const payment = document.createElement("p");
-    payment.textContent = "Payment: " + order.payment_method;
+    payment.textContent =
+      "Payment: " + (order.payment_method || "Not specified");
 
     card.append(heading, date, amount, payment);
     ordersList.appendChild(card);
@@ -758,21 +936,23 @@ async function loadOrders() {
 // SIGN OUT
 // ==========================================
 
-document.getElementById("sign-out-button")?.addEventListener("click", async () => {
-  const { error } = await supabaseClient.auth.signOut();
+document.getElementById("sign-out-button")
+  ?.addEventListener("click", async () => {
+    const { error } = await supabaseClient.auth.signOut();
 
-  if (error) {
-    accountMessage.textContent = error.message;
-    return;
-  }
+    if (error) {
+      accountMessage.textContent = error.message;
+      return;
+    }
 
-  currentUser = null;
-  currentProfile = null;
+    currentUser = null;
+    currentProfile = null;
 
-  updateAccountButton();
-  showLogin();
-  accountMessage.textContent = "You have signed out.";
-});
+    updateAccountButton();
+    showLogin();
+
+    accountMessage.textContent = "You have signed out.";
+  });
 
 // ==========================================
 // AUTH STATE
@@ -788,6 +968,7 @@ function updateAccountButton() {
 
 supabaseClient.auth.onAuthStateChange((event, session) => {
   currentUser = session?.user || null;
+
   updateAccountButton();
 
   if (currentUser && accountOverlay?.classList.contains("open")) {
