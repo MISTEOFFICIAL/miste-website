@@ -1054,3 +1054,325 @@ loadProducts();
 renderCart();
 showSignup();
 initializeAccount();
+
+
+// ==========================================
+// MISTÉ — ADMIN PANEL
+// ==========================================
+
+const adminOverlay = document.getElementById("admin-overlay");
+const adminOpenButton = document.getElementById("admin-panel-open");
+const adminCloseButton = document.getElementById("admin-close");
+const adminSaveButton = document.getElementById("admin-save-product");
+const adminCancelButton = document.getElementById("admin-cancel-edit");
+const adminProductsList = document.getElementById("admin-products-list");
+const adminMessage = document.getElementById("admin-message");
+
+let editingProductId = null;
+
+// OPEN ADMIN PANEL
+adminOpenButton?.addEventListener("click", async () => {
+  if (!isAdmin || !currentUser) return;
+
+  adminOverlay?.classList.add("open");
+  await loadAdminProducts();
+});
+
+// CLOSE ADMIN PANEL
+function closeAdminPanel() {
+  adminOverlay?.classList.remove("open");
+}
+
+adminCloseButton?.addEventListener("click", closeAdminPanel);
+
+adminOverlay?.addEventListener("click", event => {
+  if (event.target === adminOverlay) {
+    closeAdminPanel();
+  }
+});
+
+// RESET FORM
+function resetAdminForm() {
+  editingProductId = null;
+
+  document.getElementById("admin-product-id").value = "";
+  document.getElementById("admin-product-name").value = "";
+  document.getElementById("admin-product-category").value = "candles";
+  document.getElementById("admin-product-price").value = "";
+  document.getElementById("admin-product-stock").value = "";
+  document.getElementById("admin-product-description").value = "";
+  document.getElementById("admin-product-image").value = "";
+
+  adminSaveButton.textContent = "SAVE PRODUCT";
+  adminCancelButton.hidden = true;
+  adminMessage.textContent = "";
+}
+
+adminCancelButton?.addEventListener("click", resetAdminForm);
+
+// LOAD ALL PRODUCTS
+async function loadAdminProducts() {
+  if (!isAdmin || !currentUser) return;
+
+  adminProductsList.textContent = "Loading products...";
+
+  const { data, error } = await supabaseClient
+    .from("products")
+    .select("*")
+    .order("id", { ascending: true });
+
+  if (error) {
+    adminProductsList.textContent =
+      "Could not load products: " + error.message;
+    return;
+  }
+
+  adminProductsList.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    adminProductsList.textContent = "No products yet.";
+    return;
+  }
+
+  data.forEach(product => {
+    const item = document.createElement("div");
+    item.className = "admin-product-item";
+
+    const info = document.createElement("div");
+    info.className = "admin-product-info";
+
+    const image = document.createElement("img");
+    image.src = product.image_url || "";
+    image.alt = product.name;
+    image.onerror = () => {
+      image.style.display = "none";
+    };
+
+    const text = document.createElement("div");
+
+    const name = document.createElement("strong");
+    name.textContent = product.name;
+
+    const details = document.createElement("span");
+    details.textContent =
+      `${formatPrice(product.price)} · ${product.category} · Stock: ${product.stock} · ${product.is_active ? "Active" : "Inactive"}`;
+
+    text.append(name, details);
+    info.append(image, text);
+
+    const actions = document.createElement("div");
+    actions.className = "admin-product-actions";
+
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.textContent = "EDIT";
+    editButton.addEventListener("click", () => {
+      editAdminProduct(product);
+    });
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "DELETE";
+    deleteButton.addEventListener("click", () => {
+      deleteAdminProduct(product);
+    });
+
+    actions.append(editButton, deleteButton);
+    item.append(info, actions);
+    adminProductsList.appendChild(item);
+  });
+}
+
+// EDIT PRODUCT
+function editAdminProduct(product) {
+  if (!isAdmin) return;
+
+  editingProductId = product.id;
+
+  document.getElementById("admin-product-id").value = product.id;
+  document.getElementById("admin-product-name").value = product.name || "";
+  document.getElementById("admin-product-category").value = product.category || "candles";
+  document.getElementById("admin-product-price").value = product.price;
+  document.getElementById("admin-product-stock").value = product.stock;
+  document.getElementById("admin-product-description").value = product.description || "";
+  document.getElementById("admin-product-image").value = "";
+
+  adminSaveButton.textContent = "UPDATE PRODUCT";
+  adminCancelButton.hidden = false;
+  adminMessage.textContent = "";
+
+  document.getElementById("admin-product-name").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+}
+
+// SAVE PRODUCT
+adminSaveButton?.addEventListener("click", async () => {
+  if (!isAdmin || !currentUser) return;
+
+  const name = document.getElementById("admin-product-name").value.trim();
+  const category = document.getElementById("admin-product-category").value;
+  const price = Number(document.getElementById("admin-product-price").value);
+  const stock = Number(document.getElementById("admin-product-stock").value);
+  const description = document.getElementById("admin-product-description").value.trim();
+  const imageFile = document.getElementById("admin-product-image").files[0];
+
+  if (!name || !description || !category) {
+    adminMessage.textContent = "Please complete all product fields.";
+    return;
+  }
+
+  if (
+    document.getElementById("admin-product-price").value === "" ||
+    !Number.isFinite(price) ||
+    price < 0
+  ) {
+    adminMessage.textContent = "Please enter a valid price.";
+    return;
+  }
+
+  if (
+    document.getElementById("admin-product-stock").value === "" ||
+    !Number.isInteger(stock) ||
+    stock < 0
+  ) {
+    adminMessage.textContent = "Please enter a valid stock quantity.";
+    return;
+  }
+
+  if (imageFile && !imageFile.type.startsWith("image/")) {
+    adminMessage.textContent = "Please select a valid image file.";
+    return;
+  }
+
+  if (imageFile && imageFile.size > 5 * 1024 * 1024) {
+    adminMessage.textContent = "Image must be smaller than 5 MB.";
+    return;
+  }
+
+  adminSaveButton.disabled = true;
+  adminMessage.textContent = "Saving product...";
+
+  try {
+    let imageUrl = "";
+
+    // KEEP EXISTING IMAGE WHEN EDITING
+    if (editingProductId) {
+      const existingProduct = await supabaseClient
+        .from("products")
+        .select("image_url")
+        .eq("id", editingProductId)
+        .single();
+
+      if (existingProduct.error) {
+        throw existingProduct.error;
+      }
+
+      imageUrl = existingProduct.data.image_url || "";
+    }
+
+    // UPLOAD NEW IMAGE
+    if (imageFile) {
+      const safeName = imageFile.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+      const filePath = `${Date.now()}-${safeName}`;
+
+      const { error: uploadError } = await supabaseClient
+        .storage
+        .from("product-images")
+        .upload(filePath, imageFile, {
+          upsert: false
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicData } = supabaseClient
+        .storage
+        .from("product-images")
+        .getPublicUrl(filePath);
+
+      imageUrl = publicData.publicUrl;
+    }
+
+    if (!imageUrl) {
+      throw new Error("Please upload a product image.");
+    }
+
+    const productData = {
+      name,
+      category,
+      price,
+      stock,
+      description,
+      image_url: imageUrl
+    };
+
+    let result;
+
+    if (editingProductId) {
+      result = await supabaseClient
+        .from("products")
+        .update(productData)
+        .eq("id", editingProductId);
+    } else {
+      result = await supabaseClient
+        .from("products")
+        .insert({
+          ...productData,
+          is_active: true
+        });
+    }
+
+    if (result.error) throw result.error;
+
+    adminMessage.textContent = editingProductId
+      ? "Product updated successfully."
+      : "Product added successfully.";
+
+    resetAdminForm();
+
+    await loadProducts();
+    await loadAdminProducts();
+
+  } catch (error) {
+    console.error("Admin save error:", error);
+    adminMessage.textContent =
+      "Could not save product: " + error.message;
+  } finally {
+    adminSaveButton.disabled = false;
+  }
+});
+
+// DELETE PRODUCT
+async function deleteAdminProduct(product) {
+  if (!isAdmin || !currentUser) return;
+
+  const confirmed = confirm(
+    `Are you sure you want to delete "${product.name}"?`
+  );
+
+  if (!confirmed) return;
+
+  adminMessage.textContent = "Deleting product...";
+
+  const { error } = await supabaseClient
+    .from("products")
+    .delete()
+    .eq("id", product.id);
+
+  if (error) {
+    adminMessage.textContent =
+      "Could not delete product: " + error.message;
+    return;
+  }
+
+  // Remove deleted product from cart
+  cart = cart.filter(item => item.id !== Number(product.id));
+  saveCart();
+
+  await loadProducts();
+  await loadAdminProducts();
+
+  adminMessage.textContent = "Product deleted successfully.";
+}
+
