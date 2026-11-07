@@ -1075,7 +1075,9 @@ adminOpenButton?.addEventListener("click", async () => {
   if (!isAdmin || !currentUser) return;
 
   adminOverlay?.classList.add("open");
+
   await loadAdminProducts();
+  await loadAdminJournal();
 });
 
 // CLOSE ADMIN PANEL
