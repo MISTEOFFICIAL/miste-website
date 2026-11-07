@@ -1557,3 +1557,58 @@ footer p {
     border-bottom: none;
   }
 }
+
+/* MOBILE MENU — CONTINUOUS LIQUID LINE */
+
+.mobile-menu-panel {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 999;
+
+  max-height: 0;
+  padding: 0 22px;
+  overflow: hidden;
+
+  background: #17143F;
+  opacity: 0;
+  visibility: hidden;
+  transform: scaleY(0);
+  transform-origin: top center;
+
+  transition:
+    max-height .65s cubic-bezier(.22,1,.36,1),
+    opacity .3s ease,
+    transform .55s cubic-bezier(.22,1,.36,1),
+    visibility .3s ease;
+}
+
+.mobile-menu-panel.open {
+  max-height: 300px;
+  padding: 12px 22px 22px;
+  opacity: 1;
+  visibility: visible;
+  transform: scaleY(1);
+}
+
+.mobile-menu-panel a {
+  display: block;
+  padding: 17px 0;
+  color: white;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+
+.mobile-menu-panel a:last-child {
+  border-bottom: none;
+}
+
+@media (min-width: 601px) {
+  .mobile-menu-panel {
+    display: none;
+  }
+}
