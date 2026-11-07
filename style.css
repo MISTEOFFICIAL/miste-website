@@ -1619,37 +1619,33 @@ footer p {
   }
 }
 
-/* MOBILE ACCOUNT ICON — MINIMAL */
+.account-button svg {
+  display: none;
+}
+
 @media (max-width: 600px) {
   .account-button {
     font-size: 0 !important;
-    width: 19px !important;
-    height: 19px !important;
-    min-width: 19px;
-    padding: 0 !important;
+    width: 19px;
+    height: 19px;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
   }
 
-  .account-button::before {
-    content: "";
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    top: 2px;
-    border: 1.2px solid white;
-    border-radius: 50%;
+  .account-button svg {
+    display: block;
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: white;
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
-  .account-button::after {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 6px;
-    bottom: 2px;
-    border: 1.2px solid white;
-    border-radius: 8px 8px 4px 4px;
+  .account-label {
+    display: none;
   }
 }
