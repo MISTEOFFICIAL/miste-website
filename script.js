@@ -1376,3 +1376,260 @@ async function deleteAdminProduct(product) {
   adminMessage.textContent = "Product deleted successfully.";
 }
 
+
+// ==========================================
+// MISTÉ — JOURNAL ADMIN
+// ==========================================
+
+const journalTitleInput = document.getElementById("admin-journal-title");
+const journalExcerptInput = document.getElementById("admin-journal-excerpt");
+const journalContentInput = document.getElementById("admin-journal-content");
+const journalImageInput = document.getElementById("admin-journal-image");
+const journalStatusInput = document.getElementById("admin-journal-status");
+
+const journalSaveButton = document.getElementById("admin-save-journal");
+const journalCancelButton = document.getElementById("admin-cancel-journal");
+const journalList = document.getElementById("admin-journal-list");
+const journalMessage = document.getElementById("admin-journal-message");
+
+let editingJournalId = null;
+
+// LOAD ARTICLES
+async function loadAdminJournal() {
+  if (!isAdmin || !currentUser) return;
+
+  journalList.textContent = "Loading articles...";
+
+  const { data, error } = await supabaseClient
+    .from("journal_posts")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    journalList.textContent = "Could not load articles: " + error.message;
+    return;
+  }
+
+  journalList.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    journalList.textContent = "No articles yet.";
+    return;
+  }
+
+  data.forEach(post => {
+    const item = document.createElement("div");
+    item.className = "admin-product-item";
+
+    const info = document.createElement("div");
+    info.className = "admin-product-info";
+
+    if (post.image_url) {
+      const image = document.createElement("img");
+      image.src = post.image_url;
+      image.alt = post.title;
+      info.appendChild(image);
+    }
+
+    const details = document.createElement("div");
+
+    const title = document.createElement("strong");
+    title.textContent = post.title;
+
+    const status = document.createElement("span");
+    status.textContent =
+      post.status === "published" ? "Published" : "Draft";
+
+    details.append(title, status);
+    info.appendChild(details);
+
+    const actions = document.createElement("div");
+    actions.className = "admin-product-actions";
+
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.textContent = "EDIT";
+    editButton.addEventListener("click", () => editJournalPost(post));
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "DELETE";
+    deleteButton.addEventListener("click", () => deleteJournalPost(post));
+
+    actions.append(editButton, deleteButton);
+    item.append(info, actions);
+    journalList.appendChild(item);
+  });
+}
+
+// RESET FORM
+function resetJournalForm() {
+  editingJournalId = null;
+
+  document.getElementById("admin-journal-id").value = "";
+  journalTitleInput.value = "";
+  journalExcerptInput.value = "";
+  journalContentInput.value = "";
+  journalImageInput.value = "";
+  journalStatusInput.value = "draft";
+
+  journalSaveButton.textContent = "SAVE ARTICLE";
+  journalCancelButton.hidden = true;
+  journalMessage.textContent = "";
+}
+
+journalCancelButton?.addEventListener("click", resetJournalForm);
+
+// EDIT ARTICLE
+function editJournalPost(post) {
+  if (!isAdmin) return;
+
+  editingJournalId = post.id;
+
+  document.getElementById("admin-journal-id").value = post.id;
+  journalTitleInput.value = post.title || "";
+  journalExcerptInput.value = post.excerpt || "";
+  journalContentInput.value = post.content || "";
+  journalImageInput.value = "";
+  journalStatusInput.value = post.status || "draft";
+
+  journalSaveButton.textContent = "UPDATE ARTICLE";
+  journalCancelButton.hidden = false;
+  journalMessage.textContent = "";
+
+  journalTitleInput.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+}
+
+// SAVE ARTICLE
+journalSaveButton?.addEventListener("click", async () => {
+  if (!isAdmin || !currentUser) return;
+
+  const title = journalTitleInput.value.trim();
+  const excerpt = journalExcerptInput.value.trim();
+  const content = journalContentInput.value.trim();
+  const status = journalStatusInput.value;
+  const imageFile = journalImageInput.files[0];
+
+  if (!title || !excerpt || !content) {
+    journalMessage.textContent = "Please complete all article fields.";
+    return;
+  }
+
+  if (imageFile && !imageFile.type.startsWith("image/")) {
+    journalMessage.textContent = "Please select a valid image.";
+    return;
+  }
+
+  if (imageFile && imageFile.size > 5 * 1024 * 1024) {
+    journalMessage.textContent = "Image must be smaller than 5 MB.";
+    return;
+  }
+
+  if (!["draft", "published"].includes(status)) {
+    journalMessage.textContent = "Invalid publication status.";
+    return;
+  }
+
+  journalSaveButton.disabled = true;
+  journalMessage.textContent = "Saving article...";
+
+  try {
+    let imageUrl = "";
+
+    if (editingJournalId) {
+      const { data, error } = await supabaseClient
+        .from("journal_posts")
+        .select("image_url")
+        .eq("id", editingJournalId)
+        .single();
+
+      if (error) throw error;
+      imageUrl = data.image_url || "";
+    }
+
+    if (imageFile) {
+      const safeName = imageFile.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+      const filePath = `${Date.now()}-${safeName}`;
+
+      const { error: uploadError } = await supabaseClient
+        .storage
+        .from("journal-images")
+        .upload(filePath, imageFile, { upsert: false });
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicData } = supabaseClient
+        .storage
+        .from("journal-images")
+        .getPublicUrl(filePath);
+
+      imageUrl = publicData.publicUrl;
+    }
+
+    if (!imageUrl) {
+      throw new Error("Please upload a cover image.");
+    }
+
+    const articleData = {
+      title,
+      excerpt,
+      content,
+      image_url: imageUrl,
+      status,
+      updated_at: new Date().toISOString()
+    };
+
+    let result;
+
+    if (editingJournalId) {
+      result = await supabaseClient
+        .from("journal_posts")
+        .update(articleData)
+        .eq("id", editingJournalId);
+    } else {
+      result = await supabaseClient
+        .from("journal_posts")
+        .insert(articleData);
+    }
+
+    if (result.error) throw result.error;
+
+    resetJournalForm();
+    journalMessage.textContent = "Article saved successfully.";
+
+    await loadAdminJournal();
+
+  } catch (error) {
+    console.error("Journal save error:", error);
+    journalMessage.textContent = "Could not save article: " + error.message;
+  } finally {
+    journalSaveButton.disabled = false;
+  }
+});
+
+// DELETE ARTICLE
+async function deleteJournalPost(post) {
+  if (!isAdmin || !currentUser) return;
+
+  if (!confirm(`Delete "${post.title}"?`)) return;
+
+  journalMessage.textContent = "Deleting article...";
+
+  const { error } = await supabaseClient
+    .from("journal_posts")
+    .delete()
+    .eq("id", post.id);
+
+  if (error) {
+    journalMessage.textContent = "Could not delete article: " + error.message;
+    return;
+  }
+
+  await loadAdminJournal();
+  journalMessage.textContent = "Article deleted successfully.";
+}
+
+
