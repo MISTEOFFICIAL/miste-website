@@ -1623,18 +1623,25 @@ footer p {
   display: none;
 }
 
+/* ACCOUNT ICON */
+
+.account-button svg {
+  display: none;
+}
+
 @media (max-width: 600px) {
-  .account-button {
-    font-size: 0 !important;
-    width: 19px;
-    height: 19px;
-    padding: 0;
+  .header-icons .account-button {
     display: flex;
+    width: 19px;
+    height: 22px;
+    min-width: 19px;
+    padding: 0;
     align-items: center;
     justify-content: center;
+    transform: translateY(-2px);
   }
 
-  .account-button svg {
+  .header-icons .account-button svg {
     display: block;
     width: 19px;
     height: 19px;
@@ -1645,50 +1652,7 @@ footer p {
     stroke-linejoin: round;
   }
 
-  .account-label {
-    display: none;
-  }
-}
-
-@media (max-width: 600px) {
-  .header .account-button {
-    transform: translateY(-2px) !important;
-  }
-
-  .header .account-button svg {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-@media (max-width: 600px) {
-  .header-icons .account-button {
-    display: flex !important;
-    width: 19px !important;
-    height: 22px !important;
-    min-width: 19px !important;
-    padding: 0 !important;
-    align-items: center !important;
-    justify-content: center !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    overflow: visible !important;
-  }
-
-  .header-icons .account-button svg {
-    display: block !important;
-    width: 19px !important;
-    height: 19px !important;
-    stroke: #fff !important;
-    fill: none !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
   .header-icons .account-label {
-    display: none !important;
+    display: none;
   }
 }
