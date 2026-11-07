@@ -245,6 +245,36 @@ document.querySelectorAll(".category-button").forEach(button => {
 });
 
 // ==========================================
+// MOBILE MENU
+// ==========================================
+
+const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+const mobileMenuPanel = document.getElementById("mobile-menu-panel");
+
+function openMobileMenu() {
+  closeSearch();
+  mobileMenuPanel?.classList.add("open");
+  document.querySelector(".header")?.classList.add("menu-active");
+}
+
+function closeMobileMenu() {
+  mobileMenuPanel?.classList.remove("open");
+  document.querySelector(".header")?.classList.remove("menu-active");
+}
+
+mobileMenuToggle?.addEventListener("click", () => {
+  if (mobileMenuPanel?.classList.contains("open")) {
+    closeMobileMenu();
+  } else {
+    openMobileMenu();
+  }
+});
+
+mobileMenuPanel?.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", closeMobileMenu);
+});
+
+// ==========================================
 // SEARCH
 // ==========================================
 
