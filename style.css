@@ -1663,3 +1663,140 @@ transform: translateY(1px);
     transform: translateY(0);
   }
 }
+
+/* =================================
+   MISTÉ — ADMIN PANEL
+================================= */
+
+.admin-box {
+  max-width: 680px;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.admin-description {
+  color: var(--text);
+  opacity: 0.7;
+  font-size: 13px;
+  margin: -8px 0 28px;
+}
+
+.admin-form {
+  margin-top: 25px;
+}
+
+.admin-form .checkout-input {
+  margin-bottom: 16px;
+}
+
+.admin-form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.admin-form-actions button {
+  flex: 1;
+}
+
+.admin-products-section {
+  border-top: 1px solid var(--border);
+  margin-top: 35px;
+  padding-top: 25px;
+}
+
+.admin-products-section h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 27px;
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+
+#admin-products-list {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-product-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--light);
+}
+
+.admin-product-info {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.admin-product-info img {
+  width: 62px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.admin-product-info strong {
+  display: block;
+  color: var(--navy);
+  font-size: 13px;
+}
+
+.admin-product-info span {
+  display: block;
+  color: var(--text);
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.admin-product-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-product-actions button {
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--navy);
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.admin-product-actions button:hover {
+  background: var(--navy);
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .admin-box {
+    max-height: 90vh;
+    padding: 25px 18px;
+  }
+
+  .admin-product-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-product-actions {
+    width: 100%;
+  }
+
+  .admin-product-actions button {
+    flex: 1;
+  }
+
+  .admin-form-actions {
+    flex-direction: column;
+  }
+}
