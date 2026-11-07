@@ -995,7 +995,16 @@ function updateAccountButton() {
 
   if (!button) return;
 
-  button.textContent = currentUser ? "My Account" : "Account";
+  const label = button.querySelector(".account-label");
+
+  if (label) {
+    label.textContent = currentUser ? "My Account" : "Account";
+  }
+
+  button.setAttribute(
+    "aria-label",
+    currentUser ? "My Account" : "Account"
+  );
 }
 
 supabaseClient.auth.onAuthStateChange((event, session) => {
