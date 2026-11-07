@@ -14,56 +14,7 @@ const supabaseClient = window.supabase.createClient(
 // PRODUCTS
 // ==========================================
 
-const products = [
-  {
-    id: 1,
-    name: "Lavender Dreams",
-    category: "candles",
-    price: 45,
-    description: "A calming floral escape.",
-    image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=700"
-  },
-  {
-    id: 2,
-    name: "Velvet Rose",
-    category: "candles",
-    price: 49,
-    description: "A delicate romantic atmosphere.",
-    image: "https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?w=700"
-  },
-  {
-    id: 3,
-    name: "Santal Essence",
-    category: "diffusers",
-    price: 65,
-    description: "Warm woods and quiet luxury.",
-    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=700"
-  },
-  {
-    id: 4,
-    name: "White Linen",
-    category: "diffusers",
-    price: 59,
-    description: "Fresh, clean and effortless.",
-    image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?w=700"
-  },
-  {
-    id: 5,
-    name: "Morning Mist",
-    category: "sprays",
-    price: 39,
-    description: "A fresh start to every day.",
-    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=700"
-  },
-  {
-    id: 6,
-    name: "Midnight Bloom",
-    category: "sprays",
-    price: 42,
-    description: "A mysterious floral finish.",
-    image: "https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?w=700"
-  }
-];
+let products = [];
 
 // ==========================================
 // GENERAL ELEMENTS
@@ -151,6 +102,43 @@ function openProductDetails(product) {
     formatPrice(product.price);
 
   overlay.classList.add("open");
+}
+
+// ==========================================
+// LOAD PRODUCTS FROM SUPABASE
+// ==========================================
+
+async function loadProducts() {
+  const { data, error } = await supabaseClient
+    .from("products")
+    .select("*")
+    .eq("is_active", true)
+    .order("id", { ascending: true });
+
+  if (error) {
+    console.error("Could not load products:", error.message);
+    if (productGrid) {
+      productGrid.innerHTML = "<p>Could not load products. Please try again.</p>";
+    }
+    return;
+  }
+
+  products = data.map(product => ({
+    id: Number(product.id),
+    name: product.name,
+    category: product.category,
+    price: Number(product.price),
+    description: product.description || "",
+    image: product.image_url || "",
+    stock: Number(product.stock || 0)
+  }));
+
+  renderProducts();
+  renderCart();
+
+  if (searchInput?.value) {
+    showSearchResults(searchInput.value);
+  }
 }
 
 // ==========================================
@@ -1033,7 +1021,7 @@ async function initializeAccount() {
 // INITIALIZE WEBSITE
 // ==========================================
 
-renderProducts();
+loadProducts();
 renderCart();
 showSignup();
 initializeAccount();
