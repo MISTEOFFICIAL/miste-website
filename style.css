@@ -1619,13 +1619,14 @@ footer p {
   }
 }
 
-/* MOBILE ACCOUNT ICON */
+/* MOBILE ACCOUNT ICON — MINIMAL */
 @media (max-width: 600px) {
   .account-button {
-    font-size: 0;
-    width: 22px;
-    height: 22px;
-    padding: 0;
+    font-size: 0 !important;
+    width: 19px !important;
+    height: 19px !important;
+    min-width: 19px;
+    padding: 0 !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1634,21 +1635,21 @@ footer p {
 
   .account-button::before {
     content: "";
-    width: 8px;
-    height: 8px;
-    border: 1.4px solid white;
-    border-radius: 50%;
     position: absolute;
+    width: 6px;
+    height: 6px;
     top: 2px;
+    border: 1.2px solid white;
+    border-radius: 50%;
   }
 
   .account-button::after {
     content: "";
-    width: 15px;
-    height: 8px;
-    border: 1.4px solid white;
-    border-radius: 10px 10px 5px 5px;
     position: absolute;
-    bottom: 1px;
+    width: 12px;
+    height: 6px;
+    bottom: 2px;
+    border: 1.2px solid white;
+    border-radius: 8px 8px 4px 4px;
   }
 }
