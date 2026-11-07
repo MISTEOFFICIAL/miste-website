@@ -1,34 +1,57 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ka">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MISTÉ — Home Fragrance</title>
+  <title>MISTÉ — სახლის არომატები</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500&family=Noto+Sans+Georgian:wght@300;400;500;600&family=Noto+Serif+Georgian:wght@300;400;500&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    body,
+    button,
+    input,
+    textarea,
+    select {
+      font-family: 'Noto Sans Georgian', sans-serif;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Noto Serif Georgian', serif;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+    }
+  </style>
 </head>
+
 <body>
+
   <header class="header">
     <a class="logo" href="#">MISTÉ</a>
 
     <nav class="navigation">
-      <a href="#shop">Shop</a>
-      <a href="#about">About</a>
-      <a href="#journal">Journal</a>
-      <a href="#contact">Contact</a>
+      <a href="#shop">მაღაზია</a>
+      <a href="#about">ჩვენ შესახებ</a>
+      <a href="#journal">ჟურნალი</a>
+      <a href="#contact">კონტაქტი</a>
     </nav>
 
     <div class="header-icons">
-      <button id="account-toggle" class="icon-button account-button">Account</button>
+      <button id="account-toggle" class="icon-button account-button">ანგარიში</button>
 
-      <button id="search-toggle" aria-label="Search" class="icon-button">
+      <button id="search-toggle" aria-label="ძიება" class="icon-button">
         <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
       </button>
 
-      <button id="bag-toggle" aria-label="Shopping bag" class="icon-button bag-button">
+      <button id="bag-toggle" aria-label="კალათა" class="icon-button bag-button">
         <svg viewBox="0 0 24 24"><path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
         <span id="bag-count">0</span>
       </button>
@@ -36,35 +59,41 @@
   </header>
 
   <div class="search-panel" id="search-panel">
-    <input id="search-input" type="search" placeholder="Search MISTÉ products...">
+    <input id="search-input" type="search" placeholder="მოძებნე MISTÉ-ს პროდუქტები...">
     <div id="search-results" class="search-results"></div>
-    <button id="search-close" aria-label="Close search">×</button>
+    <button id="search-close" aria-label="ძიების დახურვა">×</button>
   </div>
 
   <main>
+
     <section class="hero">
       <div class="hero-shade"></div>
+
       <div class="hero-content">
-        <p class="eyebrow">HOME FRAGRANCE</p>
-        <h1>SCENT<br>YOUR SPACE</h1>
-        <p class="hero-description">Home fragrance for<br>a more beautiful everyday.</p>
-        <a class="shop-button" href="#shop">SHOP NOW</a>
+        <p class="eyebrow">სახლის არომატები</p>
+        <h1>შექმენი<br>შენი სივრცე</h1>
+        <p class="hero-description">
+          სახლის არომატები<br>
+          უფრო ლამაზი ყოველდღიურობისთვის.
+        </p>
+        <a class="shop-button" href="#shop">აღმოაჩინე კოლექცია</a>
       </div>
-      <div class="hero-bottom">MISTÉ — THE ART OF HOME FRAGRANCE</div>
+
+      <div class="hero-bottom">MISTÉ — სახლის არომატების ხელოვნება</div>
     </section>
 
     <section class="shop-section" id="shop">
       <div class="section-heading">
-        <p class="eyebrow">THE MISTÉ COLLECTION</p>
-        <h2>Find your atmosphere.</h2>
-        <p>Thoughtful details for beautiful spaces.</p>
+        <p class="eyebrow">MISTÉ-ს კოლექცია</p>
+        <h2>იპოვე შენი ატმოსფერო.</h2>
+        <p>გააზრებული დეტალები ლამაზი სივრცეებისთვის.</p>
       </div>
 
       <div class="shop-categories">
-        <button class="category-button active" data-category="all">All</button>
-        <button class="category-button" data-category="candles">Candles</button>
-        <button class="category-button" data-category="diffusers">Diffusers</button>
-        <button class="category-button" data-category="sprays">Room Sprays</button>
+        <button class="category-button active" data-category="all">ყველა</button>
+        <button class="category-button" data-category="candles">სურნელოვანი სანთლები</button>
+        <button class="category-button" data-category="diffusers">დიფუზორები</button>
+        <button class="category-button" data-category="sprays">ოთახის სპრეები</button>
       </div>
 
       <p class="results-message" id="results-message"></p>
@@ -72,227 +101,234 @@
     </section>
 
     <section class="about-section" id="about">
-      <p class="eyebrow">A LITTLE MORE BEAUTY</p>
-      <h2>Make room for atmosphere.</h2>
-      <p>MISTÉ is inspired by beautiful spaces, delicate details and the feeling of being at home.</p>
+      <p class="eyebrow">ცოტა მეტი სილამაზე</p>
+      <h2>შექმენი სივრცე, რომელიც შენ გგავს.</h2>
+      <p>
+        MISTÉ შთაგონებულია ლამაზი სივრცეებით, ნაზი დეტალებით
+        და იმ განსაკუთრებული შეგრძნებით, რომელსაც საკუთარ სახლში ყოფნა გვანიჭებს.
+      </p>
     </section>
 
     <section class="journal-section" id="journal">
-      <p class="eyebrow">NOTES FROM MISTÉ</p>
-      <h2>The art of a beautiful space.</h2>
+      <p class="eyebrow">ჩანაწერები MISTÉ-სგან</p>
+      <h2>ლამაზი სივრცის ხელოვნება.</h2>
     </section>
+
   </main>
 
   <footer id="contact">
     <div>
       <a class="logo footer-logo" href="#">MISTÉ</a>
-      <p>Home fragrance for a more beautiful everyday.</p>
+      <p>სახლის არომატები უფრო ლამაზი ყოველდღიურობისთვის.</p>
     </div>
 
     <div class="footer-contact">
-      <p class="eyebrow">STAY IN TOUCH</p>
+      <p class="eyebrow">დაგვიკავშირდი</p>
       <a href="mailto:support.miste@gmail.com">support.miste@gmail.com</a>
     </div>
 
-    <p class="copyright">© 2026 MISTÉ. ALL RIGHTS RESERVED.</p>
+    <p class="copyright">© 2026 MISTÉ. ყველა უფლება დაცულია.</p>
   </footer>
 
-  <!-- SHOPPING BAG -->
+  <!-- კალათა -->
   <div class="drawer-backdrop" id="drawer-backdrop"></div>
 
   <aside class="cart-drawer" id="cart-drawer">
     <div class="drawer-header">
-      <h2>Your Bag</h2>
-      <button class="close-button" id="cart-close" aria-label="Close bag">×</button>
+      <h2>შენი კალათა</h2>
+      <button class="close-button" id="cart-close" aria-label="კალათის დახურვა">×</button>
     </div>
 
     <div id="cart-items" class="cart-items"></div>
 
     <div class="cart-bottom">
       <div class="subtotal">
-        <span>Subtotal</span>
+        <span>ჯამური ღირებულება</span>
         <strong id="cart-total">₾0.00</strong>
       </div>
-      <p class="small-note">Delivery costs are calculated separately.</p>
-      <button class="checkout-button" id="checkout-open">PROCEED TO CHECKOUT</button>
+
+      <p class="small-note">მიწოდების ღირებულება ცალკე გამოითვლება.</p>
+
+      <button class="checkout-button" id="checkout-open">შეკვეთის გაფორმება</button>
     </div>
   </aside>
 
-  <!-- CHECKOUT -->
+  <!-- შეკვეთის გაფორმება -->
   <section class="checkout-overlay" id="checkout-overlay">
     <div class="checkout-box">
-      <button class="close-button checkout-close" id="checkout-close" aria-label="Close checkout">×</button>
+      <button class="close-button checkout-close" id="checkout-close" aria-label="დახურვა">×</button>
 
       <p class="eyebrow">MISTÉ</p>
-      <h2>Checkout</h2>
+      <h2>შეკვეთის გაფორმება</h2>
 
       <div id="checkout-summary"></div>
 
-      <label class="field-label" for="customer-first-name">First Name *</label>
-      <input class="checkout-input" id="customer-first-name" name="firstName" autocomplete="given-name" required placeholder="Your first name">
+      <label class="field-label" for="customer-first-name">სახელი *</label>
+      <input class="checkout-input" id="customer-first-name" name="firstName" autocomplete="given-name" required placeholder="შეიყვანე სახელი">
 
-      <label class="field-label" for="customer-last-name">Last Name *</label>
-      <input class="checkout-input" id="customer-last-name" name="lastName" autocomplete="family-name" required placeholder="Your last name">
+      <label class="field-label" for="customer-last-name">გვარი *</label>
+      <input class="checkout-input" id="customer-last-name" name="lastName" autocomplete="family-name" required placeholder="შეიყვანე გვარი">
 
-      <label class="field-label" for="customer-email">Email Address *</label>
-      <input class="checkout-input" id="customer-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+      <label class="field-label" for="customer-email">ელფოსტა *</label>
+      <input class="checkout-input" id="customer-email" name="email" type="email" autocomplete="email" required placeholder="შენი ელფოსტა">
 
-      <label class="field-label" for="customer-phone">Phone Number *</label>
+      <label class="field-label" for="customer-phone">ტელეფონის ნომერი *</label>
       <input class="checkout-input" id="customer-phone" name="phone" type="tel" autocomplete="tel" required placeholder="+995 5XX XX XX XX">
 
-      <label class="field-label" for="customer-address">Delivery Address *</label>
-      <textarea class="checkout-input" id="customer-address" name="address" autocomplete="street-address" rows="3" required placeholder="City, street, building, apartment"></textarea>
+      <label class="field-label" for="customer-address">მიწოდების მისამართი *</label>
+      <textarea class="checkout-input" id="customer-address" name="address" autocomplete="street-address" rows="3" required placeholder="ქალაქი, ქუჩა, კორპუსი, ბინა"></textarea>
 
-      <p class="field-label">Choose Payment Method</p>
+      <p class="field-label">აირჩიე გადახდის მეთოდი</p>
 
       <div class="payment-options">
         <label class="payment-option">
           <input type="radio" name="payment" value="TBC Bank" checked>
-          <span><strong>TBC Bank</strong><small>Card payment</small></span>
+          <span><strong>თიბისი ბანკი</strong><small>ბარათით გადახდა</small></span>
         </label>
 
         <label class="payment-option">
           <input type="radio" name="payment" value="Bank of Georgia">
-          <span><strong>Bank of Georgia</strong><small>Card payment</small></span>
+          <span><strong>საქართველოს ბანკი</strong><small>ბარათით გადახდა</small></span>
         </label>
       </div>
 
-      <p class="demo-note">Payment integration is not active yet. No payment will be charged.</p>
-      <button class="checkout-button" id="place-order">CONTINUE</button>
+      <p class="demo-note">გადახდის სისტემა ჯერ არ არის გააქტიურებული. თანხა არ ჩამოგეჭრება.</p>
+
+      <button class="checkout-button" id="place-order">გაგრძელება</button>
       <p id="order-message" class="order-message"></p>
     </div>
   </section>
 
-  <!-- ACCOUNT -->
+  <!-- მომხმარებლის ანგარიში -->
   <div class="account-overlay" id="account-overlay">
     <div class="account-box account-box-large">
 
-      <button class="close-button" id="account-close" aria-label="Close account">×</button>
+      <button class="close-button" id="account-close" aria-label="ანგარიშის დახურვა">×</button>
 
-      <p class="eyebrow">WELCOME TO MISTÉ</p>
-      <h2 id="account-title">Create Account</h2>
+      <p class="eyebrow">მოგესალმები MISTÉ-ში</p>
+      <h2 id="account-title">ანგარიშის შექმნა</h2>
 
-      <!-- SIGN UP -->
+      <!-- რეგისტრაცია -->
       <form id="signup-form">
         <input class="checkout-input" id="signup-first-name"
-          placeholder="First name" autocomplete="given-name" required>
+          placeholder="სახელი" autocomplete="given-name" required>
 
         <input class="checkout-input" id="signup-last-name"
-          placeholder="Last name" autocomplete="family-name" required>
+          placeholder="გვარი" autocomplete="family-name" required>
 
         <input class="checkout-input" id="signup-email"
-          type="email" placeholder="Email address" autocomplete="email" required>
+          type="email" placeholder="ელფოსტა" autocomplete="email" required>
 
         <input class="checkout-input" id="signup-password"
-          type="password" placeholder="Password (at least 6 characters)"
+          type="password" placeholder="პაროლი (მინიმუმ 6 სიმბოლო)"
           minlength="6" autocomplete="new-password" required>
 
-        <button class="checkout-button" type="submit">CREATE ACCOUNT</button>
+        <button class="checkout-button" type="submit">ანგარიშის შექმნა</button>
       </form>
 
-      <!-- SIGN IN -->
+      <!-- შესვლა -->
       <form id="login-form" hidden>
         <input class="checkout-input" id="login-email"
-          type="email" placeholder="Email address" autocomplete="email" required>
+          type="email" placeholder="ელფოსტა" autocomplete="email" required>
 
         <input class="checkout-input" id="login-password"
-          type="password" placeholder="Password" autocomplete="current-password" required>
+          type="password" placeholder="პაროლი" autocomplete="current-password" required>
 
-        <button class="checkout-button" type="submit">SIGN IN</button>
+        <button class="checkout-button" type="submit">შესვლა</button>
       </form>
 
-      <!-- CUSTOMER DASHBOARD -->
+      <!-- მომხმარებლის პირადი სივრცე -->
       <div id="account-dashboard" hidden>
 
         <div class="account-welcome">
-          <p class="account-subtitle">YOUR PERSONAL SPACE</p>
+          <p class="account-subtitle">შენი პირადი სივრცე</p>
           <p id="dashboard-email" class="dashboard-email"></p>
         </div>
 
         <div class="account-tabs">
-          <button type="button" class="account-tab active" data-tab="profile">My Profile</button>
-          <button type="button" class="account-tab" data-tab="edit">Edit Profile</button>
-          <button type="button" class="account-tab" data-tab="orders">My Orders</button>
+          <button type="button" class="account-tab active" data-tab="profile">ჩემი პროფილი</button>
+          <button type="button" class="account-tab" data-tab="edit">პროფილის რედაქტირება</button>
+          <button type="button" class="account-tab" data-tab="orders">ჩემი შეკვეთები</button>
         </div>
 
-        <!-- PROFILE VIEW -->
+        <!-- პროფილი -->
         <section class="account-panel active" id="profile-panel">
-          <h3>Personal Information</h3>
+          <h3>პირადი ინფორმაცია</h3>
 
           <div class="profile-detail">
-            <span>First Name</span>
+            <span>სახელი</span>
             <strong id="profile-first-name">—</strong>
           </div>
 
           <div class="profile-detail">
-            <span>Last Name</span>
+            <span>გვარი</span>
             <strong id="profile-last-name">—</strong>
           </div>
 
           <div class="profile-detail">
-            <span>Email Address</span>
+            <span>ელფოსტა</span>
             <strong id="profile-email">—</strong>
           </div>
 
           <div class="profile-detail">
-            <span>Phone Number</span>
+            <span>ტელეფონის ნომერი</span>
             <strong id="profile-phone">—</strong>
           </div>
 
           <div class="profile-detail">
-            <span>Delivery Address</span>
+            <span>მიწოდების მისამართი</span>
             <strong id="profile-address">—</strong>
           </div>
         </section>
 
-        <!-- EDIT PROFILE -->
+        <!-- პროფილის რედაქტირება -->
         <section class="account-panel" id="edit-panel">
-          <h3>Edit Your Details</h3>
+          <h3>პირადი ინფორმაციის შეცვლა</h3>
 
           <form id="profile-form">
-            <label class="field-label" for="edit-first-name">First Name</label>
+            <label class="field-label" for="edit-first-name">სახელი</label>
             <input class="checkout-input" id="edit-first-name" required>
 
-            <label class="field-label" for="edit-last-name">Last Name</label>
+            <label class="field-label" for="edit-last-name">გვარი</label>
             <input class="checkout-input" id="edit-last-name" required>
 
-            <label class="field-label" for="edit-email">Email Address</label>
+            <label class="field-label" for="edit-email">ელფოსტა</label>
             <input class="checkout-input" id="edit-email" type="email" disabled>
 
-            <label class="field-label" for="edit-phone">Phone Number</label>
+            <label class="field-label" for="edit-phone">ტელეფონის ნომერი</label>
             <input class="checkout-input" id="edit-phone" type="tel" placeholder="+995 5XX XX XX XX">
 
-            <label class="field-label" for="edit-address">Delivery Address</label>
-            <textarea class="checkout-input" id="edit-address" rows="3" placeholder="City, street, building, apartment"></textarea>
+            <label class="field-label" for="edit-address">მიწოდების მისამართი</label>
+            <textarea class="checkout-input" id="edit-address" rows="3" placeholder="ქალაქი, ქუჩა, კორპუსი, ბინა"></textarea>
 
-            <button class="checkout-button" type="submit">SAVE CHANGES</button>
+            <button class="checkout-button" type="submit">ცვლილებების შენახვა</button>
           </form>
         </section>
 
-        <!-- ORDER HISTORY -->
+        <!-- შეკვეთების ისტორია -->
         <section class="account-panel" id="orders-panel">
-          <h3>My Orders</h3>
+          <h3>ჩემი შეკვეთები</h3>
           <div id="orders-list">
-            <p class="account-loading">Loading your orders...</p>
+            <p class="account-loading">შეკვეთები იტვირთება...</p>
           </div>
         </section>
 
         <button type="button" class="sign-out-button" id="sign-out-button">
-          SIGN OUT
+          ანგარიშიდან გასვლა
         </button>
       </div>
 
       <p id="account-message" class="order-message"></p>
 
       <p class="account-switch" id="account-switch">
-        Already have an account?
-        <button type="button" id="show-login">Sign in</button>
+        უკვე გაქვს ანგარიში?
+        <button type="button" id="show-login">შესვლა</button>
       </p>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
-```
