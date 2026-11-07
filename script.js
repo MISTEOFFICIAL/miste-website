@@ -1634,4 +1634,129 @@ async function deleteJournalPost(post) {
   journalMessage.textContent = "Article deleted successfully.";
 }
 
+// ==========================================
+// MISTÉ — PUBLIC JOURNAL
+// ==========================================
+
+async function loadJournalPosts() {
+  const journalGrid = document.getElementById("journal-grid");
+
+  if (!journalGrid) return;
+
+  journalGrid.innerHTML = "<p class='journal-loading'>Loading stories...</p>";
+
+  const { data, error } = await supabaseClient
+    .from("journal_posts")
+    .select("id, title, excerpt, content, image_url, created_at")
+    .eq("status", "published")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Journal loading error:", error);
+    journalGrid.textContent = "Stories could not be loaded.";
+    return;
+  }
+
+  journalGrid.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    journalGrid.innerHTML =
+      "<p class='journal-loading'>New stories are coming soon.</p>";
+    return;
+  }
+
+  data.forEach(post => {
+    const card = document.createElement("article");
+    card.className = "journal-card";
+
+    const image = document.createElement("img");
+    image.className = "journal-card-image";
+    image.src = post.image_url;
+    image.alt = post.title;
+
+    const info = document.createElement("div");
+    info.className = "journal-card-info";
+
+    const title = document.createElement("h3");
+    title.textContent = post.title;
+
+    const excerpt = document.createElement("p");
+    excerpt.textContent = post.excerpt;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "journal-read-button";
+    button.textContent = "READ ARTICLE";
+
+    button.addEventListener("click", () => openJournalArticle(post));
+
+    info.append(title, excerpt, button);
+    card.append(image, info);
+    journalGrid.appendChild(card);
+  });
+}
+
+// OPEN FULL ARTICLE
+function openJournalArticle(post) {
+  let overlay = document.getElementById("journal-article-overlay");
+
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "journal-article-overlay";
+    overlay.className = "journal-article-overlay";
+
+    overlay.innerHTML = `
+      <div class="journal-article-box">
+        <button type="button" class="journal-article-close"
+          aria-label="Close article">&times;</button>
+        <img class="journal-article-cover" alt="">
+        <div class="journal-article-body">
+          <h2 class="journal-article-title"></h2>
+          <p class="journal-article-date"></p>
+          <div class="journal-article-content"></div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    overlay.querySelector(".journal-article-close")
+      .addEventListener("click", () => {
+        overlay.classList.remove("open");
+      });
+
+    overlay.addEventListener("click", event => {
+      if (event.target === overlay) {
+        overlay.classList.remove("open");
+      }
+    });
+  }
+
+  overlay.querySelector(".journal-article-cover").src = post.image_url || "";
+  overlay.querySelector(".journal-article-cover").alt = post.title;
+  overlay.querySelector(".journal-article-title").textContent = post.title;
+
+  overlay.querySelector(".journal-article-date").textContent =
+    new Date(post.created_at).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+
+  const content = overlay.querySelector(".journal-article-content");
+  content.innerHTML = "";
+
+  post.content.split(/\n+/).forEach(paragraph => {
+    if (!paragraph.trim()) return;
+
+    const p = document.createElement("p");
+    p.textContent = paragraph;
+    content.appendChild(p);
+  });
+
+  overlay.classList.add("open");
+}
+
+// LOAD JOURNAL ON WEBSITE START
+loadJournalPosts();
 
