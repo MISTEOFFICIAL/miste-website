@@ -1618,3 +1618,37 @@ footer p {
     display: none !important;
   }
 }
+
+/* MOBILE ACCOUNT ICON */
+@media (max-width: 600px) {
+  .account-button {
+    font-size: 0;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .account-button::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border: 1.4px solid white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+  }
+
+  .account-button::after {
+    content: "";
+    width: 15px;
+    height: 8px;
+    border: 1.4px solid white;
+    border-radius: 10px 10px 5px 5px;
+    position: absolute;
+    bottom: 1px;
+  }
+}
