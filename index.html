@@ -45,8 +45,22 @@
     <a href="#contact">Contact</a>
   </div>
 
-<div class="search-panel" id="search-panel"></div>
+<div class="search-panel" id="search-panel">
+  <input
+    type="search"
+    id="search-input"
+    placeholder="Search products..."
+    autocomplete="off"
+  >
 
+  <button
+    type="button"
+    id="search-close"
+    aria-label="Close search"
+  >×</button>
+
+  <div class="search-results" id="search-results"></div>
+</div>
   <main>
     <section class="hero">
       <div class="hero-shade"></div>
