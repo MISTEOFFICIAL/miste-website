@@ -1465,3 +1465,38 @@ footer p {
     font-size: 34px;
   }
 }
+
+/* ==========================================
+   SEARCH ACTIVE — SOLID PURPLE SURFACE
+========================================== */
+
+.header.search-active {
+  background: #17143F;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  box-shadow: none;
+  transition: background .4s ease;
+}
+
+.search-panel {
+  background: #17143F;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+}
+
+.search-panel.open {
+  background: #17143F;
+  border-bottom: none;
+}
+
+.search-results,
+.search-results.open {
+  background: #17143F;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+}
