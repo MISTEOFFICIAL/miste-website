@@ -374,6 +374,62 @@
       </div>
     </div>
 
+    
+<!-- JOURNAL MANAGEMENT -->
+<div class="admin-products-section admin-journal-section">
+
+  <h3>Journal Management</h3>
+  <p class="admin-description">Create and manage MISTÉ journal articles.</p>
+
+  <div class="admin-form">
+
+    <input type="hidden" id="admin-journal-id">
+
+    <label class="field-label" for="admin-journal-title">Article Title</label>
+    <input class="checkout-input" id="admin-journal-title"
+      placeholder="Article title">
+
+    <label class="field-label" for="admin-journal-excerpt">Short Description</label>
+    <textarea class="checkout-input" id="admin-journal-excerpt"
+      rows="3" placeholder="A short introduction to your article..."></textarea>
+
+    <label class="field-label" for="admin-journal-content">Article Content</label>
+    <textarea class="checkout-input" id="admin-journal-content"
+      rows="10" placeholder="Write your full article here..."></textarea>
+
+    <label class="field-label" for="admin-journal-image">Cover Image</label>
+    <input class="checkout-input" id="admin-journal-image"
+      type="file" accept="image/*">
+
+    <label class="field-label" for="admin-journal-status">Publication Status</label>
+    <select class="checkout-input" id="admin-journal-status">
+      <option value="draft">Draft</option>
+      <option value="published">Published</option>
+    </select>
+
+    <div class="admin-form-actions">
+      <button type="button" class="checkout-button" id="admin-save-journal">
+        SAVE ARTICLE
+      </button>
+      <button type="button" class="sign-out-button"
+        id="admin-cancel-journal" hidden>
+        CANCEL EDIT
+      </button>
+    </div>
+
+    <p id="admin-journal-message" class="order-message"></p>
+
+  </div>
+
+  <div class="admin-products-section">
+    <h3>Your Articles</h3>
+    <div id="admin-journal-list">
+      <p class="account-loading">Loading articles...</p>
+    </div>
+  </div>
+
+</div>
+
   </div>
 </div>
   
