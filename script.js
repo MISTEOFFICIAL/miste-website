@@ -1558,7 +1558,7 @@ journalSaveButton?.addEventListener("click", async () => {
 
       const { error: uploadError } = await supabaseClient
         .storage
-        .from("journal-images")
+.from("journal-images 4")
         .upload(filePath, imageFile, { upsert: false });
 
       if (uploadError) throw uploadError;
