@@ -1979,3 +1979,136 @@ transform: translateY(1px);
     height: 230px;
   }
 }
+
+/* ==========================================
+   MISTÉ — EDITORIAL JOURNAL EXPERIENCE
+========================================== */
+
+.journal-article-overlay {
+  padding: 40px 20px;
+  background: rgba(7, 6, 18, 0.94);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.journal-article-box {
+  max-width: 920px;
+  background: #0E0B1D;
+  border: 1px solid rgba(201, 194, 227, 0.18);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.45);
+}
+
+.journal-article-cover {
+  width: 100%;
+  height: 480px;
+  max-height: none;
+  object-fit: cover;
+  display: block;
+}
+
+.journal-article-close {
+  top: 22px;
+  right: 22px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  background: rgba(14, 11, 29, 0.72);
+  color: #FFFFFF;
+  font-family: Arial, sans-serif;
+  font-size: 27px;
+  font-weight: 300;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.journal-article-close:hover {
+  background: #5A3B8C;
+  transform: rotate(90deg);
+}
+
+.journal-article-body {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 65px 45px 85px;
+}
+
+.journal-article-title {
+  color: #F7F5FC;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(38px, 5vw, 58px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.8px;
+  margin: 0 0 24px;
+}
+
+.journal-article-date {
+  color: #A99BCF;
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(201, 194, 227, 0.2);
+}
+
+.journal-article-content p {
+  color: #D8D2E7;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 2.15;
+  letter-spacing: 0.1px;
+  margin: 0 0 27px;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .journal-article-overlay {
+    padding: 10px;
+  }
+
+  .journal-article-box {
+    border-radius: 3px;
+  }
+
+  .journal-article-cover {
+    height: 300px;
+  }
+
+  .journal-article-body {
+    padding: 40px 25px 55px;
+  }
+
+  .journal-article-title {
+    font-size: 38px;
+  }
+
+  .journal-article-content p {
+    font-size: 13px;
+    line-height: 2;
+  }
+
+  .journal-article-close {
+    top: 14px;
+    right: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .journal-article-cover {
+    height: 240px;
+  }
+
+  .journal-article-body {
+    padding: 32px 21px 45px;
+  }
+
+  .journal-article-title {
+    font-size: 34px;
+  }
+}
