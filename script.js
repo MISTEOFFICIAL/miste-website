@@ -256,6 +256,7 @@ const searchClose = document.getElementById("search-close");
 
 function openSearch() {
   searchPanel?.classList.add("open");
+  document.querySelector(".header")?.classList.add("search-active");
 
   setTimeout(() => {
     searchInput?.focus();
@@ -264,6 +265,7 @@ function openSearch() {
 
 function closeSearch() {
   searchPanel?.classList.remove("open");
+  document.querySelector(".header")?.classList.remove("search-active");
 
   if (searchInput) {
     searchInput.value = "";
