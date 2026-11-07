@@ -618,6 +618,31 @@ const accountSwitch = document.getElementById("account-switch");
 let currentUser = null;
 let currentProfile = null;
 
+let isAdmin = false;
+
+async function checkAdminStatus() {
+  const adminAccess = document.getElementById("admin-access");
+
+  if (!currentUser) {
+    isAdmin = false;
+    if (adminAccess) adminAccess.hidden = true;
+    return;
+  }
+
+  const { data, error } = await supabaseClient.rpc("is_admin");
+
+  if (error) {
+    console.error("Admin check error:", error);
+    isAdmin = false;
+  } else {
+    isAdmin = data === true;
+  }
+
+  if (adminAccess) {
+    adminAccess.hidden = !isAdmin;
+  }
+}
+
 // ==========================================
 // ACCOUNT VIEW HELPERS
 // ==========================================
@@ -996,13 +1021,16 @@ function updateAccountButton() {
 }
 
 supabaseClient.auth.onAuthStateChange((event, session) => {
-  currentUser = session?.user || null;
-
+  currentUser = session?.user ?? null;
   updateAccountButton();
 
   if (currentUser && accountOverlay?.classList.contains("open")) {
     showDashboard();
   }
+
+  setTimeout(() => {
+    checkAdminStatus();
+  }, 0);
 });
 
 async function initializeAccount() {
@@ -1015,6 +1043,7 @@ async function initializeAccount() {
 
   currentUser = data.session?.user || null;
   updateAccountButton();
+  await checkAdminStatus();
 }
 
 // ==========================================
