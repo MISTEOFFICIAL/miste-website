@@ -1565,7 +1565,7 @@ journalSaveButton?.addEventListener("click", async () => {
 
       const { data: publicData } = supabaseClient
         .storage
-        .from("journal-images")
+        .from("journal-images 4.")
         .getPublicUrl(filePath);
 
       imageUrl = publicData.publicUrl;
