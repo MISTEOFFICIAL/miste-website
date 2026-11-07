@@ -1651,13 +1651,6 @@ footer p {
 }
 
 @media (max-width: 600px) {
-  .account-button svg {
-    transform: translateY(-2px);
-  }
-}
-
-@media (max-width: 600px) {
-  @media (max-width: 600px) {
   .header .account-button {
     transform: translateY(-2px) !important;
   }
