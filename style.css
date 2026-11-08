@@ -3667,14 +3667,3 @@ footer p {
   bottom: 15px !important;
   z-index: 900 !important;
 }
-
-/* BAG — ABOVE CHAT */
-#cart-overlay,
-.cart-overlay {
-  z-index: 1000 !important;
-}
-
-#cart-drawer,
-.cart-drawer {
-  z-index: 1001 !important;
-}
