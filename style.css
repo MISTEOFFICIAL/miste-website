@@ -2116,54 +2116,8 @@ footer p {
 }
 
 /* ==========================================
-   MISTÉ — ESSENCE DROP LOGO
+   MISTÉ — SYMBOL LOGO
 ========================================== */
-
-/* Desktop */
-
-@media (min-width: 601px) {
-  .header > .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    font-size: 0;
-    letter-spacing: 0;
-    transform: none;
-  }
-
-  .essence-drop-logo {
-    display: block;
-    width: 22px;
-    height: 22px;
-    color: white;
-    flex-shrink: 0;
-  }
-
-  .mobile-logo-wordmark {
-    display: none;
-  }
-}
-
-/* Mobile — keep MISTÉ wordmark */
-
-@media (max-width: 600px) {
-  .header > .logo {
-    font-size: 23px;
-    letter-spacing: 3.5px;
-  }
-
-  .essence-drop-logo {
-    display: none;
-  }
-
-  .mobile-logo-wordmark {
-    display: inline;
-  }
-}
-
-/* MISTÉ — SYMBOL LOGO */
 
 .header > .logo {
   display: flex;
@@ -2171,16 +2125,24 @@ footer p {
   justify-content: center;
   width: 18px;
   height: 18px;
+  min-width: 18px;
+  padding: 0;
+  margin: 0;
   font-size: 0;
   letter-spacing: 0;
-  color: white;
+  line-height: 0;
+  color: #FFFFFF;
+  flex-shrink: 0;
 }
 
 .header > .logo .essence-drop-logo {
-  display: block;
+  display: block !important;
   width: 18px !important;
   height: 18px !important;
   min-width: 18px;
-  color: white;
+  max-width: 18px;
+  color: #FFFFFF;
+  fill: #FFFFFF;
   flex-shrink: 0;
+  overflow: visible;
 }
