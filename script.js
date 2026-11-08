@@ -41,17 +41,6 @@ async function loadHomepageHeroImage() {
     `;
   }
 }
-  if (data?.setting_value) {
-    heroSection.style.backgroundImage = `
-      linear-gradient(
-        90deg,
-        rgba(16,17,61,.65),
-        rgba(16,17,61,.12)
-      ),
-      url("${data.setting_value}")
-    `;
-  }
-}
 
 loadHomepageHeroImage();
 
@@ -2639,10 +2628,10 @@ function openAdminSection(sectionName) {
   if (sectionName === "support") {
     loadAdminChatConversations();
   }
-}
 
-if (sectionName === "homepage") {
+  if (sectionName === "homepage") {
   loadAdminHeroImage();
+}
 }
 
 // DASHBOARD CARD CLICKS
