@@ -725,7 +725,7 @@ function showDashboard() {
   dashboard.hidden = false;
   accountSwitch.hidden = true;
 
-  accountTitle.textContent = "My Account";
+  accountTitle.textContent = "Account";
   accountMessage.textContent = "";
 
   document.getElementById("dashboard-email").textContent =
