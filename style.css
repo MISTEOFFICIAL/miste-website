@@ -4010,3 +4010,13 @@ footer p {
   font-weight: 600;
   color: var(--navy);
 }
+
+/* MOBILE — PREVENT INPUT AUTO ZOOM */
+
+@media (max-width: 600px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
