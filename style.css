@@ -3026,3 +3026,29 @@ footer p {
     width: 100% !important;
   }
 }
+
+/* ADMIN CHAT — FULL WIDTH REPLY COMPOSER */
+
+#admin-chat-reply-form {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+#admin-chat-reply-input {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  min-height: 100px !important;
+  resize: vertical;
+}
+
+#admin-chat-reply-form button {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
