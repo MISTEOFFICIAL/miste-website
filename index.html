@@ -392,39 +392,69 @@
     <h2>Admin Panel</h2>
 <p class="admin-description">Choose a section to manage your store.</p>
 
+
 <!-- ADMIN DASHBOARD -->
 <div id="admin-dashboard" class="admin-dashboard">
 
   <button type="button" class="admin-dashboard-card" data-admin-section="products">
-    <span class="admin-dashboard-icon">▦</span>
+    <span class="admin-dashboard-icon">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/>
+        <rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/>
+        <rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/>
+        <rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>
+      </svg>
+    </span>
     <span class="admin-dashboard-text">
       <strong>Manage Your Product Collection</strong>
       <small>Manage products, prices and inventory.</small>
     </span>
-    <span class="admin-dashboard-arrow">→</span>
+    <span class="admin-dashboard-arrow">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6"/>
+      </svg>
+    </span>
   </button>
 
   <button type="button" class="admin-dashboard-card" data-admin-section="journal">
-    <span class="admin-dashboard-icon">▤</span>
+    <span class="admin-dashboard-icon">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 4.5h14v15H5z"/>
+        <path d="M8.5 8h7M8.5 12h7M8.5 16h4"/>
+      </svg>
+    </span>
     <span class="admin-dashboard-text">
       <strong>Journal Management</strong>
       <small>Create and manage journal articles.</small>
     </span>
-    <span class="admin-dashboard-arrow">→</span>
+    <span class="admin-dashboard-arrow">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6"/>
+      </svg>
+    </span>
   </button>
 
   <button type="button" class="admin-dashboard-card" data-admin-section="support">
-    <span class="admin-dashboard-icon">✉</span>
+    <span class="admin-dashboard-icon">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 5.5h16v11H9l-5 3v-14z"/>
+        <path d="M8 9.5h8M8 13h5"/>
+      </svg>
+    </span>
     <span class="admin-dashboard-text">
       <strong>Customer Support Inbox</strong>
       <small>Manage customer conversations and replies.</small>
     </span>
-    <span class="admin-dashboard-arrow">→</span>
+    <span class="admin-dashboard-arrow">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6"/>
+      </svg>
+    </span>
   </button>
 
 </div>
-    
-   <!-- PRODUCTS SECTION -->
+
+<!-- PRODUCTS SECTION -->
 <div id="admin-section-products" class="admin-section" hidden>
 
   <button type="button" class="admin-back-button" data-admin-back>
@@ -476,7 +506,6 @@
 </div>
 <!-- END PRODUCTS SECTION -->
 
-    
 <!-- JOURNAL SECTION -->
 <div id="admin-section-journal" class="admin-section" hidden>
 
@@ -488,24 +517,19 @@
   <p class="admin-description">Create and manage MISTÉ journal articles.</p>
 
   <div class="admin-form">
-
     <input type="hidden" id="admin-journal-id">
 
     <label class="field-label" for="admin-journal-title">Article Title</label>
-    <input class="checkout-input" id="admin-journal-title"
-      placeholder="Article title">
+    <input class="checkout-input" id="admin-journal-title" placeholder="Article title">
 
     <label class="field-label" for="admin-journal-excerpt">Short Description</label>
-    <textarea class="checkout-input" id="admin-journal-excerpt"
-      rows="3" placeholder="A short introduction to your article..."></textarea>
+    <textarea class="checkout-input" id="admin-journal-excerpt" rows="3" placeholder="A short introduction to your article..."></textarea>
 
     <label class="field-label" for="admin-journal-content">Article Content</label>
-    <textarea class="checkout-input" id="admin-journal-content"
-      rows="10" placeholder="Write your full article here..."></textarea>
+    <textarea class="checkout-input" id="admin-journal-content" rows="10" placeholder="Write your full article here..."></textarea>
 
     <label class="field-label" for="admin-journal-image">Cover Image</label>
-    <input class="checkout-input" id="admin-journal-image"
-      type="file" accept="image/*">
+    <input class="checkout-input" id="admin-journal-image" type="file" accept="image/*">
 
     <label class="field-label" for="admin-journal-status">Publication Status</label>
     <select class="checkout-input" id="admin-journal-status">
@@ -514,17 +538,11 @@
     </select>
 
     <div class="admin-form-actions">
-      <button type="button" class="checkout-button" id="admin-save-journal">
-        SAVE ARTICLE
-      </button>
-      <button type="button" class="sign-out-button"
-        id="admin-cancel-journal" hidden>
-        CANCEL EDIT
-      </button>
+      <button type="button" class="checkout-button" id="admin-save-journal">SAVE ARTICLE</button>
+      <button type="button" class="sign-out-button" id="admin-cancel-journal" hidden>CANCEL EDIT</button>
     </div>
 
     <p id="admin-journal-message" class="order-message"></p>
-
   </div>
 
   <div class="admin-products-section">
@@ -537,7 +555,6 @@
 </div>
 <!-- END JOURNAL SECTION -->
 
-    
 <!-- CUSTOMER SUPPORT SECTION -->
 <div id="admin-section-support" class="admin-section" hidden>
 
@@ -564,7 +581,6 @@
   </div>
 
   <div class="admin-chat-layout">
-
     <div class="admin-chat-sidebar">
       <div id="admin-chat-conversations-list">
         <p class="account-loading">Loading conversations...</p>
@@ -572,13 +588,11 @@
     </div>
 
     <div class="admin-chat-thread">
-
       <div id="admin-chat-empty">
         <p>Select a conversation to view messages.</p>
       </div>
 
       <div id="admin-chat-thread-content" hidden>
-
         <div class="admin-chat-customer">
           <h4 id="admin-chat-customer-name">Customer</h4>
           <p id="admin-chat-customer-phone"></p>
@@ -589,41 +603,30 @@
         <div id="admin-chat-thread-messages" aria-live="polite"></div>
 
         <form id="admin-chat-reply-form">
-          <textarea
-            id="admin-chat-reply-input"
-            class="checkout-input"
-            maxlength="2000"
-            rows="3"
-            placeholder="Write your reply..."
-            required
-          ></textarea>
+          <textarea id="admin-chat-reply-input" class="checkout-input"
+            maxlength="2000" rows="3"
+            placeholder="Write your reply..." required></textarea>
 
-          <button type="submit" class="checkout-button">
-            SEND REPLY
-          </button>
+          <button type="submit" class="checkout-button">SEND REPLY</button>
         </form>
 
         <div class="admin-chat-actions">
-          <button type="button" class="checkout-button"
-            id="admin-chat-close-conversation">
+          <button type="button" class="checkout-button" id="admin-chat-close-conversation">
             CLOSE CONVERSATION
           </button>
-
-          <button type="button" class="sign-out-button"
-            id="admin-chat-archive-conversation">
+          <button type="button" class="sign-out-button" id="admin-chat-archive-conversation">
             ARCHIVE
           </button>
         </div>
-
       </div>
     </div>
-
   </div>
 </div>
 <!-- END CUSTOMER SUPPORT SECTION -->
 
   </div>
 </div>
+
 
   <!-- MISTÉ CUSTOMER CHAT -->
 <div id="miste-chat-widget" class="miste-chat-widget">
