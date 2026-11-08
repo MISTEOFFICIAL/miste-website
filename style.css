@@ -2114,3 +2114,51 @@ footer p {
     font-size: 34px;
   }
 }
+
+/* ==========================================
+   MISTÉ — ESSENCE DROP LOGO
+========================================== */
+
+/* Desktop */
+
+@media (min-width: 601px) {
+  .header > .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 0;
+    letter-spacing: 0;
+    transform: none;
+  }
+
+  .essence-drop-logo {
+    display: block;
+    width: 22px;
+    height: 22px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .mobile-logo-wordmark {
+    display: none;
+  }
+}
+
+/* Mobile — keep MISTÉ wordmark */
+
+@media (max-width: 600px) {
+  .header > .logo {
+    font-size: 23px;
+    letter-spacing: 3.5px;
+  }
+
+  .essence-drop-logo {
+    display: none;
+  }
+
+  .mobile-logo-wordmark {
+    display: inline;
+  }
+}
