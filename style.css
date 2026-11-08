@@ -3617,15 +3617,19 @@ footer p {
   display: none;
 }
 
-.delivery-section .delivery-content h4 {
-  font-family: inherit;
+.delivery-section .delivery-content h4,
+.delivery-section .delivery-content li {
+  font-family: 'Montserrat', sans-serif;
   font-size: 13px;
   font-weight: 400;
+  color: #888;
+  line-height: 2;
   letter-spacing: normal;
   text-transform: none;
-  color: #888;
+}
+
+.delivery-section .delivery-content h4 {
   margin: 30px 0 12px;
-  line-height: 2;
 }
 
 .delivery-section .delivery-content ul {
@@ -3635,16 +3639,11 @@ footer p {
 }
 
 .delivery-section .delivery-content li {
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 400;
-  color: #888;
-  line-height: 2;
   margin-bottom: 12px;
 }
 
 .delivery-section .delivery-content strong {
-  font-family: inherit;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   color: #888;
 }
