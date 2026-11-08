@@ -3985,3 +3985,28 @@ footer p {
     bottom: 8px !important;
   }
 }
+
+/* DELIVERY — MATCH ABOUT TYPOGRAPHY */
+
+.delivery-section .delivery-content h4 {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #888;
+}
+
+.delivery-section .delivery-content li {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 2;
+  color: #888;
+}
+
+.delivery-section .delivery-content strong {
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--navy);
+}
