@@ -2877,3 +2877,47 @@ footer p {
     width: 100% !important;
   }
 }
+
+/* FIX — ADMIN CHAT WRITING AREA */
+
+#admin-chat-reply-form {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: end !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  gap: 14px !important;
+}
+
+#admin-chat-reply-input {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 54px !important;
+  max-height: 140px !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  white-space: pre-wrap !important;
+  overflow-wrap: break-word !important;
+}
+
+#admin-chat-reply-form button {
+  width: auto !important;
+  min-width: 115px !important;
+  white-space: nowrap !important;
+}
+
+.admin-chat-thread {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+@media (max-width: 600px) {
+  #admin-chat-reply-form {
+    grid-template-columns: 1fr !important;
+  }
+
+  #admin-chat-reply-form button {
+    width: 100% !important;
+  }
+}
