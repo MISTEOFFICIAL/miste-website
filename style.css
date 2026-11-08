@@ -3800,3 +3800,58 @@ footer p {
     font-size: 28px;
   }
 }
+
+
+/* ==========================================
+   MISTÉ — ADMIN DASHBOARD FINAL OVERRIDE
+========================================== */
+
+#admin-dashboard .admin-dashboard-card {
+  background: linear-gradient(120deg, #17132D, #211A3B) !important;
+  border: 1px solid rgba(201, 194, 227, 0.16) !important;
+  border-radius: 12px !important;
+  color: #F7F5FC !important;
+  transition: all 0.3s ease !important;
+}
+
+#admin-dashboard .admin-dashboard-card:hover {
+  background: linear-gradient(120deg, #211A3B, #2A1E4D) !important;
+  border-color: rgba(139, 124, 199, 0.65) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+
+#admin-dashboard .admin-dashboard-icon {
+  background: rgba(139, 124, 199, 0.12) !important;
+  border: 1px solid rgba(201, 194, 227, 0.16);
+  color: #C9C2E3 !important;
+  border-radius: 10px;
+}
+
+#admin-dashboard .admin-dashboard-text strong {
+  color: #F1EDF8 !important;
+  font-family: "Cormorant Garamond", serif !important;
+  font-size: 19px !important;
+  font-weight: 500 !important;
+}
+
+#admin-dashboard .admin-dashboard-text small {
+  color: #A9A2BD !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 10px !important;
+  line-height: 1.7;
+}
+
+#admin-dashboard .admin-dashboard-arrow {
+  color: #8B7CC7 !important;
+}
+
+@media (max-width: 600px) {
+  #admin-dashboard .admin-dashboard-text strong {
+    font-size: 17px !important;
+  }
+
+  #admin-dashboard .admin-dashboard-text small {
+    font-size: 9px !important;
+  }
+}
