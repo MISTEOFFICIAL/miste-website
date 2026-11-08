@@ -3872,3 +3872,13 @@ footer p {
   font-size: 12px;
   line-height: 1.7;
 }
+
+/* HOMEPAGE TITLE — MATCH ADMIN DASHBOARD TITLES */
+
+#admin-section-homepage .admin-section-heading h3 {
+  font-family: inherit !important;
+  font-size: 19px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2px !important;
+  color: #1A1B5B !important;
+}
