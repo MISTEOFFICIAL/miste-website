@@ -3971,3 +3971,9 @@ footer p {
 #admin-overlay {
   background: rgba(16, 17, 61, 0.8) !important;
 }
+
+/* ADMIN PANEL — SAME BACKDROP AS MY PROFILE */
+
+#admin-overlay {
+  background: rgba(16, 17, 61, 0.8) !important;
+}
