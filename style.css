@@ -3980,3 +3980,9 @@ footer p {
   line-height: 1.6 !important;
   margin-top: 0 !important;
 }
+
+/* ADMIN PANEL — MATCH ACCOUNT OVERLAY */
+
+#admin-overlay {
+  background: rgba(16, 17, 61, 0.8) !important;
+}
