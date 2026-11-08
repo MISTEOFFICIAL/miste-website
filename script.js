@@ -2041,7 +2041,6 @@ mistChatEnd?.addEventListener("click", async () => {
 
 console.log("MISTÉ customer chat initialized.");
 
-
 // ==========================================
 // MISTÉ — ADMIN CUSTOMER SUPPORT INBOX
 // ==========================================
