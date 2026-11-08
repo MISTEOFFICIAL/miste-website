@@ -1801,6 +1801,46 @@ const mistChatEnd = document.getElementById("miste-chat-end");
 let mistChatUser = null;
 let mistChatActiveConversation = null;
 
+// ==========================================
+// MISTÉ — CUSTOMER CHAT REALTIME
+// ==========================================
+
+let mistChatRealtimeChannel = null;
+
+function mistChatSubscribeToMessages() {
+  if (!mistChatActiveConversation) return;
+
+  // Remove the previous subscription.
+  if (mistChatRealtimeChannel) {
+    mistChatClient.removeChannel(mistChatRealtimeChannel);
+    mistChatRealtimeChannel = null;
+  }
+
+  const conversationId = mistChatActiveConversation.id;
+
+  mistChatRealtimeChannel = mistChatClient
+    .channel(`miste-customer-chat-${conversationId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "chat_messages",
+        filter: `conversation_id=eq.${conversationId}`
+      },
+      async () => {
+        try {
+          await mistChatLoadMessages();
+        } catch (error) {
+          console.error("MISTÉ realtime message error:", error);
+        }
+      }
+    )
+    .subscribe(status => {
+      console.log("MISTÉ customer chat realtime:", status);
+    });
+}
+
 // Get or create a separate anonymous visitor session.
 async function mistChatEnsureSession() {
   const { data, error } = await mistChatClient.auth.getSession();
@@ -1906,9 +1946,10 @@ async function mistChatOpen() {
       await mistChatFindOpenConversation();
 
     if (mistChatActiveConversation) {
-      mistChatShowConversation();
-      await mistChatLoadMessages();
-    } else {
+  mistChatShowConversation();
+  mistChatSubscribeToMessages();
+  await mistChatLoadMessages();
+} else {
       mistChatShowStartForm();
     }
   } catch (error) {
@@ -1965,8 +2006,10 @@ mistChatStartForm?.addEventListener("submit", async event => {
 
     mistChatActiveConversation = data;
 
-    mistChatShowConversation();
-    await mistChatLoadMessages();
+mistChatSubscribeToMessages();
+
+mistChatShowConversation();
+await mistChatLoadMessages();
 
   } catch (error) {
     console.error("MISTÉ chat start error:", error);
@@ -2027,6 +2070,11 @@ mistChatEnd?.addEventListener("click", async () => {
 
     if (error) throw error;
 
+    if (mistChatRealtimeChannel) {
+  await mistChatClient.removeChannel(mistChatRealtimeChannel);
+  mistChatRealtimeChannel = null;
+}
+    
     mistChatActiveConversation = null;
     mistChatMessages.innerHTML = "";
     mistChatStartForm.reset();
