@@ -2396,3 +2396,9 @@ footer p {
     max-height: calc(100dvh - 100px);
   }
 }
+
+@media (max-width: 600px) {
+  .header > .logo {
+    transform: translateY(-3px);
+  }
+}
