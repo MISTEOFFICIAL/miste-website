@@ -2114,6 +2114,62 @@ const adminChatArchiveConversation = document.getElementById("admin-chat-archive
 
 let selectedAdminChat = null;
 
+// ==========================================
+// MISTÉ — ADMIN CHAT REALTIME
+// ==========================================
+
+let adminChatRealtimeChannel = null;
+
+function adminChatSubscribeRealtime() {
+  if (!isAdmin || !currentUser || adminChatRealtimeChannel) return;
+
+  adminChatRealtimeChannel = supabaseClient
+    .channel("miste-admin-chat-realtime")
+
+    // Listen for new messages.
+    .on(
+      "postgres_changes",
+      {
+        event: "INSERT",
+        schema: "public",
+        table: "chat_messages"
+      },
+      payload => {
+        loadAdminChatConversations();
+
+        if (
+          selectedAdminChat?.id === payload.new.conversation_id
+        ) {
+          loadAdminChatThread(selectedAdminChat.id);
+        }
+      }
+    )
+
+    // Listen for new or updated conversations.
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "chat_conversations"
+      },
+      payload => {
+        loadAdminChatConversations();
+
+        const conversationId =
+          payload.new?.id || payload.old?.id;
+
+        if (selectedAdminChat?.id === conversationId) {
+          loadAdminChatThread(conversationId);
+        }
+      }
+    )
+
+    .subscribe(status => {
+      console.log("MISTÉ admin chat realtime:", status);
+    });
+}
+
 // LOAD CONVERSATIONS
 async function loadAdminChatConversations() {
   if (!adminChatList) return;
@@ -2122,6 +2178,8 @@ async function loadAdminChatConversations() {
     adminChatList.textContent = "Admin access required.";
     return;
   }
+
+    adminChatSubscribeRealtime();
 
   adminChatList.textContent = "Loading conversations...";
 
