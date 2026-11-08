@@ -3661,3 +3661,21 @@ footer p {
     font-size: 11px;
   }
 }
+
+/* KEEP CHAT ABOVE BAG CONTENT */
+.miste-chat-widget {
+  z-index: 900 !important;
+}
+
+.cart-overlay,
+.cart-drawer,
+#cart-overlay,
+#cart-drawer {
+  z-index: 1000 !important;
+}
+
+/* MISTÉ CHAT — LOWER POSITION */
+
+.miste-chat-widget {
+  bottom: 15px !important;
+}
