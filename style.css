@@ -4020,3 +4020,30 @@ footer p {
     font-size: 16px !important;
   }
 }
+
+/* DELIVERY — MATCH ABOUT PARAGRAPHS */
+
+.delivery-section .delivery-content h4 {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #888;
+  line-height: 2;
+}
+
+.delivery-section .delivery-content li {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  color: #888;
+  line-height: 2;
+  margin-bottom: 12px;
+}
+
+.delivery-section .delivery-content strong {
+  font-family: inherit;
+  font-weight: 600;
+  color: #888;
+}
