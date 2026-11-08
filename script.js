@@ -2372,14 +2372,19 @@ function openAdminSection(sectionName) {
 }
 
 // DASHBOARD CARD CLICKS
-adminDashboard?.addEventListener("click", event => {
-  const card = event.target.closest("[data-admin-section]");
+document.querySelectorAll("[data-admin-section]").forEach(card => {
+  card.addEventListener("click", () => {
+    if (!isAdmin || !currentUser) {
+      console.log("Admin access not confirmed.");
+      return;
+    }
 
-  if (!card) return;
+    const sectionName = card.getAttribute("data-admin-section");
 
-  if (!isAdmin || !currentUser) return;
+    console.log("Opening admin section:", sectionName);
 
-  openAdminSection(card.dataset.adminSection);
+    openAdminSection(sectionName);
+  });
 });
 
 // BACK TO DASHBOARD
