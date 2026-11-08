@@ -2317,3 +2317,81 @@ adminOpenButton?.addEventListener("click", () => {
 });
 
 console.log("MISTÉ admin chat inbox initialized.");
+
+// ==========================================
+// MISTÉ — ADMIN DASHBOARD NAVIGATION
+// ==========================================
+
+const adminDashboard = document.getElementById("admin-dashboard");
+
+const adminSections = {
+  products: document.getElementById("admin-section-products"),
+  journal: document.getElementById("admin-section-journal"),
+  support: document.getElementById("admin-section-support")
+};
+
+// SHOW DASHBOARD
+function showAdminDashboard() {
+  Object.values(adminSections).forEach(section => {
+    if (section) section.hidden = true;
+  });
+
+  if (adminDashboard) {
+    adminDashboard.hidden = false;
+  }
+}
+
+// OPEN SELECTED SECTION
+function openAdminSection(sectionName) {
+  const selectedSection = adminSections[sectionName];
+
+  if (!selectedSection) return;
+
+  if (adminDashboard) {
+    adminDashboard.hidden = true;
+  }
+
+  Object.values(adminSections).forEach(section => {
+    if (section) section.hidden = true;
+  });
+
+  selectedSection.hidden = false;
+
+  // Load the relevant section
+  if (sectionName === "products") {
+    loadAdminProducts();
+  }
+
+  if (sectionName === "journal") {
+    loadAdminJournal();
+  }
+
+  if (sectionName === "support") {
+    loadAdminChatConversations();
+  }
+}
+
+// DASHBOARD CARD CLICKS
+adminDashboard?.addEventListener("click", event => {
+  const card = event.target.closest("[data-admin-section]");
+
+  if (!card) return;
+
+  if (!isAdmin || !currentUser) return;
+
+  openAdminSection(card.dataset.adminSection);
+});
+
+// BACK TO DASHBOARD
+document.querySelectorAll("[data-admin-back]").forEach(button => {
+  button.addEventListener("click", showAdminDashboard);
+});
+
+// RESET TO DASHBOARD WHEN ADMIN PANEL OPENS
+adminOpenButton?.addEventListener("click", () => {
+  if (!isAdmin || !currentUser) return;
+
+  showAdminDashboard();
+});
+
+console.log("MISTÉ admin dashboard navigation initialized.");
