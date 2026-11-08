@@ -2041,3 +2041,280 @@ mistChatEnd?.addEventListener("click", async () => {
 
 console.log("MISTÉ customer chat initialized.");
 
+
+// ==========================================
+// MISTÉ — ADMIN CUSTOMER SUPPORT INBOX
+// ==========================================
+
+const adminChatFilter = document.getElementById("admin-chat-filter");
+const adminChatRefresh = document.getElementById("admin-chat-refresh");
+const adminChatList = document.getElementById("admin-chat-conversations-list");
+
+const adminChatEmpty = document.getElementById("admin-chat-empty");
+const adminChatThreadContent = document.getElementById("admin-chat-thread-content");
+const adminChatThreadMessages = document.getElementById("admin-chat-thread-messages");
+
+const adminChatCustomerName = document.getElementById("admin-chat-customer-name");
+const adminChatCustomerPhone = document.getElementById("admin-chat-customer-phone");
+const adminChatCustomerDate = document.getElementById("admin-chat-customer-date");
+const adminChatCustomerStatus = document.getElementById("admin-chat-customer-status");
+
+const adminChatReplyForm = document.getElementById("admin-chat-reply-form");
+const adminChatReplyInput = document.getElementById("admin-chat-reply-input");
+
+const adminChatCloseConversation = document.getElementById("admin-chat-close-conversation");
+const adminChatArchiveConversation = document.getElementById("admin-chat-archive-conversation");
+
+let selectedAdminChat = null;
+
+// LOAD CONVERSATIONS
+async function loadAdminChatConversations() {
+  if (!adminChatList) return;
+
+  if (!isAdmin || !currentUser) {
+    adminChatList.textContent = "Admin access required.";
+    return;
+  }
+
+  adminChatList.textContent = "Loading conversations...";
+
+  try {
+    let query = supabaseClient
+      .from("chat_conversations")
+      .select("id, customer_name, customer_phone, status, created_at")
+      .order("created_at", { ascending: false });
+
+    const filter = adminChatFilter.value;
+
+    if (filter !== "all") {
+      query = query.eq("status", filter);
+    }
+
+    const { data, error } = await query;
+
+    if (error) throw error;
+
+    adminChatList.innerHTML = "";
+
+    if (!data || data.length === 0) {
+      adminChatList.textContent = "No conversations found.";
+      return;
+    }
+
+    data.forEach(conversation => {
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "admin-chat-conversation-item";
+      item.dataset.chatId = conversation.id;
+
+      const name = document.createElement("strong");
+      name.textContent = conversation.customer_name;
+
+      const phone = document.createElement("span");
+      phone.textContent = conversation.customer_phone;
+
+      const status = document.createElement("small");
+      status.textContent = conversation.status.toUpperCase();
+
+      const date = document.createElement("small");
+      date.textContent = new Date(conversation.created_at).toLocaleString();
+
+      item.append(name, phone, status, date);
+
+      if (selectedAdminChat?.id === conversation.id) {
+        item.classList.add("active");
+      }
+
+      adminChatList.appendChild(item);
+    });
+
+  } catch (error) {
+    console.error("Admin chat list error:", error);
+    adminChatList.textContent = "Could not load conversations.";
+  }
+}
+
+// OPEN SELECTED CONVERSATION
+async function loadAdminChatThread(conversationId) {
+  if (!isAdmin || !currentUser) return;
+
+  try {
+    const { data: conversation, error: conversationError } =
+      await supabaseClient
+        .from("chat_conversations")
+        .select("*")
+        .eq("id", conversationId)
+        .single();
+
+    if (conversationError) throw conversationError;
+
+    selectedAdminChat = conversation;
+
+    const { data: messages, error: messagesError } =
+      await supabaseClient
+        .from("chat_messages")
+        .select("id, sender_role, message, created_at")
+        .eq("conversation_id", conversationId)
+        .order("created_at", { ascending: true });
+
+    if (messagesError) throw messagesError;
+
+    adminChatCustomerName.textContent = conversation.customer_name;
+    adminChatCustomerPhone.textContent = conversation.customer_phone;
+    adminChatCustomerDate.textContent =
+      new Date(conversation.created_at).toLocaleString();
+    adminChatCustomerStatus.textContent =
+      "Status: " + conversation.status.toUpperCase();
+
+    adminChatThreadMessages.innerHTML = "";
+
+    (messages || []).forEach(message => {
+      const bubble = document.createElement("div");
+      bubble.className =
+        "admin-chat-message " + message.sender_role;
+
+      const content = document.createElement("p");
+      content.textContent = message.message;
+
+      const time = document.createElement("small");
+      time.textContent = new Date(message.created_at).toLocaleString();
+
+      bubble.append(content, time);
+      adminChatThreadMessages.appendChild(bubble);
+    });
+
+    adminChatEmpty.hidden = true;
+    adminChatThreadContent.hidden = false;
+
+    const isOpen = conversation.status === "open";
+
+    adminChatReplyInput.disabled = !isOpen;
+    adminChatReplyForm.querySelector("button").disabled = !isOpen;
+    adminChatReplyInput.placeholder = isOpen
+      ? "Write your reply..."
+      : "This conversation is closed.";
+
+    adminChatCloseConversation.hidden = !isOpen;
+    adminChatArchiveConversation.hidden =
+      conversation.status === "archived";
+
+    adminChatThreadMessages.scrollTop =
+      adminChatThreadMessages.scrollHeight;
+
+    await loadAdminChatConversations();
+
+  } catch (error) {
+    console.error("Admin chat thread error:", error);
+    alert("Could not load this conversation.");
+  }
+}
+
+// SELECT CONVERSATION
+adminChatList?.addEventListener("click", event => {
+  const item = event.target.closest("[data-chat-id]");
+
+  if (!item) return;
+
+  loadAdminChatThread(item.dataset.chatId);
+});
+
+// REFRESH
+adminChatRefresh?.addEventListener("click", () => {
+  loadAdminChatConversations();
+});
+
+// FILTER
+adminChatFilter?.addEventListener("change", () => {
+  selectedAdminChat = null;
+  adminChatThreadContent.hidden = true;
+  adminChatEmpty.hidden = false;
+
+  loadAdminChatConversations();
+});
+
+// SEND ADMIN REPLY
+adminChatReplyForm?.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!isAdmin || !currentUser || !selectedAdminChat) return;
+
+  if (selectedAdminChat.status !== "open") return;
+
+  const message = adminChatReplyInput.value.trim();
+
+  if (!message) return;
+
+  const button = adminChatReplyForm.querySelector("button");
+  button.disabled = true;
+
+  try {
+    const { error } = await supabaseClient
+      .from("chat_messages")
+      .insert({
+        conversation_id: selectedAdminChat.id,
+        sender_id: currentUser.id,
+        sender_role: "admin",
+        message: message
+      });
+
+    if (error) throw error;
+
+    adminChatReplyInput.value = "";
+
+    await loadAdminChatThread(selectedAdminChat.id);
+
+  } catch (error) {
+    console.error("Admin chat reply error:", error);
+    alert("Could not send your reply.");
+  } finally {
+    button.disabled = false;
+  }
+});
+
+// CHANGE CONVERSATION STATUS
+async function updateAdminChatStatus(newStatus) {
+  if (!isAdmin || !currentUser || !selectedAdminChat) return;
+
+  try {
+    const { error } = await supabaseClient
+      .from("chat_conversations")
+      .update({ status: newStatus })
+      .eq("id", selectedAdminChat.id);
+
+    if (error) throw error;
+
+    selectedAdminChat = null;
+
+    adminChatThreadContent.hidden = true;
+    adminChatEmpty.hidden = false;
+
+    await loadAdminChatConversations();
+
+  } catch (error) {
+    console.error("Admin chat status error:", error);
+    alert("Could not update conversation status.");
+  }
+}
+
+// CLOSE CONVERSATION
+adminChatCloseConversation?.addEventListener("click", () => {
+  if (confirm("Close this conversation?")) {
+    updateAdminChatStatus("closed");
+  }
+});
+
+// ARCHIVE CONVERSATION
+adminChatArchiveConversation?.addEventListener("click", () => {
+  if (confirm("Archive this conversation?")) {
+    updateAdminChatStatus("archived");
+  }
+});
+
+// LOAD INBOX WHEN ADMIN PANEL OPENS
+adminOpenButton?.addEventListener("click", () => {
+  if (isAdmin && currentUser) {
+    loadAdminChatConversations();
+  }
+});
+
+console.log("MISTÉ admin chat inbox initialized.");
