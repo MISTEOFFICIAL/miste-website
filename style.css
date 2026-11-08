@@ -3670,3 +3670,13 @@ footer p {
     font-size: 11px;
   }
 }
+
+/* DELIVERY — REMOVE LIST MARKERS */
+
+.delivery-section .delivery-content li {
+  padding-left: 0;
+}
+
+.delivery-section .delivery-content li::before {
+  display: none;
+}
