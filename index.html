@@ -481,6 +481,89 @@
 
 </div>
 
+    
+<!-- CUSTOMER SUPPORT INBOX -->
+<div class="admin-products-section admin-chat-section">
+
+  <h3>Customer Support Inbox</h3>
+  <p class="admin-description">
+    Manage customer conversations and support requests.
+  </p>
+
+  <div class="admin-chat-toolbar">
+    <select id="admin-chat-filter" class="checkout-input">
+      <option value="open">Open conversations</option>
+      <option value="closed">Closed conversations</option>
+      <option value="archived">Archived conversations</option>
+      <option value="all">All conversations</option>
+    </select>
+
+    <button type="button" class="checkout-button" id="admin-chat-refresh">
+      REFRESH
+    </button>
+  </div>
+
+  <div class="admin-chat-layout">
+
+    <!-- CONVERSATION LIST -->
+    <div class="admin-chat-sidebar">
+      <div id="admin-chat-conversations-list">
+        <p class="account-loading">Loading conversations...</p>
+      </div>
+    </div>
+
+    <!-- SELECTED CONVERSATION -->
+    <div class="admin-chat-thread">
+
+      <div id="admin-chat-empty">
+        <p>Select a conversation to view messages.</p>
+      </div>
+
+      <div id="admin-chat-thread-content" hidden>
+
+        <div class="admin-chat-customer">
+          <h4 id="admin-chat-customer-name">Customer</h4>
+          <p id="admin-chat-customer-phone"></p>
+          <p id="admin-chat-customer-date"></p>
+          <p id="admin-chat-customer-status"></p>
+        </div>
+
+        <div id="admin-chat-thread-messages" aria-live="polite"></div>
+
+        <form id="admin-chat-reply-form">
+          <textarea
+            id="admin-chat-reply-input"
+            class="checkout-input"
+            maxlength="2000"
+            rows="3"
+            placeholder="Write your reply..."
+            required
+          ></textarea>
+
+          <button type="submit" class="checkout-button">
+            SEND REPLY
+          </button>
+        </form>
+
+        <div class="admin-chat-actions">
+          <button type="button" class="checkout-button"
+            id="admin-chat-close-conversation">
+            CLOSE CONVERSATION
+          </button>
+
+          <button type="button" class="sign-out-button"
+            id="admin-chat-archive-conversation">
+            ARCHIVE
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- END CUSTOMER SUPPORT INBOX -->
+
   </div>
 </div>
 
