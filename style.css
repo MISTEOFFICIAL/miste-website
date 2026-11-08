@@ -2162,3 +2162,25 @@ footer p {
     display: inline;
   }
 }
+
+/* MISTÉ — SYMBOL LOGO */
+
+.header > .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 0;
+  letter-spacing: 0;
+  color: white;
+}
+
+.header > .logo .essence-drop-logo {
+  display: block;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px;
+  color: white;
+  flex-shrink: 0;
+}
