@@ -3667,3 +3667,9 @@ footer p {
   bottom: 15px !important;
   z-index: 900 !important;
 }
+
+@media (min-width: 769px) {
+  #miste-chat-launcher {
+    transform: translateY(14px);
+  }
+}
