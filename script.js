@@ -2433,7 +2433,8 @@ const adminDashboard = document.getElementById("admin-dashboard");
 const adminSections = {
   products: document.getElementById("admin-section-products"),
   journal: document.getElementById("admin-section-journal"),
-  support: document.getElementById("admin-section-support")
+  support: document.getElementById("admin-section-support"),
+  homepage: document.getElementById("admin-section-homepage")
 };
 
 // SHOW DASHBOARD
