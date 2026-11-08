@@ -3673,3 +3673,130 @@ footer p {
     transform: translateY(14px);
   }
 }
+
+/* ==========================================
+   MISTÉ — HOMEPAGE IMAGE MANAGER
+========================================== */
+
+#admin-section-homepage .admin-section-heading {
+  margin-bottom: 30px;
+}
+
+#admin-section-homepage .admin-section-heading .eyebrow {
+  color: #8B7CC7;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  margin-bottom: 12px;
+}
+
+#admin-section-homepage .admin-section-heading h3 {
+  color: #F7F5FC;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 32px;
+  font-weight: 400;
+  margin: 0 0 10px;
+}
+
+#admin-section-homepage .admin-section-heading p:last-child {
+  color: #A9A2BD;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.homepage-image-manager {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.8fr);
+  gap: 28px;
+  align-items: center;
+  padding: 22px;
+  border: 1px solid rgba(201,194,227,.16);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1A1632, #100E22);
+}
+
+.homepage-image-preview {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid rgba(201,194,227,.2);
+  border-radius: 10px;
+  background: #0E0B1D;
+}
+
+.homepage-image-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.homepage-image-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 15px;
+}
+
+.homepage-image-controls label {
+  color: #E5E1F0;
+  font-size: 11px;
+  letter-spacing: .5px;
+}
+
+#admin-hero-upload {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px;
+  border: 1px solid rgba(201,194,227,.2);
+  border-radius: 8px;
+  background: rgba(255,255,255,.04);
+  color: #C9C2E3;
+  font: 10px "Montserrat", sans-serif;
+}
+
+#admin-hero-upload::file-selector-button {
+  margin-right: 12px;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 5px;
+  background: #3A2B63;
+  color: white;
+  font: 10px "Montserrat", sans-serif;
+  cursor: pointer;
+}
+
+#admin-save-hero {
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid #8B7CC7;
+  border-radius: 7px;
+  background: #5A3B8C;
+  color: white;
+  font: 500 10px "Montserrat", sans-serif;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: .25s ease;
+}
+
+#admin-save-hero:hover {
+  background: #7558AA;
+}
+
+#admin-hero-message {
+  color: #C9C2E3;
+  font-size: 10px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .homepage-image-manager {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 15px;
+  }
+
+  #admin-section-homepage .admin-section-heading h3 {
+    font-size: 28px;
+  }
+}
