@@ -1760,3 +1760,284 @@ function openJournalArticle(post) {
 // LOAD JOURNAL ON WEBSITE START
 loadJournalPosts();
 
+
+// ==========================================
+// MISTÉ — CUSTOMER CHAT
+// ==========================================
+
+// Separate anonymous session for chat.
+// This does NOT replace the customer's normal account session.
+
+const mistChatClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  {
+    auth: {
+      storageKey: "miste-chat-auth",
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: false
+    }
+  }
+);
+
+const mistChatWidget = document.getElementById("miste-chat-widget");
+const mistChatPanel = document.getElementById("miste-chat-panel");
+const mistChatLauncher = document.getElementById("miste-chat-launcher");
+const mistChatClose = document.getElementById("miste-chat-close");
+
+const mistChatStartForm = document.getElementById("miste-chat-start-form");
+const mistChatName = document.getElementById("miste-chat-name");
+const mistChatPhone = document.getElementById("miste-chat-phone");
+
+const mistChatWelcome = document.getElementById("miste-chat-welcome");
+const mistChatConversation = document.getElementById("miste-chat-conversation");
+const mistChatMessages = document.getElementById("miste-chat-messages");
+
+const mistChatMessageForm = document.getElementById("miste-chat-message-form");
+const mistChatMessageInput = document.getElementById("miste-chat-message-input");
+const mistChatEnd = document.getElementById("miste-chat-end");
+
+let mistChatUser = null;
+let mistChatActiveConversation = null;
+
+// Get or create a separate anonymous visitor session.
+async function mistChatEnsureSession() {
+  const { data, error } = await mistChatClient.auth.getSession();
+
+  if (error) throw error;
+
+  if (data.session?.user) {
+    mistChatUser = data.session.user;
+    return mistChatUser;
+  }
+
+  const { data: authData, error: authError } =
+    await mistChatClient.auth.signInAnonymously();
+
+  if (authError) throw authError;
+
+  mistChatUser = authData.user;
+  return mistChatUser;
+}
+
+// Display messages safely as text.
+function mistChatAddMessage(message, role) {
+  const bubble = document.createElement("div");
+  bubble.className = `miste-chat-message ${role}`;
+
+  const text = document.createElement("p");
+  text.textContent = message;
+
+  bubble.appendChild(text);
+  mistChatMessages.appendChild(bubble);
+}
+
+// Show the conversation interface.
+function mistChatShowConversation() {
+  mistChatWelcome.hidden = true;
+  mistChatStartForm.hidden = true;
+  mistChatConversation.hidden = false;
+}
+
+// Show the contact form.
+function mistChatShowStartForm() {
+  mistChatWelcome.hidden = false;
+  mistChatStartForm.hidden = false;
+  mistChatConversation.hidden = true;
+}
+
+// Load the visitor's latest open conversation.
+async function mistChatFindOpenConversation() {
+  if (!mistChatUser) return null;
+
+  const { data, error } = await mistChatClient
+    .from("chat_conversations")
+    .select("*")
+    .eq("visitor_id", mistChatUser.id)
+    .eq("status", "open")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  return data;
+}
+
+// Load messages for the active conversation.
+async function mistChatLoadMessages() {
+  if (!mistChatActiveConversation) return;
+
+  const { data, error } = await mistChatClient
+    .from("chat_messages")
+    .select("id, sender_role, message, created_at")
+    .eq("conversation_id", mistChatActiveConversation.id)
+    .order("created_at", { ascending: true });
+
+  if (error) throw error;
+
+  mistChatMessages.innerHTML = "";
+
+  mistChatAddMessage(
+    "Thank you for contacting MISTÉ. Your message has been received. Our team will get back to you as soon as possible.",
+    "system"
+  );
+
+  (data || []).forEach(item => {
+    mistChatAddMessage(
+      item.message,
+      item.sender_role === "admin" ? "admin" : "customer"
+    );
+  });
+
+  mistChatMessages.scrollTop = mistChatMessages.scrollHeight;
+}
+
+// Open the chat.
+async function mistChatOpen() {
+  mistChatPanel.hidden = false;
+  mistChatLauncher.setAttribute("aria-expanded", "true");
+
+  try {
+    await mistChatEnsureSession();
+
+    mistChatActiveConversation =
+      await mistChatFindOpenConversation();
+
+    if (mistChatActiveConversation) {
+      mistChatShowConversation();
+      await mistChatLoadMessages();
+    } else {
+      mistChatShowStartForm();
+    }
+  } catch (error) {
+    console.error("MISTÉ chat initialization error:", error);
+    mistChatWelcome.querySelector("span").textContent =
+      "Chat is temporarily unavailable. Please try again later.";
+    mistChatShowStartForm();
+  }
+}
+
+// Close the chat window without ending the conversation.
+function mistChatCloseWindow() {
+  mistChatPanel.hidden = true;
+  mistChatLauncher.setAttribute("aria-expanded", "false");
+}
+
+mistChatLauncher?.addEventListener("click", () => {
+  if (mistChatPanel.hidden) {
+    mistChatOpen();
+  } else {
+    mistChatCloseWindow();
+  }
+});
+
+mistChatClose?.addEventListener("click", mistChatCloseWindow);
+
+// Start a new conversation.
+mistChatStartForm?.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const name = mistChatName.value.trim();
+  const phone = mistChatPhone.value.trim();
+
+  if (!name || !phone) return;
+
+  const submitButton = mistChatStartForm.querySelector("button[type='submit']");
+  submitButton.disabled = true;
+  submitButton.textContent = "PLEASE WAIT...";
+
+  try {
+    await mistChatEnsureSession();
+
+    const { data, error } = await mistChatClient
+      .from("chat_conversations")
+      .insert({
+        visitor_id: mistChatUser.id,
+        customer_name: name,
+        customer_phone: phone
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    mistChatActiveConversation = data;
+
+    mistChatShowConversation();
+    await mistChatLoadMessages();
+
+  } catch (error) {
+    console.error("MISTÉ chat start error:", error);
+    alert("Could not start the conversation. Please try again.");
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = "START A CONVERSATION";
+  }
+});
+
+// Send a customer message.
+mistChatMessageForm?.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const message = mistChatMessageInput.value.trim();
+
+  if (!message || !mistChatActiveConversation || !mistChatUser) return;
+
+  const sendButton = mistChatMessageForm.querySelector("button");
+  sendButton.disabled = true;
+
+  try {
+    const { error } = await mistChatClient
+      .from("chat_messages")
+      .insert({
+        conversation_id: mistChatActiveConversation.id,
+        sender_id: mistChatUser.id,
+        sender_role: "customer",
+        message
+      });
+
+    if (error) throw error;
+
+    mistChatMessageInput.value = "";
+    await mistChatLoadMessages();
+
+  } catch (error) {
+    console.error("MISTÉ chat message error:", error);
+    alert("Your message could not be sent. Please try again.");
+  } finally {
+    sendButton.disabled = false;
+    mistChatMessageInput.focus();
+  }
+});
+
+// End the conversation.
+// The database record and transcript remain available to the admin.
+mistChatEnd?.addEventListener("click", async () => {
+  if (!mistChatActiveConversation) return;
+
+  if (!confirm("Are you sure you want to end this conversation?")) return;
+
+  try {
+    const { error } = await mistChatClient
+      .from("chat_conversations")
+      .update({ status: "closed" })
+      .eq("id", mistChatActiveConversation.id);
+
+    if (error) throw error;
+
+    mistChatActiveConversation = null;
+    mistChatMessages.innerHTML = "";
+    mistChatStartForm.reset();
+    mistChatCloseWindow();
+    mistChatShowStartForm();
+
+  } catch (error) {
+    console.error("MISTÉ chat close error:", error);
+    alert("Could not end the conversation. Please try again.");
+  }
+});
+
+console.log("MISTÉ customer chat initialized.");
+
