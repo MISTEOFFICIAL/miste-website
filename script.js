@@ -11,6 +11,55 @@ const supabaseClient = window.supabase.createClient(
 );
 
 // ==========================================
+// MISTÉ — HOMEPAGE HERO IMAGE
+// ==========================================
+
+const heroSection = document.querySelector(".hero");
+
+async function loadHomepageHeroImage() {
+  if (!heroSection) return;
+
+  const { data, error } = await supabaseClient
+    .from("site_settings")
+    .select("setting_value")
+    .eq("setting_key", "hero_image_url")
+    .maybeSingle();
+
+  if (error) {
+    console.error("Homepage image loading error:", error);
+    return;
+  }
+
+  if (data?.setting_value) {
+    heroSection.style.backgroundImage = `
+      linear-gradient(
+        90deg,
+        rgba(16,17,61,.65),
+        rgba(16,17,61,.12)
+      ),
+      url("${data.setting_value}")
+    `;
+  }
+}
+  if (data?.setting_value) {
+    heroSection.style.backgroundImage = `
+      linear-gradient(
+        90deg,
+        rgba(16,17,61,.65),
+        rgba(16,17,61,.12)
+      ),
+      url("${data.setting_value}")
+    `;
+  }
+}
+
+loadHomepageHeroImage();
+
+// ==========================================
+// PRODUCTS
+// ==========================================
+
+// ==========================================
 // PRODUCTS
 // ==========================================
 
@@ -1069,6 +1118,120 @@ const adminProductsList = document.getElementById("admin-products-list");
 const adminMessage = document.getElementById("admin-message");
 
 let editingProductId = null;
+
+// ==========================================
+// HOMEPAGE IMAGE MANAGEMENT
+// ==========================================
+
+const heroUploadInput = document.getElementById("admin-hero-upload");
+const heroPreview = document.getElementById("admin-hero-preview");
+const heroSaveButton = document.getElementById("admin-save-hero");
+const heroMessage = document.getElementById("admin-hero-message");
+
+// LOAD CURRENT IMAGE IN ADMIN PANEL
+async function loadAdminHeroImage() {
+  if (!isAdmin || !currentUser) return;
+
+  const { data, error } = await supabaseClient
+    .from("site_settings")
+    .select("setting_value")
+    .eq("setting_key", "hero_image_url")
+    .maybeSingle();
+
+  if (error) {
+    console.error("Admin hero image error:", error);
+    return;
+  }
+
+  if (data?.setting_value && heroPreview) {
+    heroPreview.src = data.setting_value;
+  }
+}
+
+// PREVIEW SELECTED IMAGE
+heroUploadInput?.addEventListener("change", () => {
+  const file = heroUploadInput.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    heroMessage.textContent = "Please select a valid image.";
+    heroUploadInput.value = "";
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    heroMessage.textContent = "Image must be smaller than 5 MB.";
+    heroUploadInput.value = "";
+    return;
+  }
+
+  heroPreview.src = URL.createObjectURL(file);
+  heroMessage.textContent = "Image preview ready.";
+});
+
+// SAVE NEW HOMEPAGE IMAGE
+heroSaveButton?.addEventListener("click", async () => {
+  if (!isAdmin || !currentUser) return;
+
+  const file = heroUploadInput?.files[0];
+
+  if (!file) {
+    heroMessage.textContent = "Please select an image first.";
+    return;
+  }
+
+  heroSaveButton.disabled = true;
+  heroMessage.textContent = "Uploading image...";
+
+  try {
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+    const filePath = `${Date.now()}-${safeName}`;
+
+    const { error: uploadError } = await supabaseClient
+      .storage
+      .from("homepage-images")
+      .upload(filePath, file);
+
+    if (uploadError) throw uploadError;
+
+    const { data: publicData } = supabaseClient
+      .storage
+      .from("homepage-images")
+      .getPublicUrl(filePath);
+
+    const imageUrl = publicData.publicUrl;
+
+    const { error: updateError } = await supabaseClient
+      .from("site_settings")
+      .update({
+        setting_value: imageUrl,
+        updated_at: new Date().toISOString()
+      })
+      .eq("setting_key", "hero_image_url");
+
+    if (updateError) throw updateError;
+
+    heroPreview.src = imageUrl;
+    heroSection.style.backgroundImage = `
+      linear-gradient(
+        90deg,
+        rgba(16,17,61,.65),
+        rgba(16,17,61,.12)
+      ),
+      url("${imageUrl}")
+    `;
+
+    heroUploadInput.value = "";
+    heroMessage.textContent = "Homepage image updated successfully.";
+
+  } catch (error) {
+    console.error("Homepage image upload error:", error);
+    heroMessage.textContent = "Could not update image: " + error.message;
+  } finally {
+    heroSaveButton.disabled = false;
+  }
+});
 
 // OPEN ADMIN PANEL
 adminOpenButton?.addEventListener("click", async () => {
@@ -2476,6 +2639,10 @@ function openAdminSection(sectionName) {
   if (sectionName === "support") {
     loadAdminChatConversations();
   }
+}
+
+if (sectionName === "homepage") {
+  loadAdminHeroImage();
 }
 
 // DASHBOARD CARD CLICKS
