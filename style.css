@@ -3574,3 +3574,27 @@ footer p {
   }
 }
 
+/* MISTÉ CHAT — WELCOME WINDOW FIT */
+
+.miste-chat-panel:has(#miste-chat-start-form:not([hidden])) {
+  height: auto !important;
+  max-height: calc(100dvh - 120px) !important;
+  min-height: 0 !important;
+}
+
+.miste-chat-panel:has(#miste-chat-start-form:not([hidden])) .miste-chat-body {
+  flex: 0 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+}
+
+#miste-chat-start-form {
+  flex-shrink: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .miste-chat-panel:has(#miste-chat-start-form:not([hidden])) {
+    max-height: calc(100dvh - 100px) !important;
+  }
+}
