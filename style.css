@@ -3855,3 +3855,20 @@ footer p {
     font-size: 9px !important;
   }
 }
+
+
+/* HOMEPAGE HEADING — MATCH JOURNAL STYLE */
+
+#admin-section-homepage .admin-section-heading h3 {
+  color: #1A1B5B;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 26px;
+  font-weight: 500;
+}
+
+#admin-section-homepage .admin-section-heading p:last-child {
+  color: #77728A;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  line-height: 1.7;
+}
