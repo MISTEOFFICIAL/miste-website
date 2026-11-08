@@ -3461,3 +3461,27 @@ footer p {
     height: 30px;
   }
 }
+
+/* ADMIN DASHBOARD — FORCE SVG ICONS */
+
+.admin-dashboard-icon svg {
+  display: block !important;
+  width: 26px !important;
+  height: 26px !important;
+  min-width: 26px;
+  overflow: visible;
+  fill: none !important;
+  stroke: #C9C2E3 !important;
+  stroke-width: 1.5 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.admin-dashboard-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #C9C2E3 !important;
+}
