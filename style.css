@@ -3598,3 +3598,75 @@ footer p {
     max-height: calc(100dvh - 100px) !important;
   }
 }
+
+/* ==========================================
+   MISTÉ — DELIVERY SECTION
+========================================== */
+
+.delivery-section {
+  background: white;
+}
+
+.delivery-section .delivery-content {
+  max-width: 650px;
+  margin: 35px auto 0;
+  text-align: left;
+}
+
+.delivery-section .delivery-content h3 {
+  color: var(--navy);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 400;
+  margin-bottom: 28px;
+}
+
+.delivery-section .delivery-content h4 {
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 28px 0 13px;
+}
+
+.delivery-section .delivery-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.delivery-section .delivery-content li {
+  position: relative;
+  padding-left: 17px;
+  margin-bottom: 12px;
+  color: #888;
+  font-size: 12px;
+  line-height: 2;
+}
+
+.delivery-section .delivery-content li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--lavender);
+}
+
+.delivery-section .delivery-content strong {
+  color: var(--navy);
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .delivery-section .delivery-content {
+    margin-top: 25px;
+  }
+
+  .delivery-section .delivery-content h3 {
+    font-size: 26px;
+  }
+
+  .delivery-section .delivery-content li {
+    font-size: 11px;
+  }
+}
