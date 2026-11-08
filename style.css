@@ -4011,16 +4011,6 @@ footer p {
   color: var(--navy);
 }
 
-/* MOBILE — INPUT FONT SIZE */
-
-@media (max-width: 600px) {
-  input,
-  textarea,
-  select {
-    font-size: 16px;
-  }
-}
-
 /* DELIVERY — MATCH ABOUT PARAGRAPHS */
 
 .delivery-section .delivery-content h4 {
