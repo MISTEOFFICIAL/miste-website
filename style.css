@@ -3610,7 +3610,7 @@ footer p {
 .delivery-section .delivery-content {
   max-width: 650px;
   margin: 35px auto 0;
-  text-align: left;
+  text-align: center;
 }
 
 .delivery-section .delivery-content h3 {
@@ -3637,19 +3637,10 @@ footer p {
 }
 
 .delivery-section .delivery-content li {
-  position: relative;
-  padding-left: 17px;
-  margin-bottom: 12px;
   color: #888;
   font-size: 12px;
   line-height: 2;
-}
-
-.delivery-section .delivery-content li::before {
-  content: "—";
-  position: absolute;
-  left: 0;
-  color: var(--lavender);
+  margin-bottom: 12px;
 }
 
 .delivery-section .delivery-content strong {
@@ -3669,14 +3660,4 @@ footer p {
   .delivery-section .delivery-content li {
     font-size: 11px;
   }
-}
-
-/* DELIVERY — REMOVE LIST MARKERS */
-
-.delivery-section .delivery-content li {
-  padding-left: 0;
-}
-
-.delivery-section .delivery-content li::before {
-  display: none;
 }
