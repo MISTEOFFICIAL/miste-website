@@ -3313,3 +3313,151 @@ footer p {
     padding: 11px 2px;
   }
 }
+
+
+/* ==========================================
+   MISTÉ — PREMIUM ADMIN DASHBOARD
+========================================== */
+
+.admin-dashboard-card {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+  min-height: 126px;
+  padding: 26px 28px;
+  background: linear-gradient(115deg, #2A1E4D, #14102B);
+  border: 1px solid rgba(201,194,227,.16);
+  border-radius: 17px;
+  color: #F7F5FC;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 8px 28px rgba(14,11,29,.12);
+  transition: all .35s ease;
+}
+
+.admin-dashboard-card:hover {
+  transform: translateY(-4px);
+  background: linear-gradient(115deg, #3A2B63, #1C1639);
+  border-color: rgba(201,194,227,.42);
+  box-shadow: 0 15px 38px rgba(14,11,29,.24);
+}
+
+.admin-dashboard-icon {
+  flex: 0 0 54px;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(201,194,227,.2);
+  border-radius: 14px;
+  background: rgba(143,122,230,.09);
+  color: #C9C2E3;
+  transition: all .35s ease;
+}
+
+.admin-dashboard-icon svg {
+  width: 25px;
+  height: 25px;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.admin-dashboard-card:hover .admin-dashboard-icon {
+  background: rgba(143,122,230,.18);
+  border-color: rgba(201,194,227,.4);
+  color: #FFFFFF;
+}
+
+.admin-dashboard-text {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-dashboard-text strong {
+  color: #F7F5FC;
+  font-family: "Montserrat", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .35px;
+  line-height: 1.5;
+}
+
+.admin-dashboard-text small {
+  color: rgba(201,194,227,.66);
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: .25px;
+  line-height: 1.6;
+}
+
+.admin-dashboard-arrow {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(201,194,227,.17);
+  border-radius: 50%;
+  color: #C9C2E3;
+  transition: all .35s ease;
+}
+
+.admin-dashboard-arrow svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.admin-dashboard-card:hover .admin-dashboard-arrow {
+  background: #8B7CC7;
+  border-color: #8B7CC7;
+  color: #FFFFFF;
+  transform: translateX(3px);
+}
+
+@media (max-width: 600px) {
+  .admin-dashboard-card {
+    min-height: 108px;
+    gap: 14px;
+    padding: 19px 16px;
+    border-radius: 14px;
+  }
+
+  .admin-dashboard-icon {
+    flex-basis: 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .admin-dashboard-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .admin-dashboard-text strong {
+    font-size: 11px;
+  }
+
+  .admin-dashboard-text small {
+    font-size: 9px;
+  }
+
+  .admin-dashboard-arrow {
+    flex-basis: 30px;
+    width: 30px;
+    height: 30px;
+  }
+}
