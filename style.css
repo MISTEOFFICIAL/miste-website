@@ -2402,3 +2402,9 @@ footer p {
     transform: translateY(-3px);
   }
 }
+
+@media (min-width: 601px) {
+  .miste-chat-widget {
+    bottom: 75px;
+  }
+}
