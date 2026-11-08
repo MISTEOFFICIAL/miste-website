@@ -3882,3 +3882,81 @@ footer p {
   letter-spacing: 0.2px !important;
   color: #1A1B5B !important;
 }
+
+/* ==========================================
+   MISTÉ — ADMIN DASHBOARD CONSISTENT STYLE
+========================================== */
+
+#admin-dashboard .admin-dashboard-card {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 108px !important;
+  padding: 22px 24px !important;
+  gap: 18px !important;
+  background: #100E22 !important;
+  border: 1px solid rgba(139, 124, 199, 0.18) !important;
+  border-radius: 14px !important;
+  color: #F7F5FC !important;
+  box-shadow: none !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+#admin-dashboard .admin-dashboard-card:hover {
+  background: #19152F !important;
+  border-color: rgba(139, 124, 199, 0.4) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+#admin-dashboard .admin-dashboard-icon {
+  flex: 0 0 48px !important;
+  width: 48px !important;
+  height: 48px !important;
+  background: #1B1732 !important;
+  border: 1px solid rgba(139, 124, 199, 0.16) !important;
+  border-radius: 12px !important;
+  color: #C9C2E3 !important;
+}
+
+#admin-dashboard .admin-dashboard-text {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 7px !important;
+}
+
+#admin-dashboard .admin-dashboard-text strong {
+  color: #F1EDF8 !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2px !important;
+  line-height: 1.5 !important;
+}
+
+#admin-dashboard .admin-dashboard-text small {
+  color: #A9A2BD !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+}
+
+#admin-dashboard .admin-dashboard-arrow {
+  color: #8B7CC7 !important;
+}
+
+@media (max-width: 600px) {
+  #admin-dashboard .admin-dashboard-card {
+    min-height: 88px !important;
+    padding: 17px 15px !important;
+    gap: 13px !important;
+  }
+
+  #admin-dashboard .admin-dashboard-text strong {
+    font-size: 11px !important;
+  }
+
+  #admin-dashboard .admin-dashboard-text small {
+    font-size: 9px !important;
+  }
+}
