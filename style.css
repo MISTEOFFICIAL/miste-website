@@ -3485,3 +3485,62 @@ footer p {
   justify-content: center !important;
   color: #C9C2E3 !important;
 }
+
+
+/* ==========================================
+   MISTÉ CHAT — FINAL OVERRIDES
+========================================== */
+
+/* DESKTOP */
+@media (min-width: 769px) {
+
+  .miste-chat-widget {
+    right: 24px !important;
+    bottom: 16px !important;
+    z-index: 9998 !important;
+  }
+
+  .miste-chat-panel {
+    top: auto !important;
+    right: 0 !important;
+    bottom: 62px !important;
+    width: 370px !important;
+    height: min(520px, calc(100dvh - 180px)) !important;
+    max-height: calc(100dvh - 180px) !important;
+  }
+
+  .miste-chat-launcher {
+    transform: translateY(3px) !important;
+  }
+}
+
+/* MOBILE — RESTORE LARGE CHAT WINDOW */
+@media (max-width: 768px) {
+
+  .miste-chat-widget {
+    right: 16px !important;
+    bottom: 18px !important;
+    z-index: 9998 !important;
+  }
+
+  .miste-chat-panel {
+    top: auto !important;
+    right: 0 !important;
+    bottom: 62px !important;
+    width: min(370px, calc(100vw - 24px)) !important;
+    height: min(600px, calc(100dvh - 100px)) !important;
+    max-height: calc(100dvh - 100px) !important;
+  }
+
+  .miste-chat-body {
+    padding: 16px !important;
+  }
+
+  .miste-chat-header {
+    padding: 16px 18px !important;
+  }
+
+  .miste-chat-header h2 {
+    font-size: 24px !important;
+  }
+}
