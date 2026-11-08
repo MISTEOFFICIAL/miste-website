@@ -1049,7 +1049,7 @@ function updateAccountButton() {
   const label = button.querySelector(".account-label");
 
   if (label) {
-    label.textContent = currentUser ? "My Account" : "Account";
+    label.textContent = currentUser ? "Account" : "Account";
   }
 
   button.setAttribute(
