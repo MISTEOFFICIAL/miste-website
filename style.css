@@ -3960,3 +3960,23 @@ footer p {
     font-size: 9px !important;
   }
 }
+
+/* HOMEPAGE HEADING — MATCH JOURNAL MANAGEMENT */
+
+#admin-section-homepage .admin-section-heading h3 {
+  font-family: inherit !important;
+  font-size: 19px !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  color: #1A1B5B !important;
+  margin-bottom: 20px !important;
+}
+
+#admin-section-homepage .admin-section-heading p.admin-description {
+  font-family: inherit !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: #77728A !important;
+  line-height: 1.6 !important;
+  margin-top: 0 !important;
+}
