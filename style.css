@@ -2408,3 +2408,41 @@ footer p {
     bottom: 75px;
   }
 }
+
+/* ==========================================
+   MISTÉ CHAT — DESKTOP & MOBILE ADJUSTMENTS
+========================================== */
+
+/* DESKTOP */
+@media (min-width: 601px) {
+  #miste-chat-widget {
+    bottom: 90px !important;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  #miste-chat-widget {
+    right: 16px !important;
+    bottom: 18px !important;
+  }
+
+  #miste-chat-launcher {
+    width: 56px;
+    min-width: 56px;
+    height: 48px;
+    min-height: 48px;
+    padding: 0;
+    gap: 0;
+    border-radius: 999px;
+  }
+
+  #miste-chat-launcher span {
+    display: none !important;
+  }
+
+  #miste-chat-launcher svg {
+    width: 21px;
+    height: 21px;
+  }
+}
