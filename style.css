@@ -2170,8 +2170,10 @@ footer p {
   }
 }
 
+
 /* ==========================================
    MISTÉ — CUSTOMER CHAT
+   REFINED SUPPORT DESIGN
 ========================================== */
 
 .miste-chat-widget {
@@ -2222,8 +2224,11 @@ footer p {
   position: absolute;
   right: 0;
   bottom: 68px;
-  width: min(370px, calc(100vw - 32px));
-  max-height: min(620px, calc(100dvh - 120px));
+  display: flex;
+  flex-direction: column;
+  width: min(390px, calc(100vw - 32px));
+  height: min(620px, calc(100dvh - 120px));
+  max-height: calc(100dvh - 120px);
   overflow: hidden;
   border: 1px solid rgba(143,122,230,.22);
   border-radius: 18px;
@@ -2239,8 +2244,10 @@ footer p {
 
 .miste-chat-header {
   display: flex;
+  flex-shrink: 0;
   justify-content: space-between;
-  padding: 23px;
+  align-items: center;
+  padding: 21px 23px;
   background: #1A1B3B;
   color: #F7F5FC;
 }
@@ -2263,26 +2270,33 @@ footer p {
 }
 
 #miste-chat-close {
-  border: 0;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 50%;
   background: transparent;
   color: white;
-  font-size: 25px;
+  font-size: 22px;
   cursor: pointer;
 }
 
 .miste-chat-body {
-  padding: 22px;
-  max-height: 440px;
-  overflow-y: auto;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 20px;
+  overflow: hidden;
 }
 
 #miste-chat-welcome {
+  flex-shrink: 0;
   margin-bottom: 20px;
 }
 
 #miste-chat-welcome p {
   margin: 0 0 6px;
-  font: 500 18px "Cormorant Garamond", serif;
+  font: 500 19px "Cormorant Garamond", serif;
 }
 
 #miste-chat-welcome span {
@@ -2295,6 +2309,7 @@ footer p {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow-y: auto;
 }
 
 #miste-chat-start-form label {
@@ -2303,22 +2318,20 @@ footer p {
   font-size: 10px;
 }
 
-#miste-chat-start-form input,
-#miste-chat-message-input {
+#miste-chat-start-form input {
   box-sizing: border-box;
   width: 100%;
-  min-height: 44px;
-  padding: 0 13px;
+  min-height: 46px;
+  padding: 0 14px;
   border: 1px solid #E2DEEC;
-  border-radius: 8px;
+  border-radius: 9px;
   outline: none;
   background: white;
   color: #1A1B2E;
-  font: 11px "Montserrat", sans-serif;
+  font: 12px "Montserrat", sans-serif;
 }
 
-#miste-chat-start-form input:focus,
-#miste-chat-message-input:focus {
+#miste-chat-start-form input:focus {
   border-color: #8F7AE6;
 }
 
@@ -2331,7 +2344,7 @@ footer p {
 #miste-chat-start-form button {
   min-height: 46px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 9px;
   background: #2A1E4D;
   color: white;
   font: 500 9px "Montserrat", sans-serif;
@@ -2339,38 +2352,146 @@ footer p {
   cursor: pointer;
 }
 
+/* CONVERSATION */
+
 #miste-chat-conversation {
   display: flex;
+  flex: 1;
   flex-direction: column;
+  min-width: 0;
+  min-height: 0;
   gap: 12px;
 }
 
 #miste-chat-messages {
   display: flex;
+  flex: 1;
   flex-direction: column;
-  gap: 10px;
-  min-height: 170px;
-  max-height: 280px;
+  align-items: stretch;
+  gap: 13px;
+  min-width: 0;
+  min-height: 0;
+  padding: 5px 2px 12px;
+  overflow-x: hidden;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
-#miste-chat-message-form {
+/* MESSAGE BUBBLES */
+
+.miste-chat-message {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  width: fit-content;
+  max-width: 82%;
+  padding: 11px 14px;
+  border-radius: 15px;
+  overflow-wrap: anywhere;
+  box-shadow: 0 2px 8px rgba(26,20,49,.04);
+}
+
+.miste-chat-message p {
+  margin: 0;
+  font: 400 11px "Montserrat", sans-serif;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+/* CUSTOMER — RIGHT */
+
+.miste-chat-message.customer {
+  align-self: flex-end;
+  border: 1px solid #55427E;
+  border-bottom-right-radius: 4px;
+  background: #2A1E4D;
+  color: #FFFFFF;
+}
+
+/* ADMIN — LEFT */
+
+.miste-chat-message.admin {
+  align-self: flex-start;
+  border: 1px solid #E8E3F0;
+  border-bottom-left-radius: 4px;
+  background: #FFFFFF;
+  color: #302B43;
+}
+
+/* SYSTEM */
+
+.miste-chat-message.system {
+  align-self: center;
+  max-width: 92%;
+  border: 1px solid #E8E3F0;
+  border-radius: 12px;
+  background: #F0EDF6;
+  color: #777286;
+  text-align: center;
+}
+
+/* MESSAGE WRITING AREA */
+
+#miste-chat-message-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 46px;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 9px;
+  width: 100%;
+  padding-top: 12px;
+  border-top: 1px solid #E8E3F0;
+}
+
+#miste-chat-message-input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #E2DEEC;
+  border-radius: 10px;
+  outline: none;
+  background: #FFFFFF;
+  color: #1A1B2E;
+  font: 12px "Montserrat", sans-serif;
+}
+
+#miste-chat-message-input:focus {
+  border-color: #8F7AE6;
 }
 
 #miste-chat-message-form button {
-  flex: 0 0 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 10px;
   background: #2A1E4D;
   color: white;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
+  transition: background .2s ease;
 }
+
+#miste-chat-message-form button:hover {
+  background: #493477;
+}
+
+#miste-chat-message-form button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* END CONVERSATION */
 
 #miste-chat-end {
   align-self: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+  padding: 7px 12px;
   border: 0;
   background: transparent;
   color: #777286;
@@ -2386,48 +2507,6 @@ footer p {
   }
 
   .miste-chat-launcher {
-    min-height: 50px;
-    padding: 0 17px;
-  }
-
-  .miste-chat-panel {
-    bottom: 62px;
-    width: min(360px, calc(100vw - 32px));
-    max-height: calc(100dvh - 100px);
-  }
-}
-
-.header > .logo {
-  transform: translateY(-1px);
-}
-  }
-}
-
-@media (min-width: 601px) {
-  .miste-chat-widget {
-    bottom: 75px;
-  }
-}
-
-/* ==========================================
-   MISTÉ CHAT — DESKTOP & MOBILE ADJUSTMENTS
-========================================== */
-
-/* DESKTOP */
-@media (min-width: 601px) {
-  #miste-chat-widget {
-    bottom: 90px !important;
-  }
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-  #miste-chat-widget {
-    right: 16px !important;
-    bottom: 18px !important;
-  }
-
-  #miste-chat-launcher {
     width: 56px;
     min-width: 56px;
     height: 48px;
@@ -2437,13 +2516,39 @@ footer p {
     border-radius: 999px;
   }
 
-  #miste-chat-launcher span {
+  .miste-chat-launcher span {
     display: none !important;
   }
 
-  #miste-chat-launcher svg {
+  .miste-chat-launcher svg {
     width: 21px;
     height: 21px;
+  }
+
+  .miste-chat-panel {
+    right: 0;
+    bottom: 62px;
+    width: min(370px, calc(100vw - 24px));
+    height: min(600px, calc(100dvh - 100px));
+    max-height: calc(100dvh - 100px);
+  }
+
+  .miste-chat-body {
+    padding: 16px;
+  }
+
+  #miste-chat-messages {
+    gap: 11px;
+  }
+
+  .miste-chat-message {
+    max-width: 88%;
+  }
+}
+
+@media (min-width: 601px) {
+  .miste-chat-widget {
+    bottom: 90px;
   }
 }
 
