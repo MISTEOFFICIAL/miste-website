@@ -3256,3 +3256,40 @@ footer p {
     max-width: 380px !important;
   }
 }
+
+/* ACCOUNT TABS — FOUR ITEMS IN ONE ROW */
+
+.account-tabs {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  align-items: stretch;
+  gap: 6px;
+}
+
+#admin-access {
+  display: contents;
+}
+
+#admin-access[hidden] {
+  display: none !important;
+}
+
+.account-tabs .account-tab {
+  width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+  text-align: center;
+  padding: 12px 5px;
+  font-size: 11px;
+}
+
+@media (max-width: 480px) {
+  .account-tabs {
+    gap: 3px;
+  }
+
+  .account-tabs .account-tab {
+    font-size: 9px;
+    padding: 11px 2px;
+  }
+}
