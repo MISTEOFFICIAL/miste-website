@@ -2146,3 +2146,26 @@ footer p {
   flex-shrink: 0;
   overflow: visible;
 }
+
+@media (max-width: 600px) {
+  .header > .logo {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    font-size: 0;
+    color: #FFFFFF;
+  }
+
+  .header > .logo .essence-drop-logo {
+    display: block !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .header > .logo .mobile-logo-wordmark {
+    display: none !important;
+  }
+}
