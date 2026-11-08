@@ -383,51 +383,99 @@
 
     <p class="eyebrow">MISTÉ MANAGEMENT</p>
     <h2>Admin Panel</h2>
-    <p class="admin-description">Manage your product collection.</p>
+<p class="admin-description">Choose a section to manage your store.</p>
 
-    <div class="admin-form">
-      <input type="hidden" id="admin-product-id">
+<!-- ADMIN DASHBOARD -->
+<div id="admin-dashboard" class="admin-dashboard">
 
-      <label class="field-label" for="admin-product-name">Product Name</label>
-      <input class="checkout-input" id="admin-product-name" placeholder="Product name">
+  <button type="button" class="admin-dashboard-card" data-admin-section="products">
+    <span class="admin-dashboard-icon">▦</span>
+    <span class="admin-dashboard-text">
+      <strong>Manage Your Product Collection</strong>
+      <small>Manage products, prices and inventory.</small>
+    </span>
+    <span class="admin-dashboard-arrow">→</span>
+  </button>
 
-      <label class="field-label" for="admin-product-category">Category</label>
-      <select class="checkout-input" id="admin-product-category">
-        <option value="candles">Candles</option>
-        <option value="diffusers">Diffusers</option>
-        <option value="sprays">Room Sprays</option>
-      </select>
+  <button type="button" class="admin-dashboard-card" data-admin-section="journal">
+    <span class="admin-dashboard-icon">▤</span>
+    <span class="admin-dashboard-text">
+      <strong>Journal Management</strong>
+      <small>Create and manage journal articles.</small>
+    </span>
+    <span class="admin-dashboard-arrow">→</span>
+  </button>
 
-      <label class="field-label" for="admin-product-price">Price (₾)</label>
-      <input class="checkout-input" id="admin-product-price" type="number" min="0" step="0.01">
+  <button type="button" class="admin-dashboard-card" data-admin-section="support">
+    <span class="admin-dashboard-icon">✉</span>
+    <span class="admin-dashboard-text">
+      <strong>Customer Support Inbox</strong>
+      <small>Manage customer conversations and replies.</small>
+    </span>
+    <span class="admin-dashboard-arrow">→</span>
+  </button>
 
-      <label class="field-label" for="admin-product-stock">Stock</label>
-      <input class="checkout-input" id="admin-product-stock" type="number" min="0" step="1">
+</div>
+    
+   <!-- PRODUCTS SECTION -->
+<div id="admin-section-products" class="admin-section" hidden>
 
-      <label class="field-label" for="admin-product-description">Description</label>
-      <textarea class="checkout-input" id="admin-product-description" rows="3" placeholder="Product description"></textarea>
+  <button type="button" class="admin-back-button" data-admin-back>
+    ← Back to Dashboard
+  </button>
 
-      <label class="field-label" for="admin-product-image">Product Image</label>
-      <input class="checkout-input" id="admin-product-image" type="file" accept="image/*">
+  <h3>Manage Your Product Collection</h3>
 
-      <div class="admin-form-actions">
-        <button type="button" class="checkout-button" id="admin-save-product">SAVE PRODUCT</button>
-        <button type="button" class="sign-out-button" id="admin-cancel-edit" hidden>CANCEL EDIT</button>
-      </div>
+  <div class="admin-form">
+    <input type="hidden" id="admin-product-id">
 
-      <p id="admin-message" class="order-message"></p>
+    <label class="field-label" for="admin-product-name">Product Name</label>
+    <input class="checkout-input" id="admin-product-name" placeholder="Product name">
+
+    <label class="field-label" for="admin-product-category">Category</label>
+    <select class="checkout-input" id="admin-product-category">
+      <option value="candles">Candles</option>
+      <option value="diffusers">Diffusers</option>
+      <option value="sprays">Room Sprays</option>
+    </select>
+
+    <label class="field-label" for="admin-product-price">Price (₾)</label>
+    <input class="checkout-input" id="admin-product-price" type="number" min="0" step="0.01">
+
+    <label class="field-label" for="admin-product-stock">Stock</label>
+    <input class="checkout-input" id="admin-product-stock" type="number" min="0" step="1">
+
+    <label class="field-label" for="admin-product-description">Description</label>
+    <textarea class="checkout-input" id="admin-product-description" rows="3" placeholder="Product description"></textarea>
+
+    <label class="field-label" for="admin-product-image">Product Image</label>
+    <input class="checkout-input" id="admin-product-image" type="file" accept="image/*">
+
+    <div class="admin-form-actions">
+      <button type="button" class="checkout-button" id="admin-save-product">SAVE PRODUCT</button>
+      <button type="button" class="sign-out-button" id="admin-cancel-edit" hidden>CANCEL EDIT</button>
     </div>
 
-    <div class="admin-products-section">
-      <h3>Products</h3>
-      <div id="admin-products-list">
-        <p class="account-loading">Loading products...</p>
-      </div>
+    <p id="admin-message" class="order-message"></p>
+  </div>
+
+  <div class="admin-products-section">
+    <h3>Products</h3>
+    <div id="admin-products-list">
+      <p class="account-loading">Loading products...</p>
     </div>
+  </div>
+
+</div>
+<!-- END PRODUCTS SECTION -->
 
     
-<!-- JOURNAL MANAGEMENT -->
-<div class="admin-products-section admin-journal-section">
+<!-- JOURNAL SECTION -->
+<div id="admin-section-journal" class="admin-section" hidden>
+
+  <button type="button" class="admin-back-button" data-admin-back>
+    ← Back to Dashboard
+  </button>
 
   <h3>Journal Management</h3>
   <p class="admin-description">Create and manage MISTÉ journal articles.</p>
@@ -480,10 +528,15 @@
   </div>
 
 </div>
+<!-- END JOURNAL SECTION -->
 
     
-<!-- CUSTOMER SUPPORT INBOX -->
-<div class="admin-products-section admin-chat-section">
+<!-- CUSTOMER SUPPORT SECTION -->
+<div id="admin-section-support" class="admin-section" hidden>
+
+  <button type="button" class="admin-back-button" data-admin-back>
+    ← Back to Dashboard
+  </button>
 
   <h3>Customer Support Inbox</h3>
   <p class="admin-description">
@@ -505,14 +558,12 @@
 
   <div class="admin-chat-layout">
 
-    <!-- CONVERSATION LIST -->
     <div class="admin-chat-sidebar">
       <div id="admin-chat-conversations-list">
         <p class="account-loading">Loading conversations...</p>
       </div>
     </div>
 
-    <!-- SELECTED CONVERSATION -->
     <div class="admin-chat-thread">
 
       <div id="admin-chat-empty">
@@ -562,7 +613,7 @@
 
   </div>
 </div>
-<!-- END CUSTOMER SUPPORT INBOX -->
+<!-- END CUSTOMER SUPPORT SECTION -->
 
   </div>
 </div>
