@@ -3662,20 +3662,19 @@ footer p {
   }
 }
 
-/* KEEP CHAT ABOVE BAG CONTENT */
+/* MISTÉ CHAT — POSITION */
 .miste-chat-widget {
+  bottom: 15px !important;
   z-index: 900 !important;
 }
 
-.cart-overlay,
-.cart-drawer,
+/* BAG — ABOVE CHAT */
 #cart-overlay,
-#cart-drawer {
+.cart-overlay {
   z-index: 1000 !important;
 }
 
-/* MISTÉ CHAT — LOWER POSITION */
-
-.miste-chat-widget {
-  bottom: 15px !important;
+#cart-drawer,
+.cart-drawer {
+  z-index: 1001 !important;
 }
