@@ -3977,3 +3977,11 @@ footer p {
 #admin-overlay {
   background: rgba(16, 17, 61, 0.8) !important;
 }
+
+/* DESKTOP — CHAT WIDGET POSITION */
+
+@media (min-width: 601px) {
+  .miste-chat-widget {
+    bottom: 8px !important;
+  }
+}
