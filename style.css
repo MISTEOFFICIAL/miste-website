@@ -3544,3 +3544,33 @@ footer p {
     font-size: 24px !important;
   }
 }
+
+
+/* MISTÉ CHAT — FINAL HEIGHT ADJUSTMENT */
+
+/* DESKTOP */
+@media (min-width: 769px) {
+  .miste-chat-panel {
+    height: min(460px, calc(100dvh - 180px)) !important;
+    max-height: calc(100dvh - 180px) !important;
+    bottom: 62px !important;
+  }
+
+  .miste-chat-widget {
+    bottom: 16px !important;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .miste-chat-widget {
+    bottom: 10px !important;
+  }
+
+  .miste-chat-panel {
+    bottom: 54px !important;
+    height: min(600px, calc(100dvh - 80px)) !important;
+    max-height: calc(100dvh - 80px) !important;
+  }
+}
+
