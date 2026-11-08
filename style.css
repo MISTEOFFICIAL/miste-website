@@ -750,7 +750,7 @@ footer p {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 1100;
+  z-index: 2000;
   background: rgba(16,17,61,.5);
 }
 
@@ -760,7 +760,7 @@ footer p {
 
 .cart-drawer {
   position: fixed;
-  z-index: 1101;
+  z-index: 2001;
   right: -450px;
   top: 0;
   height: 100vh;
