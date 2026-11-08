@@ -2397,9 +2397,9 @@ footer p {
   }
 }
 
-@media (max-width: 600px) {
-  .header > .logo {
-    transform: translateY(-3px);
+.header > .logo {
+  transform: translateY(-1px);
+}
   }
 }
 
