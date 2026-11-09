@@ -3977,16 +3977,12 @@ footer p {
   background: rgba(16, 17, 61, 0.8) !important;
 }
 
-/* ==========================================
-   MISTÉ — CHAT / CART OVERLAP FIX
-========================================== */
+/* CHAT — HIDE INSTANTLY WHEN CART OPENS */
 
 body:has(.cart-drawer.open) .miste-chat-widget {
+  opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
-}
-
-body:has(.cart-drawer.open) .miste-chat-widget {
-  visibility: hidden !important;
-  pointer-events: none !important;
+  transition: none !important;
+  transform: none !important;
 }
