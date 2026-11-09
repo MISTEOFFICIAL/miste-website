@@ -3977,9 +3977,13 @@ footer p {
   background: rgba(16, 17, 61, 0.8) !important;
 }
 
-/* CHAT — HIDE INSTANTLY WHEN CART OPENS */
+/* ==========================================
+   CHAT — HIDE WHILE CART IS OPEN OR CLOSING
+========================================== */
 
-body:has(.cart-drawer.open) .miste-chat-widget {
+body:has(.cart-drawer.open) .miste-chat-widget,
+body:has(.cart-drawer.closing) .miste-chat-widget,
+body.cart-closing .miste-chat-widget {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
