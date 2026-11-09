@@ -662,26 +662,26 @@ function setValue(id, value) {
   }
 }
 
-document.getElementById("place-order")?.addEventListener("click", () => {
+document.getElementById("place-order")?.addEventListener("click", async () => {
+  const button = document.getElementById("place-order");
   const message = document.getElementById("order-message");
 
-  const firstName =
-    document.getElementById("customer-first-name").value.trim();
+  const firstName = document.getElementById("customer-first-name").value.trim();
+  const lastName = document.getElementById("customer-last-name").value.trim();
+  const email = document.getElementById("customer-email").value.trim();
+  const phone = document.getElementById("customer-phone").value.trim();
+  const address = document.getElementById("customer-address").value.trim();
 
-  const lastName =
-    document.getElementById("customer-last-name").value.trim();
-
-  const email =
-    document.getElementById("customer-email").value.trim();
-
-  const phone =
-    document.getElementById("customer-phone").value.trim();
-
-  const address =
-    document.getElementById("customer-address").value.trim();
+  const paymentMethod =
+    document.querySelector('input[name="payment"]:checked')?.value;
 
   if (!firstName || !lastName || !email || !phone || !address) {
     message.textContent = "Please complete all required fields.";
+    return;
+  }
+
+  if (!paymentMethod) {
+    message.textContent = "Please choose a payment method.";
     return;
   }
 
@@ -690,8 +690,51 @@ document.getElementById("place-order")?.addEventListener("click", () => {
     return;
   }
 
-  message.textContent =
-    "Online payment is not active yet. Your order has not been submitted or saved. No payment has been taken.";
+  button.disabled = true;
+  button.textContent = "PROCESSING...";
+  message.textContent = "";
+
+  try {
+    const orderItems = cart.map(item => ({
+      product_id: Number(item.id),
+      quantity: Number(item.quantity)
+    }));
+
+    const { data: orderId, error } = await supabaseClient.rpc(
+      "create_customer_order",
+      {
+        p_first_name: firstName,
+        p_last_name: lastName,
+        p_email: email,
+        p_phone: phone,
+        p_delivery_address: address,
+        p_payment_method: paymentMethod,
+        p_items: orderItems
+      }
+    );
+
+    if (error) throw error;
+    if (!orderId) throw new Error("Order could not be confirmed.");
+
+    cart = [];
+    saveCart();
+    renderCart();
+
+    message.textContent =
+      "Your order has been successfully placed. Order #" +
+      String(orderId).slice(0, 8) +
+      ". Payment is not active yet.";
+
+    button.textContent = "ORDER PLACED";
+
+  } catch (error) {
+    console.error("Order submission failed:", error);
+    message.textContent =
+      error.message || "Could not place your order. Please try again.";
+
+    button.disabled = false;
+    button.textContent = "CONTINUE";
+  }
 });
 
 // ==========================================
