@@ -3612,22 +3612,16 @@ footer p {
   max-width: none;
   margin: 0;
   font-family: inherit;
-  font-size: 16px;
+  font-size: inherit;
   font-weight: 400;
   line-height: normal;
-  color: var(--text);
+  color: inherit;
   text-align: center;
 }
 
 .delivery-section > p strong {
   font-weight: 700;
   color: inherit;
-}
-
-@media (max-width: 600px) {
-  .delivery-section > p:not(.eyebrow) {
-    font-size: 13px;
-  }
 }
 
 /* ==========================================
