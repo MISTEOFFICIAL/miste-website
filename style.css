@@ -3961,3 +3961,472 @@ footer p {
 .cart-drawer {
   z-index: 2001 !important;
 }
+
+
+/* ==========================================
+   MISTÉ — ADMIN PANEL
+   UNIFIED LIGHT DESIGN
+========================================== */
+
+/* MAIN PANEL */
+
+#admin-overlay .admin-box {
+  background: #FFFFFF !important;
+  color: var(--text) !important;
+  border: 1px solid rgba(143, 122, 230, 0.12) !important;
+  box-shadow: 0 20px 60px rgba(16, 17, 61, 0.18) !important;
+}
+
+#admin-overlay .admin-box > .eyebrow {
+  color: var(--lavender) !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 9px !important;
+  letter-spacing: 2px !important;
+}
+
+#admin-overlay .admin-box > h2 {
+  color: var(--navy) !important;
+  font-family: "Cormorant Garamond", serif !important;
+  font-size: 34px !important;
+  font-weight: 400 !important;
+}
+
+#admin-overlay .admin-description {
+  color: #77728A !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 12px !important;
+  line-height: 1.7 !important;
+  opacity: 1 !important;
+}
+
+/* SECTION HEADINGS */
+
+#admin-overlay .admin-section > h3,
+#admin-overlay .admin-products-section > h3,
+#admin-overlay .admin-section-heading h3 {
+  color: var(--navy) !important;
+  font-family: "Cormorant Garamond", serif !important;
+  font-size: 25px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  margin-bottom: 20px !important;
+}
+
+/* DASHBOARD CARDS */
+
+#admin-overlay #admin-dashboard {
+  gap: 13px !important;
+  margin-top: 28px !important;
+}
+
+#admin-overlay .admin-dashboard-card {
+  display: flex !important;
+  align-items: center !important;
+  gap: 17px !important;
+  min-height: 94px !important;
+  padding: 19px 21px !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E9E6F0 !important;
+  border-radius: 12px !important;
+  color: var(--text) !important;
+  box-shadow: 0 3px 14px rgba(26, 27, 91, 0.035) !important;
+  font-family: "Montserrat", sans-serif !important;
+  transition: all 0.25s ease !important;
+}
+
+#admin-overlay .admin-dashboard-card:hover {
+  background: #F9F7FD !important;
+  border-color: #C9C2E3 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 7px 20px rgba(26, 27, 91, 0.07) !important;
+}
+
+#admin-overlay .admin-dashboard-icon {
+  flex: 0 0 45px !important;
+  width: 45px !important;
+  height: 45px !important;
+  background: #F2EFFA !important;
+  border: 1px solid #E9E3F5 !important;
+  border-radius: 11px !important;
+  color: #5A3B8C !important;
+}
+
+#admin-overlay .admin-dashboard-icon svg {
+  width: 23px !important;
+  height: 23px !important;
+  fill: none !important;
+  stroke: #5A3B8C !important;
+  stroke-width: 1.5 !important;
+}
+
+#admin-overlay .admin-dashboard-text strong {
+  color: var(--navy) !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1px !important;
+  line-height: 1.6 !important;
+}
+
+#admin-overlay .admin-dashboard-text small {
+  color: #77728A !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+}
+
+#admin-overlay .admin-dashboard-arrow {
+  color: var(--lavender) !important;
+}
+
+#admin-overlay .admin-dashboard-arrow svg {
+  stroke: currentColor !important;
+}
+
+/* BACK BUTTON */
+
+#admin-overlay .admin-back-button {
+  padding: 10px 16px !important;
+  border: 1px solid #E5E0EF !important;
+  border-radius: 30px !important;
+  background: #FFFFFF !important;
+  color: #5A3B8C !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 11px !important;
+}
+
+#admin-overlay .admin-back-button:hover {
+  background: #F5F2FA !important;
+  border-color: #C9C2E3 !important;
+}
+
+/* FORMS AND INPUTS */
+
+#admin-overlay .admin-form {
+  margin-top: 22px !important;
+}
+
+#admin-overlay .field-label,
+#admin-overlay .homepage-image-controls label {
+  display: block;
+  color: var(--navy) !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1px !important;
+}
+
+#admin-overlay .checkout-input {
+  width: 100% !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E5E1ED !important;
+  border-radius: 8px !important;
+  color: var(--text) !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 12px !important;
+  box-shadow: none !important;
+}
+
+#admin-overlay .checkout-input:focus {
+  border-color: var(--lavender) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(143, 122, 230, 0.09) !important;
+}
+
+#admin-overlay .checkout-input::placeholder {
+  color: #A5A0B1 !important;
+}
+
+#admin-overlay input[type="file"].checkout-input {
+  padding: 12px !important;
+}
+
+/* PRIMARY BUTTONS */
+
+#admin-overlay .checkout-button,
+#admin-overlay #admin-save-hero {
+  min-height: 44px !important;
+  padding: 0 20px !important;
+  border: 1px solid var(--navy) !important;
+  border-radius: 30px !important;
+  background: var(--navy) !important;
+  color: #FFFFFF !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  letter-spacing: 1px !important;
+  box-shadow: none !important;
+  transition: all 0.25s ease !important;
+}
+
+#admin-overlay .checkout-button:hover,
+#admin-overlay #admin-save-hero:hover {
+  background: var(--lavender) !important;
+  border-color: var(--lavender) !important;
+}
+
+#admin-overlay .sign-out-button {
+  border: 1px solid #E5E1ED !important;
+  border-radius: 30px !important;
+  background: #FFFFFF !important;
+  color: #5A3B8C !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 10px !important;
+  letter-spacing: 0.7px !important;
+}
+
+#admin-overlay .sign-out-button:hover {
+  background: #F5F2FA !important;
+  border-color: #C9C2E3 !important;
+}
+
+/* FORM ACTIONS */
+
+#admin-overlay .admin-form-actions {
+  gap: 10px !important;
+  margin-top: 15px !important;
+}
+
+#admin-overlay .admin-form-actions button {
+  flex: 1;
+}
+
+/* PRODUCT AND JOURNAL LIST SECTIONS */
+
+#admin-overlay .admin-products-section {
+  border-top: 1px solid #E9E6F0 !important;
+  margin-top: 32px !important;
+  padding-top: 25px !important;
+}
+
+#admin-overlay .admin-product-item {
+  background: #FFFFFF !important;
+  border: 1px solid #E9E6F0 !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+#admin-overlay .admin-product-info strong {
+  color: var(--navy) !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 12px !important;
+}
+
+#admin-overlay .admin-product-info span {
+  color: #77728A !important;
+  font-size: 10px !important;
+}
+
+#admin-overlay .admin-product-actions button {
+  border: 1px solid #E5E1ED !important;
+  border-radius: 30px !important;
+  background: #FFFFFF !important;
+  color: #5A3B8C !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+#admin-overlay .admin-product-actions button:hover {
+  background: #F2EFFA !important;
+  color: var(--navy) !important;
+}
+
+/* CUSTOMER SUPPORT */
+
+#admin-overlay .admin-chat-toolbar,
+#admin-overlay .admin-chat-layout {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+#admin-overlay .admin-chat-sidebar,
+#admin-overlay .admin-chat-thread {
+  background: #FFFFFF !important;
+  border: 1px solid #E9E6F0 !important;
+  border-radius: 10px !important;
+}
+
+#admin-overlay .admin-chat-customer {
+  background: #F8F7FB !important;
+  border-bottom: 1px solid #E9E6F0 !important;
+}
+
+#admin-overlay .admin-chat-customer h4 {
+  color: var(--navy) !important;
+}
+
+#admin-overlay .admin-chat-customer p {
+  color: #77728A !important;
+}
+
+#admin-overlay #admin-chat-thread-messages {
+  background: #FBFAFD !important;
+}
+
+#admin-overlay .admin-chat-message.customer {
+  background: #FFFFFF !important;
+  border: 1px solid #E9E6F0 !important;
+  color: var(--text) !important;
+}
+
+#admin-overlay .admin-chat-message.admin {
+  background: #F0EDF8 !important;
+  border: 1px solid #DED6EF !important;
+  color: var(--navy) !important;
+}
+
+#admin-overlay .admin-chat-message.system {
+  background: #F5F3F9 !important;
+  border: 1px solid #E9E6F0 !important;
+  color: #77728A !important;
+}
+
+#admin-overlay #admin-chat-reply-form,
+#admin-overlay .admin-chat-actions {
+  background: #FFFFFF !important;
+  border-color: #E9E6F0 !important;
+}
+
+#admin-overlay #admin-chat-reply-input {
+  background: #FFFFFF !important;
+  border-color: #E5E1ED !important;
+  color: var(--text) !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+#admin-overlay #admin-chat-reply-form button {
+  background: var(--navy) !important;
+  border-radius: 30px !important;
+  color: #FFFFFF !important;
+}
+
+#admin-overlay #admin-chat-reply-form button:hover {
+  background: var(--lavender) !important;
+}
+
+#admin-overlay #admin-chat-close-conversation {
+  background: #F5F2FA !important;
+  border: 1px solid #E5E1ED !important;
+  color: #5A3B8C !important;
+}
+
+#admin-overlay #admin-chat-archive-conversation {
+  background: #FFFFFF !important;
+  border: 1px solid #E8D8D8 !important;
+  color: #966565 !important;
+}
+
+/* HOMEPAGE IMAGE MANAGEMENT */
+
+#admin-overlay #admin-section-homepage .admin-section-heading {
+  margin-bottom: 24px !important;
+}
+
+#admin-overlay #admin-section-homepage .admin-section-heading h3 {
+  color: var(--navy) !important;
+  font-family: "Cormorant Garamond", serif !important;
+  font-size: 25px !important;
+  font-weight: 500 !important;
+}
+
+#admin-overlay #admin-section-homepage .admin-description {
+  color: #77728A !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 12px !important;
+}
+
+#admin-overlay .homepage-image-manager {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.4fr) minmax(200px, 0.8fr) !important;
+  gap: 22px !important;
+  align-items: center !important;
+  padding: 20px !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E9E6F0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 3px 14px rgba(26, 27, 91, 0.035) !important;
+}
+
+#admin-overlay .homepage-image-preview {
+  background: #F5F3F9 !important;
+  border: 1px solid #E9E6F0 !important;
+  border-radius: 9px !important;
+}
+
+#admin-overlay .homepage-image-controls label {
+  color: var(--navy) !important;
+}
+
+#admin-overlay #admin-hero-upload {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E1ED !important;
+  border-radius: 8px !important;
+  color: var(--text) !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+#admin-overlay #admin-hero-upload::file-selector-button {
+  background: #F0EDF8 !important;
+  border: 1px solid #E5E1ED !important;
+  border-radius: 20px !important;
+  color: #5A3B8C !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+#admin-overlay #admin-hero-message {
+  color: #77728A !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+/* STATUS AND LOADING TEXT */
+
+#admin-overlay .order-message,
+#admin-overlay .account-loading,
+#admin-overlay .admin-message {
+  color: #77728A !important;
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 11px !important;
+  line-height: 1.7 !important;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+  #admin-overlay .admin-box {
+    max-height: 90dvh !important;
+    padding: 28px 18px !important;
+  }
+
+  #admin-overlay .admin-box > h2 {
+    font-size: 30px !important;
+  }
+
+  #admin-overlay .admin-dashboard-card {
+    min-height: 84px !important;
+    padding: 15px 13px !important;
+    gap: 12px !important;
+  }
+
+  #admin-overlay .admin-dashboard-icon {
+    flex-basis: 39px !important;
+    width: 39px !important;
+    height: 39px !important;
+  }
+
+  #admin-overlay .admin-dashboard-text strong {
+    font-size: 10px !important;
+  }
+
+  #admin-overlay .admin-dashboard-text small {
+    font-size: 9px !important;
+  }
+
+  #admin-overlay .homepage-image-manager {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+    padding: 14px !important;
+  }
+
+  #admin-overlay .admin-form-actions {
+    flex-direction: column !important;
+  }
+}
