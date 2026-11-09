@@ -3227,7 +3227,7 @@ footer p {
   .miste-chat-widget {
     right: 24px !important;
     bottom: 24px !important;
-    z-index: 9998;
+    z-index: 2000;
   }
 
   .miste-chat-panel {
@@ -3251,7 +3251,7 @@ footer p {
   .miste-chat-widget {
     right: 16px !important;
     bottom: 18px !important;
-    z-index: 9998;
+    z-index: 2000;
   }
 
   .miste-chat-panel {
