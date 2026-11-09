@@ -3986,3 +3986,7 @@ body:has(.cart-drawer.open) .miste-chat-widget {
   pointer-events: none !important;
 }
 
+body:has(.cart-drawer.open) .miste-chat-widget {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
