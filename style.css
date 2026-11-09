@@ -4436,3 +4436,363 @@ footer p {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
+
+
+/* ==========================================
+   MISTÉ — ADMIN ORDER MANAGEMENT
+========================================== */
+
+#admin-overlay .orders-statistics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 28px 0;
+}
+
+#admin-overlay .orders-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 20px;
+  background: #F7F5FC;
+  border: 1px solid #E9E6F0;
+  border-radius: 13px;
+}
+
+#admin-overlay .orders-stat-card span {
+  color: #77728A;
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+#admin-overlay .orders-stat-card strong {
+  color: #1A1B5B;
+  font-family: "Montserrat", sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* TOOLBAR */
+
+#admin-overlay .orders-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px auto;
+  gap: 12px;
+  align-items: center;
+  margin: 28px 0 22px;
+}
+
+#admin-overlay .orders-search,
+#admin-overlay .orders-date-filter {
+  min-width: 0;
+}
+
+#admin-overlay .orders-toolbar .checkout-input {
+  width: 100%;
+  min-height: 46px;
+  box-sizing: border-box;
+  border: 1px solid #E9E6F0;
+  border-radius: 9px;
+  background: #FFFFFF;
+  color: #24234A;
+  font-family: "Montserrat", sans-serif;
+  font-size: 11px;
+  padding: 0 14px;
+}
+
+#admin-overlay .orders-toolbar .checkout-input:focus {
+  outline: none;
+  border-color: #8F7AE6;
+  box-shadow: 0 0 0 3px rgba(143, 122, 230, 0.10);
+}
+
+#admin-overlay #admin-orders-refresh {
+  min-height: 46px;
+  padding: 0 22px;
+  border-radius: 9px;
+  background: #1A1B5B;
+  color: #FFFFFF;
+  font-family: "Montserrat", sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  transition: background 0.2s ease;
+}
+
+#admin-overlay #admin-orders-refresh:hover {
+  background: #2A1E4D;
+}
+
+/* STATUS TABS */
+
+#admin-overlay .orders-tabs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  margin: 22px 0;
+  background: #F7F5FC;
+  border: 1px solid #E9E6F0;
+  border-radius: 11px;
+}
+
+#admin-overlay .orders-tab {
+  flex: 1;
+  min-width: 0;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #77728A;
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#admin-overlay .orders-tab:hover {
+  color: #1A1B5B;
+  background: rgba(143, 122, 230, 0.08);
+}
+
+#admin-overlay .orders-tab.active {
+  background: #FFFFFF;
+  color: #1A1B5B;
+  box-shadow: 0 1px 5px rgba(26, 27, 91, 0.08);
+  font-weight: 600;
+}
+
+/* ORDERS LIST */
+
+#admin-overlay .admin-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+#admin-overlay .empty-orders {
+  padding: 45px 20px;
+  margin: 0;
+  border: 1px solid #E9E6F0;
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: #77728A;
+  font-family: "Montserrat", sans-serif;
+  font-size: 11px;
+  line-height: 1.8;
+  text-align: center;
+}
+
+/* ORDER CARD */
+
+#admin-overlay .admin-order-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid #E9E6F0;
+  border-radius: 12px;
+  background: #FFFFFF;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#admin-overlay .admin-order-card:hover {
+  border-color: #C9C2E3;
+  box-shadow: 0 5px 18px rgba(26, 27, 91, 0.05);
+}
+
+#admin-overlay .admin-order-card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #E9E6F0;
+}
+
+#admin-overlay .admin-order-card-heading strong {
+  color: #1A1B5B;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+#admin-overlay .admin-order-card p {
+  margin: 0;
+  color: #77728A;
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+#admin-overlay .admin-order-card > strong {
+  color: #1A1B5B;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ORDER STATUS LABEL */
+
+#admin-overlay .order-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #F0EDFA;
+  color: #5A3B8C;
+  font-family: "Montserrat", sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+/* VIEW DETAILS */
+
+#admin-overlay .admin-order-card .checkout-button {
+  align-self: flex-start;
+  min-height: 38px;
+  margin-top: 5px;
+  padding: 0 17px;
+  border-radius: 8px;
+  background: #1A1B5B;
+  color: #FFFFFF;
+  font-family: "Montserrat", sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+/* ORDER DETAILS */
+
+#admin-overlay .admin-order-details {
+  margin-top: 20px;
+}
+
+#admin-overlay .admin-order-details h3 {
+  margin: 25px 0;
+  color: #1A1B5B;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+#admin-overlay .admin-order-details h4 {
+  margin: 24px 0 12px;
+  color: #1A1B5B;
+  font-family: "Montserrat", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+#admin-overlay .admin-order-detail-group {
+  padding: 15px 17px;
+  border: 1px solid #E9E6F0;
+  border-radius: 10px;
+  background: #FFFFFF;
+}
+
+#admin-overlay .admin-order-detail-group p {
+  margin: 7px 0;
+  color: #77728A;
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+#admin-overlay .admin-order-status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 15px;
+}
+
+#admin-overlay .admin-order-status-actions .checkout-button {
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: #1A1B5B;
+  color: #FFFFFF;
+  font-family: "Montserrat", sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+
+#admin-overlay .admin-order-status-actions .checkout-button:disabled {
+  background: #F0EDFA;
+  color: #8F7AE6;
+  cursor: default;
+}
+
+/* BACK BUTTON */
+
+#admin-overlay .admin-back-button {
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+  #admin-overlay .orders-statistics {
+    gap: 8px;
+    margin: 22px 0;
+  }
+
+  #admin-overlay .orders-stat-card {
+    padding: 13px 10px;
+    gap: 9px;
+  }
+
+  #admin-overlay .orders-stat-card span {
+    font-size: 8px;
+    line-height: 1.5;
+  }
+
+  #admin-overlay .orders-stat-card strong {
+    font-size: 23px;
+  }
+
+  #admin-overlay .orders-toolbar {
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+
+  #admin-overlay .orders-search {
+    grid-column: 1 / -1;
+  }
+
+  #admin-overlay #admin-orders-refresh {
+    min-height: 44px;
+  }
+
+  #admin-overlay .orders-tabs {
+    gap: 3px;
+    padding: 4px;
+  }
+
+  #admin-overlay .orders-tab {
+    min-height: 40px;
+    padding: 8px 5px;
+    font-size: 8px;
+  }
+
+  #admin-overlay .admin-order-card {
+    padding: 15px;
+  }
+
+  #admin-overlay .admin-order-status-actions {
+    flex-direction: column;
+  }
+
+  #admin-overlay .admin-order-status-actions .checkout-button {
+    width: 100%;
+  }
+}
