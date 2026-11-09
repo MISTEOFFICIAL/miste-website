@@ -3601,59 +3601,31 @@ footer p {
 
 /* ==========================================
    MISTÉ — DELIVERY SECTION
+   MATCH ABOUT SECTION
 ========================================== */
 
 .delivery-section {
   background: white;
 }
 
-.delivery-section .delivery-content {
+.delivery-section > p:not(.eyebrow) {
   max-width: 540px;
   margin: 20px auto 0;
-  text-align: center;
-}
-
-.delivery-section .delivery-content h3 {
-  display: none;
-}
-
-.delivery-section .delivery-content h4,
-.delivery-section .delivery-content li {
   font-family: 'Montserrat', sans-serif;
   font-size: 13px;
   font-weight: 400;
-  color: #888;
   line-height: 2;
-  letter-spacing: normal;
-  text-transform: none;
+  color: #888;
+  text-align: center;
 }
 
-.delivery-section .delivery-content h4 {
-  margin: 30px 0 12px;
-}
-
-.delivery-section .delivery-content ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.delivery-section .delivery-content li {
-  margin-bottom: 12px;
-}
-
-.delivery-section .delivery-content strong {
-  font-family: 'Montserrat', sans-serif;
+.delivery-section > p strong {
   font-weight: 600;
   color: #888;
 }
 
 @media (max-width: 600px) {
-  .delivery-section .delivery-content {
-    margin-top: 20px;
-  }
-
-  .delivery-section .delivery-content li {
+  .delivery-section > p:not(.eyebrow) {
     font-size: 13px;
   }
 }
