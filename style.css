@@ -3950,40 +3950,20 @@ footer p {
 }
 
 /* ==========================================
-   CHAT — HIDE WHILE CART IS OPEN OR CLOSING
+   BAG DRAWER — BACKDROP & CHAT LAYERS
 ========================================== */
 
-body:has(.cart-drawer.open) .miste-chat-widget,
-body:has(.cart-drawer.closing) .miste-chat-widget,
-body.cart-closing .miste-chat-widget {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  transition: none !important;
-  transform: none !important;
-}
-
-/* ==========================================
-   BAG DRAWER — SLIDES OVER CHAT
-========================================== */
-
-/* Keep Chat with Us visible underneath the Bag */
+/* Chat stays visible underneath */
 .miste-chat-widget {
-  z-index: 2000 !important;
+  z-index: 1998 !important;
 }
 
-/* Bag slides over the chat when opening and reveals it when closing */
+/* Purple backdrop covers Chat with Us */
+#drawer-backdrop {
+  z-index: 1999 !important;
+}
+
+/* Bag drawer stays above the backdrop */
 .cart-drawer {
   z-index: 2001 !important;
-}
-
-/* Remove any previous chat-hiding behavior */
-body:has(.cart-drawer.open) .miste-chat-widget,
-body:has(.cart-drawer.closing) .miste-chat-widget,
-body.cart-closing .miste-chat-widget {
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
-  transition: none !important;
-  transform: none !important;
 }
