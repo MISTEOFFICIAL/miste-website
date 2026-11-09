@@ -3962,3 +3962,28 @@ body.cart-closing .miste-chat-widget {
   transition: none !important;
   transform: none !important;
 }
+
+/* ==========================================
+   BAG DRAWER — SLIDES OVER CHAT
+========================================== */
+
+/* Keep Chat with Us visible underneath the Bag */
+.miste-chat-widget {
+  z-index: 2000 !important;
+}
+
+/* Bag slides over the chat when opening and reveals it when closing */
+.cart-drawer {
+  z-index: 2001 !important;
+}
+
+/* Remove any previous chat-hiding behavior */
+body:has(.cart-drawer.open) .miste-chat-widget,
+body:has(.cart-drawer.closing) .miste-chat-widget,
+body.cart-closing .miste-chat-widget {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transition: none !important;
+  transform: none !important;
+}
