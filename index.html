@@ -726,6 +726,114 @@
 
 </div>
 <!-- END HOMEPAGE IMAGE SECTION -->
+
+    <!-- ORDERS MANAGEMENT SECTION -->
+<div id="admin-section-orders" class="admin-section" hidden>
+
+  <button type="button" class="admin-back-button" data-admin-back>
+    ← Back to Dashboard
+  </button>
+
+  <div class="admin-section-heading">
+    <p class="eyebrow">MISTÉ ORDER MANAGEMENT</p>
+    <h3>Orders</h3>
+    <p class="admin-description">
+      Manage orders from confirmation to successful delivery.
+    </p>
+  </div>
+
+  <!-- ORDER STATISTICS -->
+  <div class="orders-statistics">
+
+    <div class="orders-stat-card">
+      <span>New Orders</span>
+      <strong id="orders-count-new">0</strong>
+    </div>
+
+    <div class="orders-stat-card">
+      <span>With Courier</span>
+      <strong id="orders-count-courier">0</strong>
+    </div>
+
+    <div class="orders-stat-card">
+      <span>Delivered</span>
+      <strong id="orders-count-delivered">0</strong>
+    </div>
+
+  </div>
+
+  <!-- ORDER FILTERS -->
+  <div class="orders-toolbar">
+
+    <div class="orders-search">
+      <input
+        type="search"
+        id="admin-orders-search"
+        class="checkout-input"
+        placeholder="Search by order, customer or phone..."
+      >
+    </div>
+
+    <div class="orders-date-filter">
+      <input
+        type="date"
+        id="admin-orders-date"
+        class="checkout-input"
+        aria-label="Filter orders by date"
+      >
+    </div>
+
+    <button
+      type="button"
+      class="checkout-button"
+      id="admin-orders-refresh"
+    >
+      REFRESH
+    </button>
+
+  </div>
+
+  <!-- ORDER STATUS TABS -->
+  <div class="orders-tabs">
+
+    <button type="button" class="orders-tab active" data-order-filter="new">
+      New Orders
+    </button>
+
+    <button type="button" class="orders-tab" data-order-filter="with_courier">
+      With Courier
+    </button>
+
+    <button type="button" class="orders-tab" data-order-filter="delivered">
+      Delivered / Closed
+    </button>
+
+  </div>
+
+  <!-- ORDERS LIST -->
+  <div id="admin-orders-list" class="admin-orders-list" aria-live="polite">
+    <p class="account-loading">Loading orders...</p>
+  </div>
+
+  <!-- ORDER DETAILS -->
+  <div id="admin-order-details" class="admin-order-details" hidden>
+
+    <button
+      type="button"
+      class="admin-back-button"
+      id="admin-order-details-back"
+    >
+      ← Back to Orders
+    </button>
+
+    <div id="admin-order-details-content"></div>
+
+  </div>
+
+  <p id="admin-orders-message" class="admin-message" aria-live="polite"></p>
+
+</div>
+<!-- END ORDERS MANAGEMENT SECTION -->
     
   </div>
 </div>
