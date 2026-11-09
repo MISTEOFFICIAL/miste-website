@@ -2764,3 +2764,393 @@ adminOpenButton?.addEventListener("click", () => {
 });
 
 console.log("MISTÉ admin dashboard navigation initialized.");
+
+
+// ==========================================
+// MISTÉ — ADMIN ORDER MANAGEMENT
+// ==========================================
+
+let adminOrders = [];
+let activeOrderFilter = "new";
+
+// ELEMENTS
+const adminOrdersList = document.getElementById("admin-orders-list");
+const adminOrdersMessage = document.getElementById("admin-orders-message");
+const adminOrdersSearch = document.getElementById("admin-orders-search");
+const adminOrdersDate = document.getElementById("admin-orders-date");
+const adminOrderDetails = document.getElementById("admin-order-details");
+const adminOrderDetailsContent = document.getElementById("admin-order-details-content");
+
+// LOAD ORDERS FROM SUPABASE
+async function loadAdminOrders() {
+  if (!adminOrdersList) return;
+
+  if (!isAdmin || !currentUser) {
+    adminOrdersList.textContent = "Admin access required.";
+    return;
+  }
+
+  adminOrdersList.hidden = false;
+  adminOrderDetails.hidden = true;
+  adminOrdersList.textContent = "Loading orders...";
+
+  if (adminOrdersMessage) {
+    adminOrdersMessage.textContent = "";
+  }
+
+  const { data, error } = await supabaseClient
+    .from("orders")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Could not load admin orders:", error);
+
+    adminOrdersList.textContent =
+      "Could not load orders: " + error.message;
+
+    return;
+  }
+
+  adminOrders = data || [];
+
+  updateAdminOrderStatistics();
+  renderAdminOrders();
+}
+
+// UPDATE ORDER COUNTS
+function updateAdminOrderStatistics() {
+  const counts = {
+    new: 0,
+    with_courier: 0,
+    delivered: 0
+  };
+
+  adminOrders.forEach(order => {
+    const status = order.order_status || "new";
+
+    if (counts[status] !== undefined) {
+      counts[status]++;
+    }
+  });
+
+  document.getElementById("orders-count-new").textContent = counts.new;
+  document.getElementById("orders-count-courier").textContent = counts.with_courier;
+  document.getElementById("orders-count-delivered").textContent = counts.delivered;
+}
+
+// RENDER ORDERS
+function renderAdminOrders() {
+  if (!adminOrdersList) return;
+
+  adminOrdersList.innerHTML = "";
+
+  const search = (adminOrdersSearch?.value || "").trim().toLowerCase();
+  const selectedDate = adminOrdersDate?.value || "";
+
+  const filteredOrders = adminOrders.filter(order => {
+    const status = order.order_status || "new";
+
+    const matchesStatus = status === activeOrderFilter;
+
+    const searchableText = [
+      order.id,
+      order.first_name,
+      order.last_name,
+      order.email,
+      order.phone
+    ].join(" ").toLowerCase();
+
+    const matchesSearch = searchableText.includes(search);
+
+    const orderDate = order.created_at
+      ? new Date(order.created_at).toLocaleDateString("en-CA")
+      : "";
+
+    const matchesDate = !selectedDate || orderDate === selectedDate;
+
+    return matchesStatus && matchesSearch && matchesDate;
+  });
+
+  if (filteredOrders.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "empty-orders";
+    empty.textContent = "No orders found in this section.";
+    adminOrdersList.appendChild(empty);
+    return;
+  }
+
+  filteredOrders.forEach(order => {
+    const card = document.createElement("article");
+    card.className = "admin-order-card";
+
+    const heading = document.createElement("div");
+    heading.className = "admin-order-card-heading";
+
+    const orderNumber = document.createElement("strong");
+    orderNumber.textContent =
+      "Order #" + String(order.id).slice(0, 8);
+
+    const status = document.createElement("span");
+    status.className = "order-status";
+    status.textContent = getOrderStatusLabel(order.order_status);
+
+    heading.append(orderNumber, status);
+
+    const customer = document.createElement("p");
+    customer.textContent =
+      order.first_name + " " + order.last_name;
+
+    const phone = document.createElement("p");
+    phone.textContent = order.phone;
+
+    const date = document.createElement("p");
+    date.textContent = formatOrderDate(order.created_at);
+
+    const total = document.createElement("strong");
+    total.textContent =
+      formatPrice(order.total_amount);
+
+    const payment = document.createElement("p");
+    payment.textContent =
+      "Payment: " + (order.payment_method || "Not specified") +
+      " — " + (order.payment_status || "pending");
+
+    const detailsButton = document.createElement("button");
+    detailsButton.type = "button";
+    detailsButton.className = "checkout-button";
+    detailsButton.textContent = "VIEW DETAILS";
+
+    detailsButton.addEventListener("click", () => {
+      showAdminOrderDetails(order.id);
+    });
+
+    card.append(
+      heading,
+      customer,
+      phone,
+      date,
+      total,
+      payment,
+      detailsButton
+    );
+
+    adminOrdersList.appendChild(card);
+  });
+}
+
+// STATUS LABEL
+function getOrderStatusLabel(status) {
+  const labels = {
+    new: "New Order",
+    with_courier: "With Courier",
+    delivered: "Delivered"
+  };
+
+  return labels[status] || "New Order";
+}
+
+// DATE FORMAT
+function formatOrderDate(date) {
+  if (!date) return "Date unavailable";
+
+  return new Date(date).toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
+// SHOW ORDER DETAILS
+function showAdminOrderDetails(orderId) {
+  const order = adminOrders.find(item => item.id === orderId);
+
+  if (!order || !adminOrderDetails || !adminOrderDetailsContent) {
+    return;
+  }
+
+  adminOrdersList.hidden = true;
+  adminOrderDetails.hidden = false;
+  adminOrderDetailsContent.innerHTML = "";
+
+  const title = document.createElement("h3");
+  title.textContent =
+    "Order #" + String(order.id).slice(0, 8);
+
+  const customerHeading = document.createElement("h4");
+  customerHeading.textContent = "Customer Information";
+
+  const customerInfo = document.createElement("div");
+  customerInfo.className = "admin-order-detail-group";
+
+  [
+    ["Name", order.first_name + " " + order.last_name],
+    ["Email", order.email],
+    ["Phone", order.phone],
+    ["Delivery Address", order.delivery_address],
+    ["Order Date", formatOrderDate(order.created_at)]
+  ].forEach(([label, value]) => {
+    const line = document.createElement("p");
+    line.textContent = label + ": " + (value || "—");
+    customerInfo.appendChild(line);
+  });
+
+  const productsHeading = document.createElement("h4");
+  productsHeading.textContent = "Order Items";
+
+  const itemsContainer = document.createElement("div");
+  itemsContainer.className = "admin-order-detail-group";
+
+  const items = Array.isArray(order.items) ? order.items : [];
+
+  items.forEach(item => {
+    const line = document.createElement("p");
+
+    line.textContent =
+      (item.name || "Product") +
+      " × " + Number(item.quantity || 0) +
+      " — " + formatPrice(item.subtotal ?? (
+        Number(item.price || 0) * Number(item.quantity || 0)
+      ));
+
+    itemsContainer.appendChild(line);
+  });
+
+  const total = document.createElement("strong");
+  total.textContent = "Total: " + formatPrice(order.total_amount);
+
+  const paymentHeading = document.createElement("h4");
+  paymentHeading.textContent = "Payment Information";
+
+  const paymentInfo = document.createElement("div");
+  paymentInfo.className = "admin-order-detail-group";
+
+  [
+    ["Method", order.payment_method],
+    ["Payment Status", order.payment_status],
+    ["Payment Reference", order.payment_reference || "Not available"],
+    ["Delivery Status", getOrderStatusLabel(order.order_status)]
+  ].forEach(([label, value]) => {
+    const line = document.createElement("p");
+    line.textContent = label + ": " + (value || "—");
+    paymentInfo.appendChild(line);
+  });
+
+  const statusHeading = document.createElement("h4");
+  statusHeading.textContent = "Update Delivery Status";
+
+  const statusButtons = document.createElement("div");
+  statusButtons.className = "admin-order-status-actions";
+
+  const statuses = [
+    { value: "new", label: "NEW ORDER" },
+    { value: "with_courier", label: "WITH COURIER" },
+    { value: "delivered", label: "DELIVERED" }
+  ];
+
+  statuses.forEach(status => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "checkout-button";
+    button.textContent = status.label;
+
+    button.disabled = order.order_status === status.value;
+
+    button.addEventListener("click", () => {
+      updateAdminOrderStatus(order.id, status.value);
+    });
+
+    statusButtons.appendChild(button);
+  });
+
+  adminOrderDetailsContent.append(
+    title,
+    customerHeading,
+    customerInfo,
+    productsHeading,
+    itemsContainer,
+    total,
+    paymentHeading,
+    paymentInfo,
+    statusHeading,
+    statusButtons
+  );
+}
+
+// UPDATE DELIVERY STATUS
+async function updateAdminOrderStatus(orderId, newStatus) {
+  if (!isAdmin || !currentUser) {
+    alert("Admin access required.");
+    return;
+  }
+
+  if (adminOrdersMessage) {
+    adminOrdersMessage.textContent = "Updating order...";
+  }
+
+  const { error } = await supabaseClient.rpc(
+    "admin_update_order_status",
+    {
+      p_order_id: orderId,
+      p_new_status: newStatus
+    }
+  );
+
+  if (error) {
+    console.error("Could not update order status:", error);
+
+    if (adminOrdersMessage) {
+      adminOrdersMessage.textContent =
+        "Could not update order: " + error.message;
+    }
+
+    return;
+  }
+
+  if (adminOrdersMessage) {
+    adminOrdersMessage.textContent = "Order status updated successfully.";
+  }
+
+  await loadAdminOrders();
+}
+
+// ORDER FILTER TABS
+document.querySelectorAll("[data-order-filter]").forEach(button => {
+  button.addEventListener("click", () => {
+    activeOrderFilter = button.dataset.orderFilter;
+
+    document.querySelectorAll("[data-order-filter]").forEach(tab => {
+      tab.classList.toggle("active", tab === button);
+    });
+
+    adminOrderDetails.hidden = true;
+    adminOrdersList.hidden = false;
+
+    renderAdminOrders();
+  });
+});
+
+// SEARCH
+adminOrdersSearch?.addEventListener("input", renderAdminOrders);
+
+// DATE FILTER
+adminOrdersDate?.addEventListener("change", renderAdminOrders);
+
+// REFRESH
+document.getElementById("admin-orders-refresh")?.addEventListener(
+  "click",
+  loadAdminOrders
+);
+
+// BACK TO ORDERS LIST
+document.getElementById("admin-order-details-back")?.addEventListener(
+  "click",
+  () => {
+    adminOrderDetails.hidden = true;
+    adminOrdersList.hidden = false;
+  }
+);
+
+console.log("MISTÉ admin order management initialized.");
