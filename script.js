@@ -544,14 +544,67 @@ function renderCart() {
 // CART OPEN / CLOSE
 // ==========================================
 
+let cartCloseFallback = null;
+let cartCloseHandler = null;
+
 document.getElementById("bag-toggle")?.addEventListener("click", () => {
-  document.getElementById("cart-drawer")?.classList.add("open");
+  const drawer = document.getElementById("cart-drawer");
+
+  if (!drawer) return;
+
+  clearTimeout(cartCloseFallback);
+
+  if (cartCloseHandler) {
+    drawer.removeEventListener("transitionend", cartCloseHandler);
+    cartCloseHandler = null;
+  }
+
+  drawer.classList.remove("closing");
+  drawer.classList.add("open");
+
+  document.body.classList.remove("cart-closing");
+
   document.getElementById("drawer-backdrop")?.classList.add("open");
 });
 
 function closeCart() {
-  document.getElementById("cart-drawer")?.classList.remove("open");
+  const drawer = document.getElementById("cart-drawer");
+
+  if (!drawer || !drawer.classList.contains("open")) return;
+
+  document.body.classList.add("cart-closing");
+
+  drawer.classList.remove("open");
+  drawer.classList.add("closing");
+
   document.getElementById("drawer-backdrop")?.classList.remove("open");
+
+  if (cartCloseHandler) {
+    drawer.removeEventListener("transitionend", cartCloseHandler);
+  }
+
+  cartCloseHandler = (event) => {
+    if (event.target !== drawer || event.propertyName !== "right") return;
+
+    drawer.classList.remove("closing");
+    document.body.classList.remove("cart-closing");
+
+    clearTimeout(cartCloseFallback);
+    drawer.removeEventListener("transitionend", cartCloseHandler);
+    cartCloseHandler = null;
+  };
+
+  drawer.addEventListener("transitionend", cartCloseHandler);
+
+  cartCloseFallback = setTimeout(() => {
+    drawer.classList.remove("closing");
+    document.body.classList.remove("cart-closing");
+
+    if (cartCloseHandler) {
+      drawer.removeEventListener("transitionend", cartCloseHandler);
+      cartCloseHandler = null;
+    }
+  }, 450);
 }
 
 document.getElementById("cart-close")?.addEventListener("click", closeCart);
