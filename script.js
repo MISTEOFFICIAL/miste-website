@@ -2639,7 +2639,8 @@ const adminSections = {
   products: document.getElementById("admin-section-products"),
   journal: document.getElementById("admin-section-journal"),
   support: document.getElementById("admin-section-support"),
-  homepage: document.getElementById("admin-section-homepage")
+  homepage: document.getElementById("admin-section-homepage"),
+  orders: document.getElementById("admin-section-orders")
 };
 
 // SHOW DASHBOARD
@@ -2684,6 +2685,10 @@ function openAdminSection(sectionName) {
 
   if (sectionName === "homepage") {
   loadAdminHeroImage();
+}
+  
+  if (sectionName === "orders") {
+  loadAdminOrders();
 }
 }
 
